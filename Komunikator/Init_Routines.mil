@@ -1,0 +1,174 @@
+_Initialize:
+  begin   (midx: 0)
+//Init_Routines.c,11 :: 		void Initialize() {
+_Initialize:
+  begin   (midx: 0)
+//Init_Routines.c,12 :: 		short int i = 0;
+   (midx: 0)
+//Init_Routines.c,14 :: 		LQI = 0;
+	R1 <1> <- 0   (midx: 0)
+	R0 <4> <- addr(_LQI)   (midx: 0)
+	[R0] <1> <- R1   (midx: 0)
+//Init_Routines.c,15 :: 		RSSI2 = 0;
+	R1 <1> <- 0   (midx: 0)
+	R0 <4> <- addr(_RSSI2)   (midx: 0)
+	[R0] <1> <- R1   (midx: 0)
+//Init_Routines.c,16 :: 		SEQ_NUMBER = 0x23;
+	R1 <1> <- 35   (midx: 0)
+	R0 <4> <- addr(_SEQ_NUMBER)   (midx: 0)
+	[R0] <1> <- R1   (midx: 0)
+//Init_Routines.c,17 :: 		lost_data = 0;
+	R1 <1> <- 0   (midx: 0)
+	R0 <4> <- addr(_lost_data)   (midx: 0)
+	[R0] <1> <- R1   (midx: 0)
+//Init_Routines.c,18 :: 		address_RX_FIFO = 0x300;
+	R1 <2> <- 768   (midx: 0)
+	R0 <4> <- addr(_address_RX_FIFO)   (midx: 0)
+	[R0] <2> <- R1   (midx: 0)
+//Init_Routines.c,19 :: 		address_TX_normal_FIFO = 0;
+	R1 <2> <- 0   (midx: 0)
+	R0 <4> <- addr(_address_TX_normal_FIFO)   (midx: 0)
+	[R0] <2> <- R1   (midx: 0)
+//Init_Routines.c,21 :: 		for (i = 0; i < 2; i++) {
+   (midx: 0)
+   (midx: 0)
+	R2 <1> <- 0   (midx: 0)
+	R2 <1> <- R2   (midx: 0)
+0:   (midx: 0)
+   (midx: 0)
+	if ( R2 >= 2) then goto 1   (midx: 4)
+//Init_Routines.c,22 :: 		ADDRESS_short_1[i] = 1;
+	R0 <4> <- #_ADDRESS_short_1   (midx: 0)
+	R1 <4> <-  R0 + R2   (midx: 2)
+	R0 <1> <- 1   (midx: 0)
+	[R1] <1> <- R0   (midx: 0)
+//Init_Routines.c,23 :: 		ADDRESS_short_2[i] = 2;
+	R0 <4> <- #_ADDRESS_short_2   (midx: 0)
+	R1 <4> <-  R0 + R2   (midx: 2)
+	R0 <1> <- 2   (midx: 0)
+	[R1] <1> <- R0   (midx: 0)
+//Init_Routines.c,24 :: 		PAN_ID_1[i] = 3;
+	R0 <4> <- #_PAN_ID_1   (midx: 0)
+	R1 <4> <-  R0 + R2   (midx: 2)
+	R0 <1> <- 3   (midx: 0)
+	[R1] <1> <- R0   (midx: 0)
+//Init_Routines.c,25 :: 		PAN_ID_2[i] = 3;
+	R0 <4> <- #_PAN_ID_2   (midx: 0)
+	R1 <4> <-  R0 + R2   (midx: 2)
+	R0 <1> <- 3   (midx: 0)
+	[R1] <1> <- R0   (midx: 0)
+//Init_Routines.c,21 :: 		for (i = 0; i < 2; i++) {
+	R2 <1> <-  R2 + 1   (midx: 0)
+	R2 <1> <- R2   (midx: 0)
+//Init_Routines.c,26 :: 		}
+   (midx: 0)
+	R2 <1> <- R2   (midx: 0)
+	goto	0   (midx: 0)
+1:   (midx: 0)
+//Init_Routines.c,28 :: 		for (i = 0; i < 8; i++) {
+   (midx: 0)
+   (midx: 0)
+	R2 <1> <- 0   (midx: 0)
+	R2 <1> <- R2   (midx: 0)
+3:   (midx: 0)
+   (midx: 0)
+	if ( R2 >= 8) then goto 4   (midx: 4)
+//Init_Routines.c,29 :: 		ADDRESS_long_1[i] = 1;
+	R0 <4> <- #_ADDRESS_long_1   (midx: 0)
+	R1 <4> <-  R0 + R2   (midx: 2)
+	R0 <1> <- 1   (midx: 0)
+	[R1] <1> <- R0   (midx: 0)
+//Init_Routines.c,30 :: 		ADDRESS_long_2[i] = 2;
+	R0 <4> <- #_ADDRESS_long_2   (midx: 0)
+	R1 <4> <-  R0 + R2   (midx: 2)
+	R0 <1> <- 2   (midx: 0)
+	[R1] <1> <- R0   (midx: 0)
+//Init_Routines.c,28 :: 		for (i = 0; i < 8; i++) {
+	R2 <1> <-  R2 + 1   (midx: 0)
+	R2 <1> <- R2   (midx: 0)
+//Init_Routines.c,31 :: 		}
+   (midx: 0)
+	R2 <1> <- R2   (midx: 0)
+	goto	3   (midx: 0)
+4:   (midx: 0)
+//Init_Routines.c,34 :: 		GPIO_Digital_Output(&GPIOD_BASE, _GPIO_PINMASK_13);
+	R1 <4> <- 8192   (midx: 0)
+	R0 <4> <- #GPIOD_BASE   (midx: 0)
+	CALL _GPIO_Digital_Output   (midx: 0)
+//Init_Routines.c,35 :: 		GPIO_Digital_Output(&GPIOD_BASE, _GPIO_PINMASK_10);
+	R1 <4> <- 1024   (midx: 0)
+	R0 <4> <- #GPIOD_BASE   (midx: 0)
+	CALL _GPIO_Digital_Output   (midx: 0)
+//Init_Routines.c,36 :: 		GPIO_Digital_Output(&GPIOC_BASE, _GPIO_PINMASK_2);
+	R1 <4> <- 4   (midx: 0)
+	R0 <4> <- #GPIOC_BASE   (midx: 0)
+	CALL _GPIO_Digital_Output   (midx: 0)
+//Init_Routines.c,39 :: 		GPIO_Digital_Input(&GPIOD_BASE, _GPIO_PINMASK_0);
+	R1 <4> <- 1   (midx: 0)
+	R0 <4> <- #GPIOD_BASE   (midx: 0)
+	CALL _GPIO_Digital_Input   (midx: 0)
+//Init_Routines.c,42 :: 		Delay_ms(5);
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 2)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 5)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+//Init_Routines.c,48 :: 		&_GPIO_MODULE_SPI3_PC10_11_12);
+	R2 <4> <- #__GPIO_MODULE_SPI3_PC10_11_12   (midx: 0)
+//Init_Routines.c,47 :: 		_SPI_MSB_FIRST | _SPI_SS_DISABLE | _SPI_SSM_ENABLE | _SPI_SSI_1,
+	R1 <4> <- 772   (midx: 0)
+//Init_Routines.c,45 :: 		SPI3_Init_Advanced(_SPI_FPCLK_DIV4, _SPI_MASTER  | _SPI_8_BIT |
+	R0 <1> <- 1   (midx: 0)
+//Init_Routines.c,48 :: 		&_GPIO_MODULE_SPI3_PC10_11_12);
+	CALL _SPI3_Init_Advanced   (midx: 0)
+//Init_Routines.c,49 :: 		TFT_BLED = 1;                             // Turn on TFT Backlight
+	R1 <1> <- 1   (midx: 0)
+	R0 <4> <- addr(TFT_BLED)   (midx: 0)
+	[R0] <0> <- R1   (midx: 0)
+//Init_Routines.c,51 :: 		TFT_Init(320, 240);                       // Initialize TFT display
+	R1 <2> <- 240   (midx: 0)
+	R0 <2> <- 320   (midx: 0)
+	CALL _TFT_Init   (midx: 0)
+//Init_Routines.c,52 :: 		TFT_Fill_Screen(CL_WHITE);                // Clear Screen
+	R0 <2> <- 65535   (midx: 0)
+	CALL _TFT_Fill_Screen   (midx: 0)
+//Init_Routines.c,54 :: 		pin_reset();                              // Activate reset from pin
+	CALL _pin_reset   (midx: 0)
+//Init_Routines.c,55 :: 		software_reset();                         // Activate software reset
+	CALL _software_reset   (midx: 0)
+//Init_Routines.c,56 :: 		RF_reset();                               // RF reset
+	CALL _RF_reset   (midx: 0)
+//Init_Routines.c,57 :: 		set_WAKE_from_pin();                      // Set wake from pin
+	CALL _set_wake_from_pin   (midx: 0)
+//Init_Routines.c,59 :: 		set_long_address(ADDRESS_long_2);         // Set long address
+	R0 <4> <- #_ADDRESS_long_2   (midx: 0)
+	CALL _set_long_address   (midx: 0)
+//Init_Routines.c,60 :: 		set_short_address(ADDRESS_short_2);       // Set short address
+	R0 <4> <- #_ADDRESS_short_2   (midx: 0)
+	CALL _set_short_address   (midx: 0)
+//Init_Routines.c,61 :: 		set_PAN_ID(PAN_ID_2);                     // Set PAN_ID
+	R0 <4> <- #_PAN_ID_2   (midx: 0)
+	CALL _set_PAN_ID   (midx: 0)
+//Init_Routines.c,63 :: 		init_ZIGBEE_nonbeacon();                  // Initialize ZigBee module
+	CALL _init_ZIGBEE_nonbeacon   (midx: 0)
+//Init_Routines.c,64 :: 		nonbeacon_PAN_coordinator_device();
+	CALL _nonbeacon_PAN_coordinator_device   (midx: 0)
+//Init_Routines.c,65 :: 		set_TX_power(31);                         // Set max TX power
+	R0 <1> <- 31   (midx: 0)
+	CALL _set_TX_power   (midx: 0)
+//Init_Routines.c,66 :: 		set_frame_format_filter(1);               // 1 all frames, 3 data frame only
+	R0 <1> <- 1   (midx: 0)
+	CALL _set_frame_format_filter   (midx: 0)
+//Init_Routines.c,67 :: 		set_reception_mode(1);                    // 1 normal mode
+	R0 <1> <- 1   (midx: 0)
+	CALL _set_reception_mode   (midx: 0)
+//Init_Routines.c,69 :: 		pin_wake();                               // Wake from pin
+	CALL _pin_wake   (midx: 0)
+  end
+   (midx: 0)

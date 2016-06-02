@@ -1,0 +1,23 @@
+_USB_Init_Desc:
+  begin   (midx: 0)
+//USBdsc.c,161 :: 		void USB_Init_Desc(){
+_USB_Init_Desc:
+  begin   (midx: 0)
+//USBdsc.c,162 :: 		USB_config_dsc_ptr[0] = &configDescriptor1;
+	R1 <4> <- #_configDescriptor1   (midx: 0)
+	R0 <4> <- addr(_USB_config_dsc_ptr)   (midx: 0)
+	[R0] <4> <- R1   (midx: 0)
+//USBdsc.c,163 :: 		USB_string_dsc_ptr[0] = (const char*)&strd1;
+	R1 <4> <- #_strd1   (midx: 0)
+	R0 <4> <- addr(_USB_string_dsc_ptr)   (midx: 0)
+	[R0] <4> <- R1   (midx: 0)
+//USBdsc.c,164 :: 		USB_string_dsc_ptr[1] = (const char*)&strd2;
+	R1 <4> <- #_strd2   (midx: 0)
+	R0 <4> <- addr(_USB_string_dsc_ptr+4)   (midx: 0)
+	[R0] <4> <- R1   (midx: 0)
+//USBdsc.c,165 :: 		USB_string_dsc_ptr[2] = (const char*)&strd3;
+	R1 <4> <- #_strd3   (midx: 0)
+	R0 <4> <- addr(_USB_string_dsc_ptr+8)   (midx: 0)
+	[R0] <4> <- R1   (midx: 0)
+  end
+   (midx: 0)

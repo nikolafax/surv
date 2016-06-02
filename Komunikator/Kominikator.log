@@ -1,0 +1,42 @@
+0	1	mikroCARM.exe -MSF -DBG -pSTM32F107VC -BIN -LHF -DL -SSA -O11111114 -fo72 -N"D:\nikola fax\8. semestar\Sistemi u realnom vremenu 2016\Komunikator\Kominikator.mcpar" -SP"C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for ARM\Defs\" -SP"C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for ARM\Uses\" -SP"D:\nikola fax\8. semestar\Sistemi u realnom vremenu 2016\Komunikator\" -SP"C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for ARM\Uses\ST M3\" -SP"D:\nikola fax\8. semestar\Sistemi u realnom vremenu 2016\Domaci1Senzor\" -SP"D:\nikola fax\8. semestar\Sistemi u realnom vremenu 2016\Domaci1Aktuator\" "Kominikator.c" "USBdsc.c" "Init_Routines.c" "Misc_Routines.c" "ReadWrite_Routines.c" "Reset_Routines.c" "__Lib_Math.emcl" "__Lib_MathDouble.emcl" "__Lib_Delays.emcl" "__Lib_System_105_107.emcl" "__Lib_GPIO_32F10x_Defs.emcl" "__Lib_GPIO_32F10x.emcl" "__Lib_CString.emcl" "__Lib_Conversions.emcl" "__Lib_SPI_123.emcl" "__Lib_USB_32F10x_CL.emcl" "__Lib_LcdConsts.emcl" "__Lib_Lcd.emcl" "__Lib_TFT.emcl" "__Lib_TFT_Defs.emcl"	 
+diagnostics: 0	122	Compilation Started	resources.h
+diagnostics: 104	123	Compiled Successfully	Kominikator.c
+diagnostics: 0	122	Compilation Started	USBdsc.c
+diagnostics: 166	123	Compiled Successfully	USBdsc.c
+diagnostics: 0	122	Compilation Started	readwrite_routines.h
+diagnostics: 70	123	Compiled Successfully	Init_Routines.c
+diagnostics: 0	122	Compilation Started	readwrite_routines.h
+diagnostics: 438	123	Compiled Successfully	Misc_Routines.c
+hint: 77	1164	Variable 'temp' has been eliminated by optimizer	Misc_Routines.c
+hint: 121	1164	Variable 'temp' has been eliminated by optimizer	Misc_Routines.c
+hint: 141	1164	Variable 'temp' has been eliminated by optimizer	Misc_Routines.c
+hint: 155	1164	Variable 'temp' has been eliminated by optimizer	Misc_Routines.c
+hint: 169	1164	Variable 'temp' has been eliminated by optimizer	Misc_Routines.c
+hint: 184	1164	Variable 'temp' has been eliminated by optimizer	Misc_Routines.c
+hint: 192	1164	Variable 'temp' has been eliminated by optimizer	Misc_Routines.c
+hint: 203	1164	Variable 'temp' has been eliminated by optimizer	Misc_Routines.c
+hint: 211	1164	Variable 'temp' has been eliminated by optimizer	Misc_Routines.c
+hint: 222	1164	Variable 'temp' has been eliminated by optimizer	Misc_Routines.c
+hint: 240	1164	Variable 'temp' has been eliminated by optimizer	Misc_Routines.c
+hint: 261	1164	Variable 'temp' has been eliminated by optimizer	Misc_Routines.c
+hint: 293	1164	Variable 'temp' has been eliminated by optimizer	Misc_Routines.c
+hint: 333	1164	Variable 'temp' has been eliminated by optimizer	Misc_Routines.c
+hint: 365	1164	Variable 'temp' has been eliminated by optimizer	Misc_Routines.c
+diagnostics: 0	122	Compilation Started	misc_routines.h
+diagnostics: 149	123	Compiled Successfully	ReadWrite_Routines.c
+hint: 37	1164	Variable 'data_r' has been eliminated by optimizer	ReadWrite_Routines.c
+hint: 53	1164	Variable 'address_high' has been eliminated by optimizer	ReadWrite_Routines.c
+hint: 68	1164	Variable 'data_r' has been eliminated by optimizer	ReadWrite_Routines.c
+hint: 69	1164	Variable 'address_high' has been eliminated by optimizer	ReadWrite_Routines.c
+hint: 87	1164	Variable 'temp' has been eliminated by optimizer	ReadWrite_Routines.c
+hint: 98	1164	Variable 'temp' has been eliminated by optimizer	ReadWrite_Routines.c
+diagnostics: 0	122	Compilation Started	readwrite_routines.h
+diagnostics: 43	123	Compiled Successfully	Reset_Routines.c
+diagnostics: 0	127	All files Compiled in 234 ms	 
+hint: 0	1144	Used RX: 16 (100%)   Free RX: 0 (0%)	Used RX: 16 (100%)   Free RX: 0 (0%)
+hint: 0	1144	Static RAM (bytes): 2022   Dynamic RAM (bytes): 63509	Static RAM (bytes): 2022   Dynamic RAM (bytes): 63509
+hint: 0	1144	Used ROM (bytes): 29487 (11%)  Free ROM (bytes): 232657 (89%)	Used ROM (bytes): 29487 (11%)  Free ROM (bytes): 232657 (89%)
+diagnostics: 0	125	Project Linked Successfully	Kominikator.mcpar
+diagnostics: 0	128	Linked in 359 ms	 
+diagnostics: 0	129	Project 'Kominikator.mcpar' completed: 718 ms	 
+diagnostics: 0	103	Finished successfully: 01 Jun 2016, 20:32:47	Kominikator.mcpar
