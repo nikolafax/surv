@@ -28,7 +28,7 @@ public class ServerHandler extends javax.servlet.http.HttpServlet implements jav
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
+		
 		for (Senzor senzor : comunicator.getSenzors()) {
 			String[] parameterValues = request.getParameterValues(senzor.getDeviceName());
 			if (parameterValues != null) {
@@ -45,6 +45,8 @@ public class ServerHandler extends javax.servlet.http.HttpServlet implements jav
 		pout.println("<head>");
 		pout.println("</head>");
 		pout.println("<body>");
+		
+		pout.println("<h3>Sensor list:<h3><br><br>");
 
 		for (Senzor senzor : comunicator.getSenzors()) {
 			if (senzor == null) {
