@@ -1,0 +1,405 @@
+_draw_frame:
+  begin   (midx: 0)
+//Transmitter.c,35 :: 		void draw_frame(){
+_draw_frame:
+  begin   (midx: 0)
+//Transmitter.c,36 :: 		TFT_Init_ILI9341_8bit (320,240);
+	R1 <2> <- 240   (midx: 0)
+	R0 <2> <- 320   (midx: 0)
+	CALL _TFT_Init_ILI9341_8bit   (midx: 0)
+//Transmitter.c,37 :: 		TFT_Fill_Screen(CL_WHITE);
+	R0 <2> <- 65535   (midx: 0)
+	CALL _TFT_Fill_Screen   (midx: 0)
+//Transmitter.c,38 :: 		TFT_Write_Text("BOARD ID :", 140, 40);    // Display string on TFT
+	R0 <4> <- #?lstr1_Transmitter   (midx: 0)
+	R2 <2> <- 40   (midx: 0)
+	R1 <2> <- 140   (midx: 0)
+	R0 <4> <- R0   (midx: 0)
+	CALL _TFT_Write_Text   (midx: 0)
+//Transmitter.c,39 :: 		TFT_Write_Text("Button 1 :", 140, 80);
+	R0 <4> <- #?lstr2_Transmitter   (midx: 0)
+	R2 <2> <- 80   (midx: 0)
+	R1 <2> <- 140   (midx: 0)
+	R0 <4> <- R0   (midx: 0)
+	CALL _TFT_Write_Text   (midx: 0)
+//Transmitter.c,40 :: 		TFT_Write_Text("Button 2 :", 140, 120);
+	R0 <4> <- #?lstr3_Transmitter   (midx: 0)
+	R2 <2> <- 120   (midx: 0)
+	R1 <2> <- 140   (midx: 0)
+	R0 <4> <- R0   (midx: 0)
+	CALL _TFT_Write_Text   (midx: 0)
+//Transmitter.c,41 :: 		TFT_Write_Text("ANALOG 1 :", 140, 160);
+	R0 <4> <- #?lstr4_Transmitter   (midx: 0)
+	R2 <2> <- 160   (midx: 0)
+	R1 <2> <- 140   (midx: 0)
+	R0 <4> <- R0   (midx: 0)
+	CALL _TFT_Write_Text   (midx: 0)
+//Transmitter.c,43 :: 		DATA_RX[2] = 0;
+	R1 <1> <- 0   (midx: 0)
+	R0 <4> <- addr(_DATA_RX+2)   (midx: 0)
+	[R0] <1> <- R1   (midx: 0)
+  end
+   (midx: 0)
+_parse_analog:
+  begin   (midx: 0)
+//Transmitter.c,46 :: 		void parse_analog()
+_parse_analog:
+  begin   (midx: 0)
+//Transmitter.c,48 :: 		adc_l = adc_result % 256;
+	R2 <4> <- addr(_adc_result)   (midx: 0)
+	R1 <2> <- [R2]   (midx: 0)
+	R0 <2> <- 256   (midx: 0)
+	R3 <2> <-  R1 mod R0   (midx: 5)
+	R0 <4> <- addr(_adc_l)   (midx: 0)
+	[R0] <1> <- R3   (midx: 0)
+//Transmitter.c,49 :: 		adc_h = (adc_result - adc_l) / 265;
+	R1 <2> <- R3   (midx: 0)
+	R0 <4> <- R2   (midx: 0)
+	R0 <2> <- [R0]   (midx: 0)
+	R1 <2> <-  R0 - R1   (midx: 5)
+	R0 <2> <- 265   (midx: 0)
+	R2 <2> <-  R1 / R0   (midx: 5)
+	R0 <4> <- addr(_adc_h)   (midx: 0)
+	[R0] <1> <- R2   (midx: 0)
+//Transmitter.c,50 :: 		sendByteTwo = adc_l;
+	R1 <1> <- R3   (midx: 0)
+	R0 <4> <- addr(_sendByteTwo)   (midx: 0)
+	[R0] <1> <- R1   (midx: 0)
+//Transmitter.c,51 :: 		sendByteOne |= adc_h;
+	R2 <1> <- R2   (midx: 0)
+	R1 <4> <- addr(_sendByteOne)   (midx: 0)
+	R0 <1> <- [R1]   (midx: 0)
+	R0 <1> <-  R0 | R2   (midx: 0)
+	[R1] <1> <- R0   (midx: 0)
+  end
+   (midx: 0)
+_display_on_screen:
+  begin   (midx: 0)
+//Transmitter.c,55 :: 		void display_on_screen(){
+_display_on_screen:
+  begin   (midx: 0)
+//Transmitter.c,57 :: 		TFT_Set_Font(&TFT_defaultFont, CL_BLACK, FO_HORIZONTAL);
+	R2 <1> <- 0   (midx: 0)
+	R1 <2> <- 0   (midx: 0)
+	R0 <4> <- #_TFT_defaultFont   (midx: 0)
+	CALL _TFT_Set_Font   (midx: 0)
+//Transmitter.c,59 :: 		ByteToStr(sendByteThree,&txt);
+	R0 <4> <- addr(_sendByteThree)   (midx: 0)
+	R0 <1> <- [R0]   (midx: 0)
+	R1 <4> <- #_txt   (midx: 0)
+	R0 <1> <- R0   (midx: 0)
+	CALL _ByteToStr   (midx: 0)
+//Transmitter.c,60 :: 		TFT_Write_Text(txt, 215, 40);
+	R2 <2> <- 40   (midx: 0)
+	R1 <2> <- 215   (midx: 0)
+	R0 <4> <- #_txt   (midx: 0)
+	CALL _TFT_Write_Text   (midx: 0)
+//Transmitter.c,62 :: 		ByteToStr(state1,&txt);      // Convert byte to string
+	R0 <4> <- addr(_state1)   (midx: 0)
+	R0 <1> <- [R0]   (midx: 0)
+	R1 <4> <- #_txt   (midx: 0)
+	R0 <1> <- R0   (midx: 0)
+	CALL _ByteToStr   (midx: 0)
+//Transmitter.c,63 :: 		TFT_Write_Text(txt, 215, 80);    // Display string on TFT
+	R2 <2> <- 80   (midx: 0)
+	R1 <2> <- 215   (midx: 0)
+	R0 <4> <- #_txt   (midx: 0)
+	CALL _TFT_Write_Text   (midx: 0)
+//Transmitter.c,65 :: 		ByteToStr(state2,&txt);
+	R0 <4> <- addr(_state2)   (midx: 0)
+	R0 <1> <- [R0]   (midx: 0)
+	R1 <4> <- #_txt   (midx: 0)
+	R0 <1> <- R0   (midx: 0)
+	CALL _ByteToStr   (midx: 0)
+//Transmitter.c,66 :: 		TFT_Write_Text(txt, 215, 120);
+	R2 <2> <- 120   (midx: 0)
+	R1 <2> <- 215   (midx: 0)
+	R0 <4> <- #_txt   (midx: 0)
+	CALL _TFT_Write_Text   (midx: 0)
+//Transmitter.c,68 :: 		IntToStr(adc_result_screen,&txt);
+	R0 <4> <- addr(_adc_result_screen)   (midx: 0)
+	R0 <2> <- [R0]   (midx: 0)
+	R1 <4> <- #_txt   (midx: 0)
+	R0 <2> <- R0   (midx: 0)
+	CALL _IntToStr   (midx: 0)
+//Transmitter.c,69 :: 		TFT_Write_Text(txt, 215, 160);
+	R2 <2> <- 160   (midx: 0)
+	R1 <2> <- 215   (midx: 0)
+	R0 <4> <- #_txt   (midx: 0)
+	CALL _TFT_Write_Text   (midx: 0)
+//Transmitter.c,71 :: 		delay_ms(1000);
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 2)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 5)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+//Transmitter.c,74 :: 		TFT_Set_Font(&TFT_defaultFont, CL_WHITE, FO_HORIZONTAL);
+	R2 <1> <- 0   (midx: 0)
+	R1 <2> <- 65535   (midx: 0)
+	R0 <4> <- #_TFT_defaultFont   (midx: 0)
+	CALL _TFT_Set_Font   (midx: 0)
+//Transmitter.c,76 :: 		ByteToStr(sendByteThree,&txt);
+	R0 <4> <- addr(_sendByteThree)   (midx: 0)
+	R0 <1> <- [R0]   (midx: 0)
+	R1 <4> <- #_txt   (midx: 0)
+	R0 <1> <- R0   (midx: 0)
+	CALL _ByteToStr   (midx: 0)
+//Transmitter.c,77 :: 		TFT_Write_Text(txt, 215, 40);
+	R2 <2> <- 40   (midx: 0)
+	R1 <2> <- 215   (midx: 0)
+	R0 <4> <- #_txt   (midx: 0)
+	CALL _TFT_Write_Text   (midx: 0)
+//Transmitter.c,79 :: 		ByteToStr(state1,&txt);
+	R0 <4> <- addr(_state1)   (midx: 0)
+	R0 <1> <- [R0]   (midx: 0)
+	R1 <4> <- #_txt   (midx: 0)
+	R0 <1> <- R0   (midx: 0)
+	CALL _ByteToStr   (midx: 0)
+//Transmitter.c,80 :: 		TFT_Write_Text(txt, 215, 80);
+	R2 <2> <- 80   (midx: 0)
+	R1 <2> <- 215   (midx: 0)
+	R0 <4> <- #_txt   (midx: 0)
+	CALL _TFT_Write_Text   (midx: 0)
+//Transmitter.c,82 :: 		ByteToStr(state2,&txt);
+	R0 <4> <- addr(_state2)   (midx: 0)
+	R0 <1> <- [R0]   (midx: 0)
+	R1 <4> <- #_txt   (midx: 0)
+	R0 <1> <- R0   (midx: 0)
+	CALL _ByteToStr   (midx: 0)
+//Transmitter.c,83 :: 		TFT_Write_Text(txt, 215, 120);
+	R2 <2> <- 120   (midx: 0)
+	R1 <2> <- 215   (midx: 0)
+	R0 <4> <- #_txt   (midx: 0)
+	CALL _TFT_Write_Text   (midx: 0)
+//Transmitter.c,85 :: 		ByteToStr(adc_result_screen,&txt);
+	R0 <4> <- addr(_adc_result_screen)   (midx: 0)
+	R0 <1> <- [R0]   (midx: 0)
+	R1 <4> <- #_txt   (midx: 0)
+	R0 <1> <- R0   (midx: 0)
+	CALL _ByteToStr   (midx: 0)
+//Transmitter.c,86 :: 		TFT_Write_Text(adc_result_screen, 215, 160);
+	R0 <4> <- addr(_adc_result_screen)   (midx: 0)
+	R0 <4> <- [R0]   (midx: 0)
+	R2 <2> <- 160   (midx: 0)
+	R1 <2> <- 215   (midx: 0)
+	R0 <4> <- R0   (midx: 0)
+	CALL _TFT_Write_Text   (midx: 0)
+  end
+   (midx: 0)
+_read_sensors:
+  begin   (midx: 0)
+//Transmitter.c,89 :: 		void read_sensors(){
+_read_sensors:
+  begin   (midx: 0)
+//Transmitter.c,90 :: 		if (Button(&GPIOD_IDR, 0, 1, 1)){                      // detect logical one on PA0 pin
+	R3 <4> <- 1   (midx: 0)
+	R2 <4> <- 1   (midx: 0)
+	R1 <4> <- 0   (midx: 0)
+	R0 <4> <- #GPIOD_IDR   (midx: 0)
+	CALL _Button   (midx: 0)
+	if (!R0) then goto 1   (midx: 0)
+//Transmitter.c,91 :: 		if (state1 == 0){
+	R0 <4> <- addr(_state1)   (midx: 0)
+	R0 <1> <- [R0]   (midx: 0)
+	if ( R0 != 0) then goto 2   (midx: 4)
+//Transmitter.c,92 :: 		state1 = 1;
+	R1 <1> <- 1   (midx: 0)
+	R0 <4> <- addr(_state1)   (midx: 0)
+	[R0] <1> <- R1   (midx: 0)
+//Transmitter.c,93 :: 		sendByteOne ^= 0b00100000;
+	R1 <4> <- addr(_sendByteOne)   (midx: 0)
+	R0 <1> <- [R1]   (midx: 0)
+	R0 <1> <-  R0 ^ 32   (midx: 0)
+	[R1] <1> <- R0   (midx: 0)
+//Transmitter.c,94 :: 		}
+	goto	3   (midx: 0)
+2:   (midx: 0)
+//Transmitter.c,96 :: 		state1 = 0;
+	R1 <1> <- 0   (midx: 0)
+	R0 <4> <- addr(_state1)   (midx: 0)
+	[R0] <1> <- R1   (midx: 0)
+//Transmitter.c,97 :: 		sendByteOne ^= 0b00100000;
+	R1 <4> <- addr(_sendByteOne)   (midx: 0)
+	R0 <1> <- [R1]   (midx: 0)
+	R0 <1> <-  R0 ^ 32   (midx: 0)
+	[R1] <1> <- R0   (midx: 0)
+//Transmitter.c,98 :: 		}
+3:   (midx: 0)
+//Transmitter.c,99 :: 		}
+1:   (midx: 0)
+//Transmitter.c,100 :: 		if (Button(&GPIOD_IDR, 1, 1, 1)){                      // detect logical one on PA0 pin
+	R3 <4> <- 1   (midx: 0)
+	R2 <4> <- 1   (midx: 0)
+	R1 <4> <- 1   (midx: 0)
+	R0 <4> <- #GPIOD_IDR   (midx: 0)
+	CALL _Button   (midx: 0)
+	if (!R0) then goto 4   (midx: 0)
+//Transmitter.c,101 :: 		if (state2 == 0){
+	R0 <4> <- addr(_state2)   (midx: 0)
+	R0 <1> <- [R0]   (midx: 0)
+	if ( R0 != 0) then goto 5   (midx: 4)
+//Transmitter.c,102 :: 		state2 = 1;
+	R1 <1> <- 1   (midx: 0)
+	R0 <4> <- addr(_state2)   (midx: 0)
+	[R0] <1> <- R1   (midx: 0)
+//Transmitter.c,103 :: 		sendByteOne ^= 0b00010000;
+	R1 <4> <- addr(_sendByteOne)   (midx: 0)
+	R0 <1> <- [R1]   (midx: 0)
+	R0 <1> <-  R0 ^ 16   (midx: 0)
+	[R1] <1> <- R0   (midx: 0)
+//Transmitter.c,104 :: 		}
+	goto	6   (midx: 0)
+5:   (midx: 0)
+//Transmitter.c,106 :: 		state2 = 0;
+	R1 <1> <- 0   (midx: 0)
+	R0 <4> <- addr(_state2)   (midx: 0)
+	[R0] <1> <- R1   (midx: 0)
+//Transmitter.c,107 :: 		sendByteOne ^= 0b00010000;
+	R1 <4> <- addr(_sendByteOne)   (midx: 0)
+	R0 <1> <- [R1]   (midx: 0)
+	R0 <1> <-  R0 ^ 16   (midx: 0)
+	[R1] <1> <- R0   (midx: 0)
+//Transmitter.c,108 :: 		}
+6:   (midx: 0)
+//Transmitter.c,109 :: 		}
+4:   (midx: 0)
+//Transmitter.c,111 :: 		adc_result = ADC1_Get_Sample(3);                          // Get ADC value from corresponding channel
+	R0 <2> <- 3   (midx: 0)
+	CALL _ADC1_Get_Sample   (midx: 0)
+	R1 <4> <- addr(_adc_result)   (midx: 0)
+	[R1] <2> <- R0   (midx: 0)
+//Transmitter.c,112 :: 		parse_analog();
+	CALL _parse_analog   (midx: 0)
+//Transmitter.c,113 :: 		Delay_ms(20);
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 2)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 5)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+  end
+   (midx: 0)
+_listen_for_id:
+  begin   (midx: 0)
+//Transmitter.c,117 :: 		void listen_for_id(){
+_listen_for_id:
+  begin   (midx: 0)
+//Transmitter.c,119 :: 		if (sendByteThree == 0 && Debounce_INT() == 0){
+	R0 <4> <- addr(_sendByteThree)   (midx: 0)
+	R0 <1> <- [R0]   (midx: 0)
+	if ( R0 != 0) then goto 17   (midx: 0)
+	CALL _Debounce_INT   (midx: 0)
+	if ( R0 != 0) then goto 16   (midx: 0)
+15:   (midx: 0)
+//Transmitter.c,120 :: 		temp1 = read_ZIGBEE_short(INTSTAT); // Read and flush register INTSTAT
+	R0 <1> <- 49   (midx: 0)
+	CALL _read_ZIGBEE_short   (midx: 0)
+	R1 <4> <- addr(_temp1)   (midx: 0)
+	[R1] <1> <- R0   (midx: 0)
+//Transmitter.c,121 :: 		read_RX_FIFO();                     // Read receive data
+	CALL _read_RX_FIFO   (midx: 0)
+//Transmitter.c,123 :: 		if(DATA_RX[0] == 127){
+	R0 <4> <- addr(_DATA_RX)   (midx: 0)
+	R0 <1> <- [R0]   (midx: 0)
+	if ( R0 != 127) then goto 11   (midx: 4)
+//Transmitter.c,124 :: 		sendByteThree = DATA_RX[2];
+	R0 <4> <- addr(_DATA_RX+2)   (midx: 0)
+	R1 <1> <- [R0]   (midx: 0)
+	R0 <4> <- addr(_sendByteThree)   (midx: 0)
+	[R0] <1> <- R1   (midx: 0)
+//Transmitter.c,125 :: 		}
+11:   (midx: 0)
+//Transmitter.c,119 :: 		if (sendByteThree == 0 && Debounce_INT() == 0){
+17:   (midx: 0)
+16:   (midx: 0)
+  end
+   (midx: 0)
+_run_transmitter:
+  begin   (midx: 0)
+//Transmitter.c,129 :: 		void run_transmitter() {
+_run_transmitter:
+  begin   (midx: 0)
+//Transmitter.c,130 :: 		read_sensors();
+	CALL _read_sensors   (midx: 0)
+//Transmitter.c,133 :: 		DATA_TX[0] = sendByteOne;
+	R0 <4> <- addr(_sendByteOne)   (midx: 0)
+	R0 <1> <- [R0]   (midx: 0)
+	R3 <4> <- addr(_DATA_TX)   (midx: 0)
+	[R3] <1> <- R0   (midx: 0)
+//Transmitter.c,134 :: 		DATA_TX[1] = sendByteTwo;
+	R0 <4> <- addr(_sendByteTwo)   (midx: 0)
+	R0 <1> <- [R0]   (midx: 0)
+	R2 <4> <- addr(_DATA_TX+1)   (midx: 0)
+	[R2] <1> <- R0   (midx: 0)
+//Transmitter.c,135 :: 		DATA_TX[2] = sendByteThree;
+	R0 <4> <- addr(_sendByteThree)   (midx: 0)
+	R1 <1> <- [R0]   (midx: 0)
+	R0 <4> <- addr(_DATA_TX+2)   (midx: 0)
+	[R0] <1> <- R1   (midx: 0)
+//Transmitter.c,137 :: 		adc_result_screen = ((DATA_TX[0] & 0b00001111) * 256) + DATA_TX[1];
+	R0 <4> <- R3   (midx: 0)
+	R0 <1> <- [R0]   (midx: 0)
+	R0 <1> <-  R0 & 15   (midx: 4)
+	R1 <2> <-  R0 shl 8   (midx: 5)
+	R0 <4> <- R2   (midx: 0)
+	R0 <2> <- [R0]   (midx: 0)
+	R1 <2> <-  R1 + R0   (midx: 5)
+	R0 <4> <- addr(_adc_result_screen)   (midx: 0)
+	[R0] <2> <- R1   (midx: 0)
+//Transmitter.c,140 :: 		write_TX_normal_FIFO();          // Transmiting
+	CALL _write_TX_normal_FIFO   (midx: 0)
+//Transmitter.c,143 :: 		display_on_screen();
+	CALL _display_on_screen   (midx: 0)
+  end
+   (midx: 0)
+_main:
+  begin   (midx: 0)
+//Transmitter.c,146 :: 		void main() {
+_main:
+  begin   (midx: 0)
+//Transmitter.c,147 :: 		Initialize();                      // Initialize MCU and Bee click board
+	CALL _Initialize   (midx: 0)
+//Transmitter.c,148 :: 		draw_frame();
+	CALL _draw_frame   (midx: 0)
+//Transmitter.c,150 :: 		GPIO_Digital_Input(&GPIOD_IDR, _GPIO_PINMASK_0);
+	R1 <4> <- 1   (midx: 0)
+	R0 <4> <- #GPIOD_IDR   (midx: 0)
+	CALL _GPIO_Digital_Input   (midx: 0)
+//Transmitter.c,151 :: 		ADC_Set_Input_Channel(_ADC_CHANNEL_3);                     // Choose ADC channel
+	R0 <2> <- 8   (midx: 0)
+	CALL _ADC_Set_Input_Channel   (midx: 0)
+//Transmitter.c,152 :: 		ADC1_Init();                                               // Init
+	CALL _ADC1_Init   (midx: 0)
+//Transmitter.c,153 :: 		Delay_ms(100);
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 2)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 5)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+//Transmitter.c,154 :: 		while(1) {
+13:   (midx: 0)
+//Transmitter.c,156 :: 		listen_for_id();
+	CALL _listen_for_id   (midx: 0)
+//Transmitter.c,159 :: 		run_transmitter();
+	CALL _run_transmitter   (midx: 0)
+//Transmitter.c,160 :: 		}
+	goto	13   (midx: 0)
+  end
+   (midx: 0)
