@@ -509,26 +509,15 @@ main
 			_TFT_Write_Char
 				TFT_Set_Font
 				TFT_Dot
-	HID_Read
-		DCD_EP_PrepareRx
-		USBD_OTG_ISR_Handler
-			USB_OTG_IsDeviceMode
-			USB_OTG_ReadCoreItr
-			DCD_HandleOutEP_ISR
-			DCD_HandleInEP_ISR
-			DCD_HandleResume_ISR
-			DCD_HandleUSBSuspend_ISR
-			DCD_HandleSof_ISR
-			DCD_HandleRxStatusQueueLevel_ISR
-			DCD_HandleUsbReset_ISR
-			DCD_HandleEnumDone_ISR
-			DCD_IsoINIncomplete_ISR
-			DCD_IsoOUTIncomplete_ISR
-			DCD_SessionRequest_ISR
-			DCD_OTG_ISR
-	usbSend
-		USB_Polling_Proc
-		HID_Write
-			USBD_HID_SendReport
-				DCD_EP_Tx
-			USBD_OTG_ISR_Handler
+	beeSend
+		write_TX_normal_FIFO
+			write_ZIGBEE_long
+			set_not_ACK
+				read_ZIGBEE_short
+				write_ZIGBEE_short
+			set_not_encrypt
+				read_ZIGBEE_short
+				write_ZIGBEE_short
+			start_transmit
+				read_ZIGBEE_short
+				write_ZIGBEE_short

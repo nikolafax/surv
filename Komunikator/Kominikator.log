@@ -1,6 +1,9 @@
-0	1	mikroCARM.exe -MSF -DBG -pSTM32F107VC -BIN -LHF -DL -SSA -O11111114 -fo72 -N"D:\nikola fax\8. semestar\Sistemi u realnom vremenu 2016\Komunikator\Kominikator.mcpar" -SP"C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for ARM\Defs\" -SP"C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for ARM\Uses\" -SP"D:\nikola fax\8. semestar\Sistemi u realnom vremenu 2016\Komunikator\" -SP"C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for ARM\Uses\ST M3\" -SP"D:\nikola fax\8. semestar\Sistemi u realnom vremenu 2016\Domaci1Senzor\" -SP"D:\nikola fax\8. semestar\Sistemi u realnom vremenu 2016\Domaci1Aktuator\" "Kominikator.c" "USBdsc.c" "Init_Routines.c" "Misc_Routines.c" "ReadWrite_Routines.c" "Reset_Routines.c" "__Lib_Math.emcl" "__Lib_MathDouble.emcl" "__Lib_Delays.emcl" "__Lib_System_105_107.emcl" "__Lib_GPIO_32F10x_Defs.emcl" "__Lib_GPIO_32F10x.emcl" "__Lib_CString.emcl" "__Lib_Conversions.emcl" "__Lib_SPI_123.emcl" "__Lib_USB_32F10x_CL.emcl" "__Lib_LcdConsts.emcl" "__Lib_Lcd.emcl" "__Lib_TFT.emcl" "__Lib_TFT_Defs.emcl"	 
+0	1	mikroCARM.exe -MSF -DBG -pSTM32F107VC -BIN -LHF -DL -SSA -O11111114 -fo72 -N"C:\sur\Komunikator\Kominikator.mcpar" -SP"C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for ARM\Defs\" -SP"C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for ARM\Uses\" -SP"C:\sur\Komunikator\" -SP"D:\nikola fax\8. semestar\Sistemi u realnom vremenu 2016\Komunikator\" -SP"C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for ARM\Uses\ST M3\" -SP"D:\nikola fax\8. semestar\Sistemi u realnom vremenu 2016\Domaci1Senzor\" -SP"D:\nikola fax\8. semestar\Sistemi u realnom vremenu 2016\Domaci1Aktuator\" "Kominikator.c" "USBdsc.c" "Init_Routines.c" "Misc_Routines.c" "ReadWrite_Routines.c" "Reset_Routines.c" "__Lib_Math.emcl" "__Lib_MathDouble.emcl" "__Lib_Delays.emcl" "__Lib_System_105_107.emcl" "__Lib_GPIO_32F10x_Defs.emcl" "__Lib_GPIO_32F10x.emcl" "__Lib_CString.emcl" "__Lib_Conversions.emcl" "__Lib_SPI_123.emcl" "__Lib_USB_32F10x_CL.emcl" "__Lib_LcdConsts.emcl" "__Lib_Lcd.emcl" "__Lib_TFT.emcl" "__Lib_TFT_Defs.emcl"	 
+warning: 0	1501	Specified search path does not exist: 'D:\nikola fax\8. semestar\Sistemi u realnom vremenu 2016\Komunikator'	 
+warning: 0	1501	Specified search path does not exist: 'D:\nikola fax\8. semestar\Sistemi u realnom vremenu 2016\Domaci1Senzor'	 
+warning: 0	1501	Specified search path does not exist: 'D:\nikola fax\8. semestar\Sistemi u realnom vremenu 2016\Domaci1Aktuator'	 
 diagnostics: 0	122	Compilation Started	resources.h
-diagnostics: 104	123	Compiled Successfully	Kominikator.c
+diagnostics: 111	123	Compiled Successfully	Kominikator.c
 diagnostics: 0	122	Compilation Started	USBdsc.c
 diagnostics: 166	123	Compiled Successfully	USBdsc.c
 diagnostics: 0	122	Compilation Started	readwrite_routines.h
@@ -32,11 +35,11 @@ hint: 87	1164	Variable 'temp' has been eliminated by optimizer	ReadWrite_Routine
 hint: 98	1164	Variable 'temp' has been eliminated by optimizer	ReadWrite_Routines.c
 diagnostics: 0	122	Compilation Started	readwrite_routines.h
 diagnostics: 43	123	Compiled Successfully	Reset_Routines.c
-diagnostics: 0	127	All files Compiled in 234 ms	 
+diagnostics: 0	127	All files Compiled in 390 ms	 
 hint: 0	1144	Used RX: 16 (100%)   Free RX: 0 (0%)	Used RX: 16 (100%)   Free RX: 0 (0%)
-hint: 0	1144	Static RAM (bytes): 2022   Dynamic RAM (bytes): 63509	Static RAM (bytes): 2022   Dynamic RAM (bytes): 63509
-hint: 0	1144	Used ROM (bytes): 29487 (11%)  Free ROM (bytes): 232657 (89%)	Used ROM (bytes): 29487 (11%)  Free ROM (bytes): 232657 (89%)
+hint: 0	1144	Static RAM (bytes): 2035   Dynamic RAM (bytes): 63497	Static RAM (bytes): 2035   Dynamic RAM (bytes): 63497
+hint: 0	1144	Used ROM (bytes): 29233 (11%)  Free ROM (bytes): 232911 (89%)	Used ROM (bytes): 29233 (11%)  Free ROM (bytes): 232911 (89%)
 diagnostics: 0	125	Project Linked Successfully	Kominikator.mcpar
-diagnostics: 0	128	Linked in 359 ms	 
-diagnostics: 0	129	Project 'Kominikator.mcpar' completed: 718 ms	 
-diagnostics: 0	103	Finished successfully: 01 Jun 2016, 20:32:47	Kominikator.mcpar
+diagnostics: 0	128	Linked in 610 ms	 
+diagnostics: 0	129	Project 'Kominikator.mcpar' completed: 1188 ms	 
+diagnostics: 0	103	Finished successfully: 04 Jun 2016, 16:07:18	Kominikator.mcpar

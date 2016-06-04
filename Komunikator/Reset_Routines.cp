@@ -1,6 +1,6 @@
-#line 1 "D:/nikola fax/8. semestar/Sistemi u realnom vremenu 2016/Komunikator/Reset_Routines.c"
-#line 1 "d:/nikola fax/8. semestar/sistemi u realnom vremenu 2016/komunikator/registers.h"
-#line 1 "d:/nikola fax/8. semestar/sistemi u realnom vremenu 2016/komunikator/readwrite_routines.h"
+#line 1 "C:/sur/Komunikator/Reset_Routines.c"
+#line 1 "c:/sur/komunikator/registers.h"
+#line 1 "c:/sur/komunikator/readwrite_routines.h"
 short int read_ZIGBEE_long(int address);
 void write_ZIGBEE_long(int address, short int data_r);
 short int read_ZIGBEE_short(short int address);
@@ -8,9 +8,9 @@ void write_ZIGBEE_short(short int address, short int data_r);
 void read_RX_FIFO();
 void start_transmit();
 void write_TX_normal_FIFO();
-#line 4 "D:/nikola fax/8. semestar/Sistemi u realnom vremenu 2016/Komunikator/Reset_Routines.c"
+#line 4 "C:/sur/Komunikator/Reset_Routines.c"
 extern sfr sbit RST;
-#line 12 "D:/nikola fax/8. semestar/Sistemi u realnom vremenu 2016/Komunikator/Reset_Routines.c"
+#line 12 "C:/sur/Komunikator/Reset_Routines.c"
 void pin_reset() {
  RST = 0;
  Delay_ms(5);

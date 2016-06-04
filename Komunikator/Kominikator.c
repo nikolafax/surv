@@ -12,6 +12,7 @@ sbit INT at GPIOD_ODR.B10;// INT pin
 sbit WAKE_ at GPIOA_ODR.B4;
 
 extern short int DATA_RX[];
+extern short int DATA_TX[];
 short int temp1;
 char txt[1];
 char cnt;
@@ -39,7 +40,13 @@ void usbRecive() {
 }
 
 void beeSend() {
+  // PROTOCOL BYTES
+  DATA_TX[0] = 0b01111111;
+  DATA_TX[1] = 0b11111111;
+  DATA_TX[2] = 0b01010101;
 
+  // SENDING
+  write_TX_normal_FIFO();
 }
 
 void beeRecive() {
@@ -94,11 +101,11 @@ void main() {
 
         do {
                 beeRecive();
-                kk = HID_Read();
-                if (kk != 0) {
-                        usbSend();
-                }
-
+//                kk = HID_Read();
+//                if (kk != 0) {
+//                        usbSend();
+//                }
+          beeSend();
         } while (1);
 
 }
