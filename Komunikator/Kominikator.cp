@@ -1,5 +1,5 @@
-#line 1 "C:/sur/Komunikator/Kominikator.c"
-#line 1 "c:/sur/komunikator/resources.h"
+#line 1 "D:/git/sur/Komunikator/Kominikator.c"
+#line 1 "d:/git/sur/komunikator/resources.h"
 
 char TFT_DataPort at GPIOE_ODR;
 sbit TFT_RST at GPIOE_ODR.B8;
@@ -613,8 +613,8 @@ const code char Verdana12x13_Regular[] = {
  0x00,0x00,0x00,0x00,0x00,0x00,0x8C,0x92,0x62,0x00,0x00,0x00,0x00,
  0x00,0x00,0x00,0x00,0x00,0x00,0xFE,0x01,0x02,0x01,0x02,0x01,0x02,0x01,0x02,0x01,0x02,0x01,0x02,0x01,0xFE,0x01,0x00,0x00,0x00,0x00
  };
-#line 1 "c:/sur/komunikator/registers.h"
-#line 1 "c:/sur/komunikator/readwrite_routines.h"
+#line 1 "d:/git/sur/komunikator/registers.h"
+#line 1 "d:/git/sur/komunikator/readwrite_routines.h"
 short int read_ZIGBEE_long(int address);
 void write_ZIGBEE_long(int address, short int data_r);
 short int read_ZIGBEE_short(short int address);
@@ -622,14 +622,14 @@ void write_ZIGBEE_short(short int address, short int data_r);
 void read_RX_FIFO();
 void start_transmit();
 void write_TX_normal_FIFO();
-#line 1 "c:/sur/komunikator/reset_routines.h"
+#line 1 "d:/git/sur/komunikator/reset_routines.h"
 void RF_reset();
 void software_reset();
 void MAC_reset();
 void BB_reset();
 void PWR_reset();
 void pin_reset();
-#line 1 "c:/sur/komunikator/misc_routines.h"
+#line 1 "d:/git/sur/komunikator/misc_routines.h"
 void init_ZIGBEE_nonbeacon();
 void init_ZIGBEE_basic();
 void set_TX_power(unsigned short int power);
@@ -658,9 +658,9 @@ void set_CCA_mode(short int CCA_mode);
 void set_channel(short int channel_number);
 void enable_interrupt();
 char Debounce_INT();
-#line 1 "c:/sur/komunikator/init_routines.h"
+#line 1 "d:/git/sur/komunikator/init_routines.h"
 void Initialize();
-#line 9 "C:/sur/Komunikator/Kominikator.c"
+#line 9 "D:/git/sur/Komunikator/Kominikator.c"
 sbit CS at GPIOD_ODR.B13;
 sbit RST at GPIOC_ODR.B2;
 sbit INT at GPIOD_ODR.B10;
@@ -675,9 +675,10 @@ char cnt;
 char writebuff[64];
 char readbuff[64];
 char kk;
+void usbRecive();
+void beeSend();
 
 void usbSend() {
- USB_Polling_Proc();
 
  for (cnt = 0; cnt < 64; cnt++) {
  writebuff[cnt] = 0;
@@ -691,16 +692,20 @@ void usbSend() {
 }
 
 void usbRecive() {
+ USB_Polling_Proc();
 
+ kk = HID_Read();
+ if(kk != 0){
+ beeSend();
+ writebuff[0] = 0;
+ HID_Write(&writebuff,64);
+ }
 }
 
 void beeSend() {
-
- DATA_TX[0] = 0b01111111;
- DATA_TX[1] = 0b11111111;
- DATA_TX[2] = 0b01010101;
-
-
+ DATA_TX[0] = writebuff[0];
+ DATA_TX[1] = writebuff[1];
+ DATA_TX[2] = writebuff[2];
  write_TX_normal_FIFO();
 }
 
@@ -757,10 +762,17 @@ void main() {
  do {
  beeRecive();
 
+ USB_Polling_Proc();
+ kk = HID_Read();
+ if (kk != 0) {
+ usbSend();
+ }
+
+ USB_Polling_Proc();
+
+ usbRecive();
 
 
-
- beeSend();
  } while (1);
 
 }

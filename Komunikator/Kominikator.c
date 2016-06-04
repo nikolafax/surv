@@ -20,9 +20,10 @@ char cnt;
 char writebuff[64];
 char readbuff[64];
 char kk;
+void usbRecive();
+void beeSend();
 
 void usbSend() {
-        USB_Polling_Proc();
 
         for (cnt = 0; cnt < 64; cnt++) {
                 writebuff[cnt] = 0;
@@ -36,16 +37,20 @@ void usbSend() {
 }
 
 void usbRecive() {
+        USB_Polling_Proc();
 
+        kk = HID_Read();
+        if(kk != 0){
+           beeSend();
+           writebuff[0] = 0;
+           HID_Write(&writebuff,64);
+        }
 }
 
 void beeSend() {
-  // PROTOCOL BYTES
-  DATA_TX[0] = 0b01111111;
-  DATA_TX[1] = 0b11111111;
-  DATA_TX[2] = 0b01010101;
-
-  // SENDING
+  DATA_TX[0] = writebuff[0];
+  DATA_TX[1] = writebuff[1];
+  DATA_TX[2] = writebuff[2];
   write_TX_normal_FIFO();
 }
 
@@ -101,11 +106,18 @@ void main() {
 
         do {
                 beeRecive();
-//                kk = HID_Read();
-//                if (kk != 0) {
-//                        usbSend();
-//                }
-          beeSend();
+                
+                USB_Polling_Proc();
+                kk = HID_Read();
+                if (kk != 0) {
+                        usbSend();
+                }
+                
+                USB_Polling_Proc();
+
+                usbRecive();
+
+
         } while (1);
 
 }

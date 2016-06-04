@@ -29,9 +29,13 @@ Count=0
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=2
+Count=7
 File0=Kominikator.c
-File1=USBdsc.c
+File2=USBdsc.c
+File3=..\..\..\nikola fax\8. semestar\Sistemi u realnom vremenu 2016\BEE primer\Transmitter\Transmitter.c
+File4=..\..\..\nikola fax\8. semestar\Sistemi u realnom vremenu 2016\Domaci1Senzor\Domaci1Senzor.c
+File5=..\..\..\nikola fax\8. semestar\Sistemi u realnom vremenu 2016\Domaci1Aktuator\Domaci1Aktuator.c
+File6=..\..\..\nikola fax\8. semestar\Sistemi u realnom vremenu 2016\BEE primer\Receiver\Receiver.c
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -39,11 +43,14 @@ Count=0
 [OTHER_FILES]
 Count=0
 [SEARCH_PATH]
-Count=7
+Count=9
 Path0=C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for ARM\Defs\
 Path1=C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for ARM\Uses\
-Path2=C:\sur\Komunikator\
+Path2=D:\git\sur\Komunikator\
+Path3=D:\nikola fax\8. semestar\Sistemi u realnom vremenu 2016\Komunikator\
 Path4=C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for ARM\Uses\ST M3\
+Path5=D:\nikola fax\8. semestar\Sistemi u realnom vremenu 2016\Domaci1Senzor\
+Path6=D:\nikola fax\8. semestar\Sistemi u realnom vremenu 2016\Domaci1Aktuator\
 [HEADER_PATH]
 Count=0
 [HEADERS]
