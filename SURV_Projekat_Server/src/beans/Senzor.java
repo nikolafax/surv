@@ -1,10 +1,16 @@
 package beans;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Senzor extends Device {
+public class Senzor extends Device implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8874727067191224935L;
+	
 	private List<Aktuatator> aktuatators;
 
 	public Senzor() {
@@ -28,7 +34,7 @@ public class Senzor extends Device {
 	public boolean contains(Aktuatator aktuatator) {
 		boolean contains = false;
 		for (Aktuatator akt : aktuatators) {
-			if (akt.getDeviceName().equals(aktuatator.getDeviceName())) {
+			if (akt.getId().equals(aktuatator.getId())) {
 				contains = true;
 			}
 		}

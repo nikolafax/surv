@@ -2,14 +2,16 @@ package beans;
 
 public class Device {
 	
-	private String deviceName;
+	private Integer id;
 
-	public String getDeviceName() {
-		return deviceName;
+	public Integer getId() {
+		return id;
 	}
 
-	public void setDeviceName(String deviceName) {
-		this.deviceName = deviceName;
+	public void setId(Integer id) {
+		this.id = id;
 	}
+	
+	
 
 }

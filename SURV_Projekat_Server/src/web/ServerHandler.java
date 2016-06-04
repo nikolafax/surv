@@ -15,7 +15,7 @@ import comunicaton.Comunicator;
 public class ServerHandler extends javax.servlet.http.HttpServlet implements javax.servlet.Servlet {
 
 	private static final long serialVersionUID = -38738955644587451L;
-
+	private static final String SENZORID = "SENZORID";
 	private Comunicator comunicator;
 
 	@Override
@@ -28,13 +28,14 @@ public class ServerHandler extends javax.servlet.http.HttpServlet implements jav
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+
 		for (Senzor senzor : comunicator.getSenzors()) {
-			String[] parameterValues = request.getParameterValues(senzor.getDeviceName());
+			String[] parameterValues = request.getParameterValues(SENZORID + senzor.getId());
 			if (parameterValues != null) {
 				for (String string : parameterValues) {
 					Aktuatator a = new Aktuatator();
-					a.setDeviceName(string);
+					Integer aktuatorId = new Integer(string);
+					a.setId(aktuatorId);
 					senzor.addAktuator(a);
 				}
 			}
@@ -45,7 +46,7 @@ public class ServerHandler extends javax.servlet.http.HttpServlet implements jav
 		pout.println("<head>");
 		pout.println("</head>");
 		pout.println("<body>");
-		
+
 		pout.println("<h3>Sensor list:<h3><br><br>");
 
 		for (Senzor senzor : comunicator.getSenzors()) {
@@ -55,21 +56,21 @@ public class ServerHandler extends javax.servlet.http.HttpServlet implements jav
 
 			pout.print("<form action=\"ServerHandler\" method=\"post\">");
 
-			pout.print("senzor : " + senzor.getDeviceName() + "<br>");
+			pout.print("senzor : " + senzor.getId() + "<br>");
 
 			for (Aktuatator aktuatator : comunicator.getActuators()) {
 				if (aktuatator == null) {
 					continue;
 				}
 
-				pout.println("<input type=\"checkbox\" name=\"" + senzor.getDeviceName() + "\" value=\""
-						+ aktuatator.getDeviceName() + "\"");
+				pout.println("<input type=\"checkbox\" name=\"" + SENZORID + senzor.getId() + "\" value=\""
+						+ aktuatator.getId() + "\"");
 
 				if (senzor.contains(aktuatator)) {
 					pout.println("checked");
 				}
 
-				pout.println("> " + aktuatator.getDeviceName() + "<br>");
+				pout.println("> " + aktuatator.getId() + "<br>");
 			}
 
 			pout.println("<input type=\"submit\" name=\"submit\" value=\"dodaj\"> <br>");
@@ -77,7 +78,6 @@ public class ServerHandler extends javax.servlet.http.HttpServlet implements jav
 			pout.println("</form>");
 		}
 
-		
 		pout.println("</body>");
 		pout.println("</html>");
 	}

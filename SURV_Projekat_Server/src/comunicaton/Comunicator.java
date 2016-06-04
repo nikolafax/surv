@@ -2,6 +2,7 @@ package comunicaton;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Vector;
 
 import com.codeminders.hidapi.HIDDevice;
@@ -9,6 +10,7 @@ import com.codeminders.hidapi.HIDManager;
 
 import beans.Aktuatator;
 import beans.Senzor;
+import converter.DataProcessor;
 
 public class Comunicator implements Serializable, Runnable {
 
@@ -28,6 +30,8 @@ public class Comunicator implements Serializable, Runnable {
 	private HIDDeviceSend deviceSend;
 	private HIDDeviceRead deviceRead;
 
+	private DataProcessor processor;
+
 	public Comunicator() {
 		aktuators = new Vector<Aktuatator>();
 		senzors = new Vector<Senzor>();
@@ -35,6 +39,8 @@ public class Comunicator implements Serializable, Runnable {
 		deviceSend = new HIDDeviceSend(dev);
 		deviceRead = new HIDDeviceRead(dev);
 
+		processor = new DataProcessor(this);
+		// setMockData();
 	}
 
 	public void connectHID() {
@@ -61,18 +67,22 @@ public class Comunicator implements Serializable, Runnable {
 	@Override
 	public void run() {
 		connectHID();
-		
-		while(true){
-			final byte[] readFromDevice = deviceRead.readFromDevice();
-			final byte[] procesedDataFromComunicator = procesDataFromComunicator(readFromDevice);
-			deviceSend.sendToAktuator(procesedDataFromComunicator);
+
+		while (true) {
+			if (deviceRead != null && deviceSend != null) {
+				final byte[] readFromDevice = deviceRead.readFromDevice();
+				procesDataFromComunicator(readFromDevice);
+			}
+
 		}
 
 	}
 
-	private byte[] procesDataFromComunicator(byte[] readFromDevice) {
-		
-		return null;
+	private void procesDataFromComunicator(byte[] readFromDevice) {
+		final List<byte[]> datOutputData = processor.getDatOutputData(readFromDevice);
+		for (byte[] procesedDataFromComunicator : datOutputData) {
+			deviceSend.sendToAktuator(procesedDataFromComunicator);
+		}
 	}
 
 	public Vector<Senzor> getSenzors() {
@@ -93,24 +103,24 @@ public class Comunicator implements Serializable, Runnable {
 
 	private void setMockData() {
 		Aktuatator a = new Aktuatator();
-		a.setDeviceName("aktuator1");
+		a.setId(1);
 		aktuators.add(a);
 		a = new Aktuatator();
-		a.setDeviceName("aktuator2");
+		a.setId(2);
 		aktuators.add(a);
 		a = new Aktuatator();
-		a.setDeviceName("aktuator3");
+		a.setId(3);
 		aktuators.add(a);
 		a = new Aktuatator();
-		a.setDeviceName("aktuator4");
+		a.setId(4);
 		aktuators.add(a);
 
 		Senzor s = new Senzor();
 		s.addAktuator(a);
-		s.setDeviceName("senzor1");
+		s.setId(5);
 		senzors.add(s);
 		s = new Senzor();
-		s.setDeviceName("senzor2");
+		s.setId(6);
 		senzors.add(s);
 	}
 }

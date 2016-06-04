@@ -1,11 +1,132 @@
 package converter;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
+
+import beans.Aktuatator;
+import beans.IdGenerator;
+import beans.Senzor;
+import comunicaton.Comunicator;
+
 public class DataProcessor {
-	
-	public void getDestinatoin(){
-		
+
+	private Comunicator comunicator;
+
+	public DataProcessor(Comunicator comunicator) {
+		this.comunicator = comunicator;
 	}
-	
-	
+
+	public List<byte[]> getDatOutputData(byte[] imputData) {
+
+		FromTo fromTo = fromWhoToWho(imputData);
+
+		switch (fromTo) {
+		case ActuatorToContorler:
+			return getMessageForActuator();
+		case SenzorToContorler:
+			if (isAddressSet(imputData)) {
+				return createMessagesForActuatorFromSenzor(imputData);
+			} else {
+				return createIdMessageForSenzor();
+			}
+
+		default:
+			break;
+		}
+
+		return null;
+	}
+
+	public List<byte[]> createIdMessageForSenzor() {
+		List<byte[]> messages = new ArrayList<>();
+		byte[] outputData = new byte[64];
+		int senzId = IdGenerator.getId();
+		Senzor senzor = new Senzor();
+		senzor.setId(senzId);
+		outputData = setDeviceAddress(outputData, senzId);
+
+		outputData = setSignature(outputData, FromTo.ControlerToSenzor);
+		messages.add(outputData);
+		return messages;
+	}
+
+	public List<byte[]> createMessagesForActuatorFromSenzor(byte[] imputData) {
+		List<byte[]> messageList = new ArrayList<>();
+		int senzorID = imputData[3];
+		final Vector<Senzor> senzors = comunicator.getSenzors();
+		Senzor senzor = null;
+		for (Senzor tmp : senzors) {
+			if (tmp.getId().equals(senzorID)) {
+				senzor = tmp;
+				break;
+			}
+		}
+
+		if (senzor == null && senzor.getAktuatators() != null && !senzor.getAktuatators().isEmpty()) {
+			return messageList;
+		}
+
+		for (Aktuatator aktuatator : senzor.getAktuatators()) {
+			byte[] outputData = new byte[64];
+			outputData = setSignature(outputData, FromTo.ControlerToActuator);
+
+			outputData = setDeviceAddress(outputData, aktuatator.getId());
+
+			messageList.add(outputData);
+
+		}
+
+		return messageList;
+	}
+
+	public List<byte[]> getMessageForActuator() {
+		byte[] outputData = new byte[64];
+		List<byte[]> messages = new ArrayList<>();
+
+		int aktId = IdGenerator.getId();
+		Aktuatator aktuatator = new Aktuatator();
+		aktuatator.setId(aktId);
+		comunicator.getActuators().add(aktuatator);
+
+		outputData = setDeviceAddress(outputData, aktId);
+		outputData[1] = (byte) 0xff;
+		outputData = setSignature(outputData, FromTo.ControlerToActuator);
+		messages.add(outputData);
+		return messages;
+	}
+
+	public byte[] setSignature(byte[] outputData, FromTo fromTo) {
+		short byteWithSignature = outputData[0];
+		int signature = fromTo.id;
+		byteWithSignature = (short) (byteWithSignature & 0x3f); // resetuj from
+																// fleg
+		byteWithSignature = (short) (byteWithSignature ^ signature); // setuj
+																		// from
+																		// fleg
+		outputData[0] = (byte) byteWithSignature;
+		return outputData;
+	}
+
+	private byte[] setDeviceAddress(byte[] outputData, int id) {
+		outputData[2] = (byte) id;
+		return outputData;
+	}
+
+	public boolean isAddressSet(byte[] imputData) {
+		short address = imputData[2];
+		if (address != 0) {
+			return true;
+		}
+		return false;
+	}
+
+	public FromTo fromWhoToWho(byte[] imputData) {
+
+		short byteOne = imputData[0];
+		FromTo fromTo = FromTo.getById(byteOne);
+
+		return fromTo;
+	}
 
 }

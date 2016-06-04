@@ -2,10 +2,10 @@ package converter;
 
 public enum FromTo {
 	
-	SenzorToContorler(00),
-	ControlerToSenzor(01),
-	ControlerToActuator(10),
-	ActuatorToContorler(11);
+	SenzorToContorler(0),
+	ControlerToSenzor(64),
+	ControlerToActuator(-128),
+	ActuatorToContorler(-64);
 	
 	int id;
 	
