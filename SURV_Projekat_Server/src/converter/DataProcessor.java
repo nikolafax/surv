@@ -53,7 +53,7 @@ public class DataProcessor {
 
 	public List<byte[]> createMessagesForActuatorFromSenzor(byte[] imputData) {
 		List<byte[]> messageList = new ArrayList<>();
-		int senzorID = imputData[3];
+		int senzorID = imputData[2];
 		final Vector<Senzor> senzors = comunicator.getSenzors();
 		Senzor senzor = null;
 		for (Senzor tmp : senzors) {
@@ -63,7 +63,7 @@ public class DataProcessor {
 			}
 		}
 
-		if (senzor == null && senzor.getAktuatators() != null && !senzor.getAktuatators().isEmpty()) {
+		if (senzor == null && senzor.getAktuatators() == null && !senzor.getAktuatators().isEmpty()) {
 			return messageList;
 		}
 
