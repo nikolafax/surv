@@ -671,8 +671,8 @@ extern short int DATA_TX[];
 extern short int DATA_RX[];
 
 char txt[4];
-short int button1;
-short int button2;
+short int button1 = 0;
+short int button2 = 0;
 short int temp1;
 
 unsigned short recivedByteOne = 0;
@@ -691,10 +691,11 @@ void brodcast_id_request();
 void draw_frame() {
  TFT_Init_ILI9341_8bit(320, 240);
  TFT_Fill_Screen(CL_WHITE);
- TFT_Write_Text("BOARD ID :", 140, 40);
- TFT_Write_Text("Button 1 :", 140, 80);
- TFT_Write_Text("Button 2 :", 140, 120);
- TFT_Write_Text("ANALOG 1 :", 140, 160);
+ TFT_Write_Text(">>> RECEIVER <<<", 80, 40);
+ TFT_Write_Text("BOARD ID :", 140, 80);
+ TFT_Write_Text("Button 1 :", 140, 120);
+ TFT_Write_Text("Button 2 :", 140, 160);
+ TFT_Write_Text("ANALOG 1 :", 140, 200);
 
 
  TFT_Set_Font(&TFT_defaultFont, CL_BLACK, FO_HORIZONTAL);
@@ -709,32 +710,35 @@ void display_on_screen() {
  TFT_Set_Font(&TFT_defaultFont, CL_BLACK, FO_HORIZONTAL);
 
  ByteToStr(deviceIdByte, &txt);
- TFT_Write_Text(txt, 215, 40);
-
- ByteToStr(button1, &txt);
  TFT_Write_Text(txt, 215, 80);
 
- ByteToStr(button2, &txt);
+ ByteToStr(button1, &txt);
  TFT_Write_Text(txt, 215, 120);
 
- IntToStr(adc_result, &txt);
+ ByteToStr(button2, &txt);
  TFT_Write_Text(txt, 215, 160);
+
+ IntToStr(adc_result, &txt);
+ TFT_Write_Text(txt, 215, 200);
 
  delay_ms(1000);
 
 
- TFT_Rectangle(215, 40, 255, 180);
+ TFT_Rectangle(215, 80, 255, 220);
 }
 
 void parse_adc_values() {
- adc_result = adc_h * 265;
+ adc_h = DATA_RX[0] & 0b00001111;
+ adc_l = DATA_RX[1];
+ adc_result = adc_h * 256;
  adc_result = adc_result + adc_l;
 }
 
 void listen_messages() {
- if (Debounce_INT() == 0 && DATA_RX[0] == 0x80) {
  temp1 = read_ZIGBEE_short( 0x31 );
  read_RX_FIFO();
+
+ if (Debounce_INT() == 0 && (DATA_RX[0] & 0b11000000) == 128) {
 
  if (DATA_RX[2] == deviceIdByte) {
 
@@ -754,20 +758,17 @@ void listen_messages() {
  else if ((DATA_RX[0] & 0x20) == 0){
  button2 = 0;
  }
- adc_h = DATA_RX[0] % 0x0f;
- adc_l = DATA_RX[1];
 
  parse_adc_values();
+ }
+ }
 
  display_on_screen();
- }
- DATA_RX[2] = 0;
- }
 }
 
 void brodcast_id_request() {
 
- DATA_TX[0] = 0x40;
+ DATA_TX[0] = 0xC0;
  DATA_TX[1] = 0;
  DATA_TX[2] = deviceIdByte;
 
@@ -777,14 +778,14 @@ void brodcast_id_request() {
 
 void listen_for_id() {
  brodcast_id_request();
- delay_ms(100);
-
- if (Debounce_INT() == 0) {
  temp1 = read_ZIGBEE_short( 0x31 );
  read_RX_FIFO();
 
+ if (Debounce_INT() == 0) {
+
  if (DATA_RX[0] == 112) {
  deviceIdByte = DATA_RX[2];
+ display_on_screen();
  }
  }
 }
@@ -792,7 +793,7 @@ void listen_for_id() {
 void main() {
  Initialize();
  draw_frame();
-
+ deviceIdByte = 0;
  GPIO_Digital_Input(&GPIOD_IDR, _GPIO_PINMASK_0);
  Delay_ms(100);
 
@@ -804,9 +805,9 @@ void main() {
  }
 
  listen_messages();
- Delay_ms(10);
  life_notifyer_counter++;
- if (life_notifyer_counter == 50) {
+ if (life_notifyer_counter > 2){
+ life_notifyer_counter = 0;
  brodcast_id_request();
  }
  }

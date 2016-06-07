@@ -67,13 +67,12 @@ _parse_analog:
 	R3 <2> <-  R1 mod R0   (midx: 5)
 	R0 <4> <- addr(_adc_l)   (midx: 0)
 	[R0] <1> <- R3   (midx: 0)
-//Transmitter.c,50 :: 		adc_h = (adc_result - adc_l) / 265;
+//Transmitter.c,50 :: 		adc_h = (adc_result - adc_l) / 256;
 	R1 <2> <- R3   (midx: 0)
 	R0 <4> <- R2   (midx: 0)
 	R0 <2> <- [R0]   (midx: 0)
-	R1 <2> <-  R0 - R1   (midx: 5)
-	R0 <2> <- 265   (midx: 0)
-	R2 <2> <-  R1 / R0   (midx: 5)
+	R0 <2> <-  R0 - R1   (midx: 5)
+	R2 <2> <-  R0 shr 8   (midx: 5)
 	R0 <4> <- addr(_adc_h)   (midx: 0)
 	[R0] <1> <- R2   (midx: 0)
 //Transmitter.c,51 :: 		sendByteTwo = adc_l;
@@ -279,13 +278,13 @@ _run_transmitter:
 //Transmitter.c,102 :: 		read_sensors();
 	CALL _read_sensors   (midx: 0)
 //Transmitter.c,104 :: 		DATA_TX[0] = sendByteOne;
-	R0 <4> <- addr(_sendByteOne)   (midx: 0)
-	R1 <1> <- [R0]   (midx: 0)
+	R3 <4> <- addr(_sendByteOne)   (midx: 0)
+	R1 <1> <- [R3]   (midx: 0)
 	R0 <4> <- addr(_DATA_TX)   (midx: 0)
 	[R0] <1> <- R1   (midx: 0)
 //Transmitter.c,105 :: 		DATA_TX[1] = sendByteTwo;
-	R0 <4> <- addr(_sendByteTwo)   (midx: 0)
-	R1 <1> <- [R0]   (midx: 0)
+	R2 <4> <- addr(_sendByteTwo)   (midx: 0)
+	R1 <1> <- [R2]   (midx: 0)
 	R0 <4> <- addr(_DATA_TX+1)   (midx: 0)
 	[R0] <1> <- R1   (midx: 0)
 //Transmitter.c,106 :: 		DATA_TX[2] = sendByteThree;
@@ -293,18 +292,33 @@ _run_transmitter:
 	R1 <1> <- [R0]   (midx: 0)
 	R0 <4> <- addr(_DATA_TX+2)   (midx: 0)
 	[R0] <1> <- R1   (midx: 0)
-//Transmitter.c,109 :: 		write_TX_normal_FIFO();          // Transmiting
+//Transmitter.c,108 :: 		sendByteOne &= 0b11110000;
+	R0 <4> <- R3   (midx: 0)
+	R0 <1> <- [R0]   (midx: 0)
+	R0 <1> <-  R0 & 240   (midx: 0)
+	[R3] <1> <- R0   (midx: 0)
+//Transmitter.c,109 :: 		sendByteTwo = 0;
+	R0 <1> <- 0   (midx: 0)
+	[R2] <1> <- R0   (midx: 0)
+//Transmitter.c,111 :: 		write_TX_normal_FIFO();          // Transmiting
 	CALL _write_TX_normal_FIFO   (midx: 0)
-//Transmitter.c,112 :: 		display_on_screen();
+//Transmitter.c,114 :: 		display_on_screen();
 	CALL _display_on_screen   (midx: 0)
   end
    (midx: 0)
 _listen_for_id:
   begin   (midx: 0)
-//Transmitter.c,115 :: 		void listen_for_id() {
+//Transmitter.c,117 :: 		void listen_for_id() {
 _listen_for_id:
   begin   (midx: 0)
-//Transmitter.c,117 :: 		if (Debounce_INT() == 0 && DATA_RX[0] == 64 && sendByteThree == 0) {
+//Transmitter.c,118 :: 		temp1 = read_ZIGBEE_short(INTSTAT); // Read and flush register INTSTAT
+	R0 <1> <- 49   (midx: 0)
+	CALL _read_ZIGBEE_short   (midx: 0)
+	R1 <4> <- addr(_temp1)   (midx: 0)
+	[R1] <1> <- R0   (midx: 0)
+//Transmitter.c,119 :: 		read_RX_FIFO();                     // Read receive data
+	CALL _read_RX_FIFO   (midx: 0)
+//Transmitter.c,121 :: 		if (Debounce_INT() == 0 && DATA_RX[0] == 64 && sendByteThree == 0) {
 	CALL _Debounce_INT   (midx: 0)
 	if ( R0 != 0) then goto 37   (midx: 0)
 	R0 <4> <- addr(_DATA_RX)   (midx: 0)
@@ -314,19 +328,12 @@ _listen_for_id:
 	R0 <1> <- [R0]   (midx: 0)
 	if ( R0 != 0) then goto 35   (midx: 0)
 34:   (midx: 0)
-//Transmitter.c,118 :: 		temp1 = read_ZIGBEE_short(INTSTAT); // Read and flush register INTSTAT
-	R0 <1> <- 49   (midx: 0)
-	CALL _read_ZIGBEE_short   (midx: 0)
-	R1 <4> <- addr(_temp1)   (midx: 0)
-	[R1] <1> <- R0   (midx: 0)
-//Transmitter.c,119 :: 		read_RX_FIFO();                     // Read receive data
-	CALL _read_RX_FIFO   (midx: 0)
-//Transmitter.c,120 :: 		sendByteThree = DATA_RX[2];
+//Transmitter.c,122 :: 		sendByteThree = DATA_RX[2];
 	R0 <4> <- addr(_DATA_RX+2)   (midx: 0)
 	R1 <1> <- [R0]   (midx: 0)
 	R0 <4> <- addr(_sendByteThree)   (midx: 0)
 	[R0] <1> <- R1   (midx: 0)
-//Transmitter.c,117 :: 		if (Debounce_INT() == 0 && DATA_RX[0] == 64 && sendByteThree == 0) {
+//Transmitter.c,121 :: 		if (Debounce_INT() == 0 && DATA_RX[0] == 64 && sendByteThree == 0) {
 37:   (midx: 0)
 36:   (midx: 0)
 35:   (midx: 0)
@@ -334,27 +341,27 @@ _listen_for_id:
    (midx: 0)
 _main:
   begin   (midx: 0)
-//Transmitter.c,124 :: 		void main() {
+//Transmitter.c,126 :: 		void main() {
 _main:
   begin   (midx: 0)
-//Transmitter.c,125 :: 		Initialize();                      // Initialize MCU and Bee click board
+//Transmitter.c,127 :: 		Initialize();                      // Initialize MCU and Bee click board
 	CALL _Initialize   (midx: 0)
-//Transmitter.c,126 :: 		draw_frame();
+//Transmitter.c,128 :: 		draw_frame();
 	CALL _draw_frame   (midx: 0)
-//Transmitter.c,128 :: 		GPIO_Digital_Input(&GPIOD_IDR, _GPIO_PINMASK_0);
+//Transmitter.c,130 :: 		GPIO_Digital_Input(&GPIOD_IDR, _GPIO_PINMASK_0);
 	R1 <4> <- 1   (midx: 0)
 	R0 <4> <- #GPIOD_IDR   (midx: 0)
 	CALL _GPIO_Digital_Input   (midx: 0)
-//Transmitter.c,129 :: 		ADC_Set_Input_Channel(_ADC_CHANNEL_3);                 // Choose ADC channel
+//Transmitter.c,131 :: 		ADC_Set_Input_Channel(_ADC_CHANNEL_3);                 // Choose ADC channel
 	R0 <2> <- 8   (midx: 0)
 	CALL _ADC_Set_Input_Channel   (midx: 0)
-//Transmitter.c,130 :: 		ADC1_Init();                                               // Init
+//Transmitter.c,132 :: 		ADC1_Init();                                               // Init
 	CALL _ADC1_Init   (midx: 0)
-//Transmitter.c,131 :: 		DATA_RX[2] = 0;
+//Transmitter.c,133 :: 		DATA_RX[2] = 0;
 	R1 <1> <- 0   (midx: 0)
 	R0 <4> <- addr(_DATA_RX+2)   (midx: 0)
 	[R0] <1> <- R1   (midx: 0)
-//Transmitter.c,132 :: 		Delay_ms(100);
+//Transmitter.c,134 :: 		Delay_ms(100);
 	asm: -1   (midx: 1)
 	asm: -1   (midx: 1)
 	asm: -1   (midx: 1)
@@ -366,13 +373,13 @@ _main:
 	asm: -1   (midx: 1)
 	asm: -1   (midx: 1)
 	asm: -1   (midx: 1)
-//Transmitter.c,133 :: 		while (1) {
+//Transmitter.c,135 :: 		while (1) {
 19:   (midx: 0)
-//Transmitter.c,135 :: 		listen_for_id();
+//Transmitter.c,137 :: 		listen_for_id();
 	CALL _listen_for_id   (midx: 0)
-//Transmitter.c,137 :: 		run_transmitter();
+//Transmitter.c,139 :: 		run_transmitter();
 	CALL _run_transmitter   (midx: 0)
-//Transmitter.c,139 :: 		Delay_ms(100);
+//Transmitter.c,141 :: 		Delay_ms(100);
 	asm: -1   (midx: 1)
 	asm: -1   (midx: 1)
 	asm: -1   (midx: 1)
@@ -384,7 +391,7 @@ _main:
 	asm: -1   (midx: 1)
 	asm: -1   (midx: 1)
 	asm: -1   (midx: 1)
-//Transmitter.c,140 :: 		}
+//Transmitter.c,142 :: 		}
 	goto	19   (midx: 0)
   end
    (midx: 0)

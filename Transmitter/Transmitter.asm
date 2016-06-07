@@ -74,15 +74,13 @@ MLS	R3, R0, R3, R1
 MOVW	R0, #lo_addr(_adc_l+0)
 MOVT	R0, #hi_addr(_adc_l+0)
 STRB	R3, [R0, #0]
-;Transmitter.c,50 :: 		adc_h = (adc_result - adc_l) / 265;
+;Transmitter.c,50 :: 		adc_h = (adc_result - adc_l) / 256;
 UXTB	R1, R3
 MOV	R0, R2
 LDRSH	R0, [R0, #0]
-SUB	R1, R0, R1
-SXTH	R1, R1
-MOVW	R0, #265
+SUB	R0, R0, R1
 SXTH	R0, R0
-SDIV	R2, R1, R0
+ASRS	R2, R0, #8
 MOVW	R0, #lo_addr(_adc_h+0)
 MOVT	R0, #hi_addr(_adc_h+0)
 STRB	R2, [R0, #0]
@@ -349,16 +347,16 @@ STR	LR, [SP, #0]
 ;Transmitter.c,102 :: 		read_sensors();
 BL	_read_sensors+0
 ;Transmitter.c,104 :: 		DATA_TX[0] = sendByteOne;
-MOVW	R0, #lo_addr(_sendByteOne+0)
-MOVT	R0, #hi_addr(_sendByteOne+0)
-LDRB	R1, [R0, #0]
+MOVW	R3, #lo_addr(_sendByteOne+0)
+MOVT	R3, #hi_addr(_sendByteOne+0)
+LDRB	R1, [R3, #0]
 MOVW	R0, #lo_addr(_DATA_TX+0)
 MOVT	R0, #hi_addr(_DATA_TX+0)
 STRB	R1, [R0, #0]
 ;Transmitter.c,105 :: 		DATA_TX[1] = sendByteTwo;
-MOVW	R0, #lo_addr(_sendByteTwo+0)
-MOVT	R0, #hi_addr(_sendByteTwo+0)
-LDRB	R1, [R0, #0]
+MOVW	R2, #lo_addr(_sendByteTwo+0)
+MOVT	R2, #hi_addr(_sendByteTwo+0)
+LDRB	R1, [R2, #0]
 MOVW	R0, #lo_addr(_DATA_TX+1)
 MOVT	R0, #hi_addr(_DATA_TX+1)
 STRB	R1, [R0, #0]
@@ -369,21 +367,38 @@ LDRB	R1, [R0, #0]
 MOVW	R0, #lo_addr(_DATA_TX+2)
 MOVT	R0, #hi_addr(_DATA_TX+2)
 STRB	R1, [R0, #0]
-;Transmitter.c,109 :: 		write_TX_normal_FIFO();          // Transmiting
+;Transmitter.c,108 :: 		sendByteOne &= 0b11110000;
+MOV	R0, R3
+LDRB	R0, [R0, #0]
+AND	R0, R0, #240
+STRB	R0, [R3, #0]
+;Transmitter.c,109 :: 		sendByteTwo = 0;
+MOVS	R0, #0
+STRB	R0, [R2, #0]
+;Transmitter.c,111 :: 		write_TX_normal_FIFO();          // Transmiting
 BL	_write_TX_normal_FIFO+0
-;Transmitter.c,112 :: 		display_on_screen();
+;Transmitter.c,114 :: 		display_on_screen();
 BL	_display_on_screen+0
-;Transmitter.c,113 :: 		}
+;Transmitter.c,115 :: 		}
 L_end_run_transmitter:
 LDR	LR, [SP, #0]
 ADD	SP, SP, #4
 BX	LR
 ; end of _run_transmitter
 _listen_for_id:
-;Transmitter.c,115 :: 		void listen_for_id() {
+;Transmitter.c,117 :: 		void listen_for_id() {
 SUB	SP, SP, #4
 STR	LR, [SP, #0]
-;Transmitter.c,117 :: 		if (Debounce_INT() == 0 && DATA_RX[0] == 64 && sendByteThree == 0) {
+;Transmitter.c,118 :: 		temp1 = read_ZIGBEE_short(INTSTAT); // Read and flush register INTSTAT
+MOVS	R0, #49
+SXTB	R0, R0
+BL	_read_ZIGBEE_short+0
+MOVW	R1, #lo_addr(_temp1+0)
+MOVT	R1, #hi_addr(_temp1+0)
+STRB	R0, [R1, #0]
+;Transmitter.c,119 :: 		read_RX_FIFO();                     // Read receive data
+BL	_read_RX_FIFO+0
+;Transmitter.c,121 :: 		if (Debounce_INT() == 0 && DATA_RX[0] == 64 && sendByteThree == 0) {
 BL	_Debounce_INT+0
 CMP	R0, #0
 IT	NE
@@ -401,56 +416,47 @@ CMP	R0, #0
 IT	NE
 BNE	L__listen_for_id38
 L__listen_for_id37:
-;Transmitter.c,118 :: 		temp1 = read_ZIGBEE_short(INTSTAT); // Read and flush register INTSTAT
-MOVS	R0, #49
-SXTB	R0, R0
-BL	_read_ZIGBEE_short+0
-MOVW	R1, #lo_addr(_temp1+0)
-MOVT	R1, #hi_addr(_temp1+0)
-STRB	R0, [R1, #0]
-;Transmitter.c,119 :: 		read_RX_FIFO();                     // Read receive data
-BL	_read_RX_FIFO+0
-;Transmitter.c,120 :: 		sendByteThree = DATA_RX[2];
+;Transmitter.c,122 :: 		sendByteThree = DATA_RX[2];
 MOVW	R0, #lo_addr(_DATA_RX+2)
 MOVT	R0, #hi_addr(_DATA_RX+2)
 LDRSB	R1, [R0, #0]
 MOVW	R0, #lo_addr(_sendByteThree+0)
 MOVT	R0, #hi_addr(_sendByteThree+0)
 STRB	R1, [R0, #0]
-;Transmitter.c,117 :: 		if (Debounce_INT() == 0 && DATA_RX[0] == 64 && sendByteThree == 0) {
+;Transmitter.c,121 :: 		if (Debounce_INT() == 0 && DATA_RX[0] == 64 && sendByteThree == 0) {
 L__listen_for_id40:
 L__listen_for_id39:
 L__listen_for_id38:
-;Transmitter.c,122 :: 		}
+;Transmitter.c,124 :: 		}
 L_end_listen_for_id:
 LDR	LR, [SP, #0]
 ADD	SP, SP, #4
 BX	LR
 ; end of _listen_for_id
 _main:
-;Transmitter.c,124 :: 		void main() {
+;Transmitter.c,126 :: 		void main() {
 SUB	SP, SP, #4
-;Transmitter.c,125 :: 		Initialize();                      // Initialize MCU and Bee click board
+;Transmitter.c,127 :: 		Initialize();                      // Initialize MCU and Bee click board
 BL	_Initialize+0
-;Transmitter.c,126 :: 		draw_frame();
+;Transmitter.c,128 :: 		draw_frame();
 BL	_draw_frame+0
-;Transmitter.c,128 :: 		GPIO_Digital_Input(&GPIOD_IDR, _GPIO_PINMASK_0);
+;Transmitter.c,130 :: 		GPIO_Digital_Input(&GPIOD_IDR, _GPIO_PINMASK_0);
 MOVW	R1, #1
 MOVW	R0, #lo_addr(GPIOD_IDR+0)
 MOVT	R0, #hi_addr(GPIOD_IDR+0)
 BL	_GPIO_Digital_Input+0
-;Transmitter.c,129 :: 		ADC_Set_Input_Channel(_ADC_CHANNEL_3);                 // Choose ADC channel
+;Transmitter.c,131 :: 		ADC_Set_Input_Channel(_ADC_CHANNEL_3);                 // Choose ADC channel
 MOVW	R0, #8
 BL	_ADC_Set_Input_Channel+0
-;Transmitter.c,130 :: 		ADC1_Init();                                               // Init
+;Transmitter.c,132 :: 		ADC1_Init();                                               // Init
 BL	_ADC1_Init+0
-;Transmitter.c,131 :: 		DATA_RX[2] = 0;
+;Transmitter.c,133 :: 		DATA_RX[2] = 0;
 MOVS	R1, #0
 SXTB	R1, R1
 MOVW	R0, #lo_addr(_DATA_RX+2)
 MOVT	R0, #hi_addr(_DATA_RX+2)
 STRB	R1, [R0, #0]
-;Transmitter.c,132 :: 		Delay_ms(100);
+;Transmitter.c,134 :: 		Delay_ms(100);
 MOVW	R7, #20351
 MOVT	R7, #18
 NOP
@@ -461,13 +467,13 @@ BNE	L_main19
 NOP
 NOP
 NOP
-;Transmitter.c,133 :: 		while (1) {
+;Transmitter.c,135 :: 		while (1) {
 L_main21:
-;Transmitter.c,135 :: 		listen_for_id();
+;Transmitter.c,137 :: 		listen_for_id();
 BL	_listen_for_id+0
-;Transmitter.c,137 :: 		run_transmitter();
+;Transmitter.c,139 :: 		run_transmitter();
 BL	_run_transmitter+0
-;Transmitter.c,139 :: 		Delay_ms(100);
+;Transmitter.c,141 :: 		Delay_ms(100);
 MOVW	R7, #20351
 MOVT	R7, #18
 NOP
@@ -478,10 +484,10 @@ BNE	L_main23
 NOP
 NOP
 NOP
-;Transmitter.c,140 :: 		}
+;Transmitter.c,142 :: 		}
 IT	AL
 BAL	L_main21
-;Transmitter.c,141 :: 		}
+;Transmitter.c,143 :: 		}
 L_end_main:
 L__main_end_loop:
 B	L__main_end_loop

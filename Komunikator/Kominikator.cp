@@ -671,7 +671,7 @@ extern short int DATA_RX[];
 extern short int DATA_TX[];
 short int temp1;
 char txt[4];
-char cnt;
+unsigned int cnt = 0;
 
 char writebuff[64];
 char readbuff[64];
@@ -684,6 +684,8 @@ void draw_frame();
 void draw_frame() {
  TFT_Init_ILI9341_8bit(320, 240);
  TFT_Fill_Screen(CL_WHITE);
+
+ TFT_Write_Text(">>> COMMUNICATOR <<<", 80, 20);
  TFT_Write_Text("Byte 1 :", 140, 80);
  TFT_Write_Text("Byte 2 :", 140, 120);
  TFT_Write_Text("Byte 3 :", 140, 160);
@@ -696,16 +698,16 @@ void draw_frame() {
 }
 
 void display_on_screen() {
- ByteToStr(DATA_RX[0], &txt);
+ ByteToStr(DATA_TX[0], &txt);
  TFT_Write_Text(txt, 215, 80);
 
- ByteToStr(DATA_RX[1], &txt);
+ ByteToStr(DATA_TX[1], &txt);
  TFT_Write_Text(txt, 215, 120);
 
- ByteToStr(DATA_RX[2], &txt);
+ ByteToStr(DATA_TX[2], &txt);
  TFT_Write_Text(txt, 215, 160);
 
- delay_ms(1000);
+ delay_ms(200);
 
 
  TFT_Rectangle(215, 40, 255, 180);
@@ -725,6 +727,7 @@ void usbCommunication() {
 }
 
 void usbSend() {
+
  writebuff[0] = DATA_RX[0];
  writebuff[1] = DATA_RX[1];
  writebuff[2] = DATA_RX[2];
@@ -754,33 +757,16 @@ void beeRecive() {
  }
 }
 
-void clearDataFromScreen() {
- TFT_Set_Font(&TFT_defaultFont, CL_WHITE, FO_HORIZONTAL);
- ByteToStr(DATA_RX[0], &txt);
- TFT_Write_Text(txt, 195, 80);
-
- ByteToStr(DATA_RX[1], &txt);
- TFT_Write_Text(txt, 195, 90);
-
- ByteToStr(DATA_RX[2], &txt);
- TFT_Write_Text(txt, 195, 100);
-}
-
 void main() {
  Initialize();
  draw_frame();
 
  HID_Enable(&readbuff, &writebuff);
  GPIO_Digital_Input(&GPIOD_IDR, _GPIO_PINMASK_0);
-
-
-
-
-
  Delay_ms(100);
-
  do {
  beeRecive();
+ Delay_ms(100);
  usbCommunication();
  } while (1);
 

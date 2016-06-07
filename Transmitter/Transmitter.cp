@@ -702,7 +702,7 @@ void draw_frame() {
 
 void parse_analog() {
  adc_l = adc_result % 256;
- adc_h = (adc_result - adc_l) / 265;
+ adc_h = (adc_result - adc_l) / 256;
  sendByteTwo = adc_l;
  sendByteOne |= adc_h;
 }
@@ -760,6 +760,8 @@ void run_transmitter() {
  DATA_TX[1] = sendByteTwo;
  DATA_TX[2] = sendByteThree;
 
+ sendByteOne &= 0b11110000;
+ sendByteTwo = 0;
 
  write_TX_normal_FIFO();
 
@@ -768,10 +770,10 @@ void run_transmitter() {
 }
 
 void listen_for_id() {
-
- if (Debounce_INT() == 0 && DATA_RX[0] == 64 && sendByteThree == 0) {
  temp1 = read_ZIGBEE_short( 0x31 );
  read_RX_FIFO();
+
+ if (Debounce_INT() == 0 && DATA_RX[0] == 64 && sendByteThree == 0) {
  sendByteThree = DATA_RX[2];
  }
 }

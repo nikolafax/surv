@@ -198,7 +198,6 @@ main
 				start_transmit
 					read_ZIGBEE_short
 					write_ZIGBEE_short
-		Debounce_INT
 		read_ZIGBEE_short
 		read_RX_FIFO
 			read_ZIGBEE_short
@@ -206,11 +205,7 @@ main
 			read_ZIGBEE_long
 				SPI3_Write
 				SPI3_Read
-	listen_messages
 		Debounce_INT
-		read_ZIGBEE_short
-		read_RX_FIFO
-		parse_adc_values
 		display_on_screen
 			TFT_Set_Font
 			ByteToStr
@@ -241,4 +236,10 @@ main
 					TFT_Color16bitToRGB
 					TFT_RGBToColor16bit
 				TFT_Set_Pen
+	listen_messages
+		read_ZIGBEE_short
+		read_RX_FIFO
+		Debounce_INT
+		parse_adc_values
+		display_on_screen
 	brodcast_id_request

@@ -191,7 +191,6 @@ main
 	ADC1_Init
 		ADCx_Init
 	listen_for_id
-		Debounce_INT
 		read_ZIGBEE_short
 		read_RX_FIFO
 			read_ZIGBEE_short
@@ -199,6 +198,7 @@ main
 			read_ZIGBEE_long
 				SPI3_Write
 				SPI3_Read
+		Debounce_INT
 	run_transmitter
 		read_sensors
 			Button
