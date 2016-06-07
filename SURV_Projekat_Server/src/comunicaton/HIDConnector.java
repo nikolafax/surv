@@ -12,8 +12,6 @@ public class HIDConnector {
 		HIDDevice dev = null;
 		System.out.println("trazim plocu");
 		// dohvatamo listu svih HID USB uredjaja
-
-		boolean nasao = false;
 		while (true) {
 			HIDDeviceInfo[] infos = hidMgr.listDevices();
 
@@ -22,13 +20,12 @@ public class HIDConnector {
 				String product_string = info.getProduct_string() == null ? "" : info.getProduct_string();
 				System.out.println("found dev : " + info.getProduct_string());
 				if (product_string.compareTo(deviceName) == 0) {
-					nasao = true;
 					dev = info.open();
 					dev.enableBlocking();
 					break;
 				}
 			}
-			if (nasao)
+			if (dev != null)
 				break;
 			try {
 				Thread.sleep(1000);

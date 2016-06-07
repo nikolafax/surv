@@ -187,7 +187,27 @@ main
 			GPIO_Config
 	ADC1_Init
 		ADCx_Init
+	reset_values
 	listen_for_id
+		run_transmitter
+			write_TX_normal_FIFO
+				write_ZIGBEE_long
+				set_not_ACK
+					read_ZIGBEE_short
+					write_ZIGBEE_short
+				set_not_encrypt
+					read_ZIGBEE_short
+					write_ZIGBEE_short
+				start_transmit
+					read_ZIGBEE_short
+					write_ZIGBEE_short
+			display_on_screen
+				TFT_Set_Font
+				ByteToStr
+				TFT_Write_Text
+				IntToStr
+					WordToStr
+			reset_values
 		Debounce_INT
 		read_ZIGBEE_short
 		read_RX_FIFO
@@ -196,7 +216,7 @@ main
 			read_ZIGBEE_long
 				SPI3_Write
 				SPI3_Read
-	run_transmitter
+	send_senzor_data
 		read_sensors
 			Button
 				Delay_500us
@@ -204,20 +224,4 @@ main
 				ADCx_Get_Sample
 					Delay_1us
 			parse_analog
-		write_TX_normal_FIFO
-			write_ZIGBEE_long
-			set_not_ACK
-				read_ZIGBEE_short
-				write_ZIGBEE_short
-			set_not_encrypt
-				read_ZIGBEE_short
-				write_ZIGBEE_short
-			start_transmit
-				read_ZIGBEE_short
-				write_ZIGBEE_short
-		display_on_screen
-			TFT_Set_Font
-			ByteToStr
-			TFT_Write_Text
-			IntToStr
-				WordToStr
+		run_transmitter

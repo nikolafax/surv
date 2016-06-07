@@ -668,8 +668,11 @@ sbit WAKE_ at GPIOA_ODR.B4;
 
 extern short int DATA_RX[];
 extern short int DATA_TX[];
+short int BEE_RECIVED_DATA[64];
+short int USB_RECIVED_DATA[64];
 short int temp1;
 char txt[1];
+char
 char cnt;
 
 char writebuff[64];
@@ -677,45 +680,64 @@ char readbuff[64];
 char kk;
 void usbRecive();
 void beeSend();
+void usbSend();
+void DrawFrame();
+
+void usbCommunication() {
+ USB_Polling_Proc();
+
+ if (HID_Read() != 0) {
+ if (readbuff[2] == 0) {
+ usbSend();
+ } else {
+ beeSend();
+ }
+ }
+}
 
 void usbSend() {
-
- for (cnt = 0; cnt < 64; cnt++) {
- writebuff[cnt] = 0;
- }
- writebuff[0] = DATA_RX[0];
- writebuff[1] = DATA_RX[1];
- writebuff[2] = DATA_RX[2];
+ writebuff[0] = BEE_RECIVED_DATA[0];
+ writebuff[1] = BEE_RECIVED_DATA[1];
+ writebuff[2] = BEE_RECIVED_DATA[2];
 
  HID_Write(&writebuff, 64);
 
-}
-
-void usbRecive() {
- USB_Polling_Proc();
-
- kk = HID_Read();
- if(kk != 0){
- beeSend();
- writebuff[0] = 0;
- HID_Write(&writebuff,64);
- }
+ BEE_RECIVED_DATA[0] = 0;
+ BEE_RECIVED_DATA[1] = 0;
+ BEE_RECIVED_DATA[2] = 0;
 }
 
 void beeSend() {
- DATA_TX[0] = writebuff[0];
- DATA_TX[1] = writebuff[1];
- DATA_TX[2] = writebuff[2];
+
+ DATA_TX[0] = readbuff[0];
+ DATA_TX[1] = readbuff[1];
+ DATA_TX[2] = readbuff[2];
+
  write_TX_normal_FIFO();
+
+ readbuff[0] = 0;
+ readbuff[1] = 0;
+ readbuff[2] = 0;
+
 }
 
 void beeRecive() {
  if (Debounce_INT() == 0) {
  temp1 = read_ZIGBEE_short( 0x31 );
  read_RX_FIFO();
+ BEE_RECIVED_DATA[0] = DATA_RX[0];
+ BEE_RECIVED_DATA[1] = DATA_RX[1];
+ BEE_RECIVED_DATA[2] = DATA_RX[2];
+ DrawFrame();
+ }
+}
+void DrawFrame() {
+ TFT_Init_ILI9341_8bit(320, 240);
+ TFT_Fill_Screen(CL_WHITE);
 
  TFT_Set_Font(&TFT_defaultFont, CL_BLACK, FO_HORIZONTAL);
  ByteToStr(DATA_RX[0], &txt);
+
  TFT_Write_Text(txt, 195, 80);
 
  ByteToStr(DATA_RX[1], &txt);
@@ -724,7 +746,9 @@ void beeRecive() {
  ByteToStr(DATA_RX[2], &txt);
  TFT_Write_Text(txt, 195, 100);
 
- delay_ms(500);
+}
+
+void clearDataFromScreen() {
  TFT_Set_Font(&TFT_defaultFont, CL_WHITE, FO_HORIZONTAL);
  ByteToStr(DATA_RX[0], &txt);
  TFT_Write_Text(txt, 195, 80);
@@ -734,15 +758,17 @@ void beeRecive() {
 
  ByteToStr(DATA_RX[2], &txt);
  TFT_Write_Text(txt, 195, 100);
+}
 
- GPIOD_ODR = DATA_RX[0];
- }
-}
-void DrawFrame() {
- TFT_Init_ILI9341_8bit(320, 240);
- TFT_Fill_Screen(CL_WHITE);
-}
 void main() {
+
+ BEE_RECIVED_DATA[0] = 0;
+ BEE_RECIVED_DATA[1] = 0;
+ BEE_RECIVED_DATA[2] = 0;
+
+ USB_RECIVED_DATA[0] = 0;
+ USB_RECIVED_DATA[1] = 1;
+ USB_RECIVED_DATA[2] = 2;
 
  HID_Enable(&readbuff, &writebuff);
 
@@ -761,18 +787,7 @@ void main() {
 
  do {
  beeRecive();
-
- USB_Polling_Proc();
- kk = HID_Read();
- if (kk != 0) {
- usbSend();
- }
-
- USB_Polling_Proc();
-
- usbRecive();
-
-
+ usbCommunication();
  } while (1);
 
 }

@@ -1,0 +1,124 @@
+_pin_reset:
+  begin   (midx: 0)
+//Reset_Routines.c,12 :: 		void pin_reset() {
+_pin_reset:
+  begin   (midx: 0)
+//Reset_Routines.c,13 :: 		RST = 0;  // activate reset
+	R1 <1> <- 0   (midx: 0)
+	R0 <4> <- addr(RST)   (midx: 0)
+	[R0] <0> <- R1   (midx: 0)
+//Reset_Routines.c,14 :: 		Delay_ms(5);
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 2)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 5)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+//Reset_Routines.c,15 :: 		RST = 1;  // deactivate reset
+	R1 <1> <- 1   (midx: 0)
+	R0 <4> <- addr(RST)   (midx: 0)
+	[R0] <0> <- R1   (midx: 0)
+//Reset_Routines.c,16 :: 		Delay_ms(5);
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 2)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 5)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+  end
+   (midx: 0)
+_PWR_reset:
+  begin   (midx: 0)
+//Reset_Routines.c,19 :: 		void PWR_reset() {
+_PWR_reset:
+  begin   (midx: 0)
+//Reset_Routines.c,20 :: 		write_ZIGBEE_short(SOFTRST, 0x04);   // 0x04  mask for RSTPWR bit
+	R1 <1> <- 4   (midx: 0)
+	R0 <1> <- 42   (midx: 0)
+	CALL _write_ZIGBEE_short   (midx: 0)
+  end
+   (midx: 0)
+_BB_reset:
+  begin   (midx: 0)
+//Reset_Routines.c,23 :: 		void BB_reset() {
+_BB_reset:
+  begin   (midx: 0)
+//Reset_Routines.c,24 :: 		write_ZIGBEE_short(SOFTRST, 0x02);   // 0x02 mask for RSTBB bit
+	R1 <1> <- 2   (midx: 0)
+	R0 <1> <- 42   (midx: 0)
+	CALL _write_ZIGBEE_short   (midx: 0)
+  end
+   (midx: 0)
+_MAC_reset:
+  begin   (midx: 0)
+//Reset_Routines.c,27 :: 		void MAC_reset() {
+_MAC_reset:
+  begin   (midx: 0)
+//Reset_Routines.c,28 :: 		write_ZIGBEE_short(SOFTRST, 0x01);   // 0x01 mask for RSTMAC bit
+	R1 <1> <- 1   (midx: 0)
+	R0 <1> <- 42   (midx: 0)
+	CALL _write_ZIGBEE_short   (midx: 0)
+  end
+   (midx: 0)
+_software_reset:
+  begin   (midx: 0)
+//Reset_Routines.c,31 :: 		void software_reset() {                // PWR_reset,BB_reset and MAC_reset at once
+_software_reset:
+  begin   (midx: 0)
+//Reset_Routines.c,32 :: 		write_ZIGBEE_short(SOFTRST, 0x07);
+	R1 <1> <- 7   (midx: 0)
+	R0 <1> <- 42   (midx: 0)
+	CALL _write_ZIGBEE_short   (midx: 0)
+  end
+   (midx: 0)
+_RF_reset:
+  begin   (midx: 0)
+//Reset_Routines.c,35 :: 		void RF_reset() {
+_RF_reset:
+  begin   (midx: 0)
+//Reset_Routines.c,36 :: 		short int temp = 0;
+   (midx: 0)
+//Reset_Routines.c,37 :: 		temp = read_ZIGBEE_short(RFCTL);
+	R0 <1> <- 54   (midx: 0)
+	CALL _read_ZIGBEE_short   (midx: 0)
+//Reset_Routines.c,38 :: 		temp = temp | 0x04;                  // mask for RFRST bit
+	R0 <1> <-  R0 | 4   (midx: 4)
+   (midx: 0)
+	R1 <1> <- R0   (midx: 0)
+//Reset_Routines.c,39 :: 		write_ZIGBEE_short(RFCTL, temp);
+	R1 <1> <- PUSH(R1)   (midx: 255)
+	R1 <1> <- R0   (midx: 0)
+	R0 <1> <- 54   (midx: 0)
+	CALL _write_ZIGBEE_short   (midx: 0)
+	R1 <1> <- POP   (midx: 255)
+//Reset_Routines.c,40 :: 		temp = temp & (!0x04);               // mask for RFRST bit
+   (midx: 0)
+	R0 <1> <-  R1 & 0   (midx: 4)
+//Reset_Routines.c,41 :: 		write_ZIGBEE_short(RFCTL, temp);
+	R1 <1> <- R0   (midx: 0)
+	R0 <1> <- 54   (midx: 0)
+	CALL _write_ZIGBEE_short   (midx: 0)
+//Reset_Routines.c,42 :: 		Delay_ms(1);
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 2)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 5)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+  end
+   (midx: 0)

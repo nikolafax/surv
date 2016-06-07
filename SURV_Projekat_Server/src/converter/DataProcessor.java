@@ -3,29 +3,44 @@ package converter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import beans.Aktuatator;
 import beans.IdGenerator;
 import beans.Senzor;
 import comunicaton.Comunicator;
+import life.FailureDetector;
 
 public class DataProcessor {
 
 	private Comunicator comunicator;
+	FailureDetector failureDetector;
+	ConcurrentMap<Integer, byte[]> lastMessageMap;
 
-	public DataProcessor(Comunicator comunicator) {
+	public DataProcessor(Comunicator comunicator, FailureDetector failureDetector) {
 		this.comunicator = comunicator;
+		this.failureDetector = failureDetector;
+		lastMessageMap = new ConcurrentHashMap<>();
 	}
 
 	public List<byte[]> getDatOutputData(byte[] imputData) {
 
 		FromTo fromTo = fromWhoToWho(imputData);
-
+		final boolean addressSet = isAddressSet(imputData);
+		if (addressSet) {
+			if (isRepitedMessage(imputData)) {
+				return new ArrayList<>();
+			}
+		}
 		switch (fromTo) {
 		case ActuatorToContorler:
-			return getMessageForActuator();
+			if (!addressSet) {
+				return getIdMessageForActuator();
+			}
+			break;
 		case SenzorToContorler:
-			if (isAddressSet(imputData)) {
+			if (addressSet) {
 				return createMessagesForActuatorFromSenzor(imputData);
 			} else {
 				return createIdMessageForSenzor();
@@ -36,6 +51,14 @@ public class DataProcessor {
 		}
 
 		return null;
+	}
+
+	public boolean isRepitedMessage(byte[] imputData) {
+		final byte[] bs = lastMessageMap.get(new Integer(imputData[2]));
+		if(bs[0] == imputData[0] && bs[1] == imputData[1]){
+			return true;
+		}
+		return false;
 	}
 
 	public List<byte[]> createIdMessageForSenzor() {
@@ -63,7 +86,7 @@ public class DataProcessor {
 			}
 		}
 
-		if (senzor == null && senzor.getAktuatators() == null && !senzor.getAktuatators().isEmpty()) {
+		if (senzor == null || senzor.getAktuatators() == null || !senzor.getAktuatators().isEmpty()) {
 			return messageList;
 		}
 
@@ -80,7 +103,7 @@ public class DataProcessor {
 		return messageList;
 	}
 
-	public List<byte[]> getMessageForActuator() {
+	public List<byte[]> getIdMessageForActuator() {
 		byte[] outputData = new byte[64];
 		List<byte[]> messages = new ArrayList<>();
 
@@ -91,7 +114,8 @@ public class DataProcessor {
 
 		outputData = setDeviceAddress(outputData, aktId);
 		outputData[1] = (byte) 0xff;
-		outputData = setSignature(outputData, FromTo.ControlerToActuator);
+		// outputData = setSignature(outputData, FromTo.ControlerToActuator);
+		outputData[0] = 112; // set message id for reciver id message
 		messages.add(outputData);
 		return messages;
 	}
@@ -116,6 +140,7 @@ public class DataProcessor {
 	public boolean isAddressSet(byte[] imputData) {
 		short address = imputData[2];
 		if (address != 0) {
+			failureDetector.messageRecived(address);
 			return true;
 		}
 		return false;

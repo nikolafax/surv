@@ -418,7 +418,6 @@ adc_get_sample_ptr
 adc_h
 adc_l
 adc_result
-adc_result_screen
 adc_set_input_channel
 adc1_cr1
 adc1_cr1bits
@@ -1982,6 +1981,8 @@ busy
 busy_bit
 busy_i2c2_sr2_bit
 button
+button1
+button2
 bytetohex
 bytetostr
 bytetostrwithzeros
@@ -26440,6 +26441,7 @@ reset_
 reset_bit
 reset_can1_mcr_bit
 reset_crc_cr_bit
+reset_values
 restoreinterrupts
 retobase
 retobase
@@ -27234,6 +27236,7 @@ secie_bit
 sedet
 sedet
 sedet_bit
+send_senzor_data
 sendbyteone
 sendbytethree
 sendbytetwo
@@ -28350,9 +28353,6 @@ start
 start_bit
 start_i2c2_cr1_bit
 start_transmit
-state1
-state2
-state3
 stid
 stid
 stid

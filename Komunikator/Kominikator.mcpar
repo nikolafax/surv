@@ -6,7 +6,7 @@ Value=0
 [BUILD_TYPE]
 Value=0
 [ACTIVE_TAB]
-Value=Kominikator.c
+Value=
 [USE_EEPROM]
 Value=0
 [USE_HEAP]
@@ -29,13 +29,7 @@ Count=0
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=7
-File0=Kominikator.c
-File2=USBdsc.c
-File3=..\..\..\nikola fax\8. semestar\Sistemi u realnom vremenu 2016\BEE primer\Transmitter\Transmitter.c
-File4=..\..\..\nikola fax\8. semestar\Sistemi u realnom vremenu 2016\Domaci1Senzor\Domaci1Senzor.c
-File5=..\..\..\nikola fax\8. semestar\Sistemi u realnom vremenu 2016\Domaci1Aktuator\Domaci1Aktuator.c
-File6=..\..\..\nikola fax\8. semestar\Sistemi u realnom vremenu 2016\BEE primer\Receiver\Receiver.c
+Count=0
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -43,7 +37,7 @@ Count=0
 [OTHER_FILES]
 Count=0
 [SEARCH_PATH]
-Count=9
+Count=7
 Path0=C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for ARM\Defs\
 Path1=C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for ARM\Uses\
 Path2=D:\git\sur\Komunikator\

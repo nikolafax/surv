@@ -1,0 +1,413 @@
+_write_ZIGBEE_short:
+  begin   (midx: 0)
+//ReadWrite_Routines.c,25 :: 		void write_ZIGBEE_short(short int address, short int data_r) {
+_write_ZIGBEE_short:
+  begin   (midx: 0)
+   (midx: 0)
+   (midx: 0)
+	R0 <1> <- R0   (midx: 0)
+   (midx: 0)
+   (midx: 0)
+   (midx: 0)
+	R4 <1> <- R1   (midx: 0)
+   (midx: 0)
+   (midx: 0)
+//ReadWrite_Routines.c,26 :: 		CS = 0;
+	R3 <1> <- 0   (midx: 0)
+	R2 <4> <- addr(CS)   (midx: 0)
+	[R2] <0> <- R3   (midx: 0)
+//ReadWrite_Routines.c,28 :: 		address = ((address << 1) & 0b01111111) | 0x01; // calculating addressing mode
+   (midx: 0)
+	R2 <2> <-  R0 shl 1   (midx: 5)
+	R2 <2> <-  R2 & 127   (midx: 5)
+	R2 <2> <-  R2 | 1   (midx: 5)
+//ReadWrite_Routines.c,29 :: 		SPI3_Write(address);       // addressing register
+	R0 <2> <- R2   (midx: 0)
+	CALL _SPI3_Write   (midx: 0)
+//ReadWrite_Routines.c,30 :: 		SPI3_Write(data_r);        // write data in register
+   (midx: 0)
+	R0 <2> <- R4   (midx: 0)
+	CALL _SPI3_Write   (midx: 0)
+//ReadWrite_Routines.c,32 :: 		CS = 1;
+	R3 <1> <- 1   (midx: 0)
+	R2 <4> <- addr(CS)   (midx: 0)
+	[R2] <0> <- R3   (midx: 0)
+  end
+   (midx: 0)
+_read_ZIGBEE_short:
+  begin   (midx: 0)
+//ReadWrite_Routines.c,36 :: 		short int read_ZIGBEE_short(short int address) {
+_read_ZIGBEE_short:
+  begin   (midx: 0)
+   (midx: 0)
+   (midx: 0)
+   (midx: 0)
+	R0 <1> <- R0   (midx: 0)
+   (midx: 0)
+//ReadWrite_Routines.c,37 :: 		short int data_r = 0, dummy_data_r = 0;
+   (midx: 0)
+   (midx: 0)
+   (midx: 0)
+	R4 <-initialize(0)   (midx: 0)
+//ReadWrite_Routines.c,39 :: 		CS = 0;
+	R2 <1> <- 0   (midx: 0)
+	R1 <4> <- addr(CS)   (midx: 0)
+	[R1] <0> <- R2   (midx: 0)
+//ReadWrite_Routines.c,41 :: 		address = (address << 1) & 0b01111110;      // calculating addressing mode
+   (midx: 0)
+	R1 <2> <-  R0 shl 1   (midx: 5)
+	R1 <2> <-  R1 & 126   (midx: 5)
+//ReadWrite_Routines.c,42 :: 		SPI3_Write(address);                        // addressing register
+	R0 <2> <- R1   (midx: 0)
+	CALL _SPI3_Write   (midx: 0)
+//ReadWrite_Routines.c,43 :: 		data_r = SPI3_Read(dummy_data_r);           // read data from register
+   (midx: 0)
+	R0 <2> <- R4   (midx: 0)
+	CALL _SPI3_Read   (midx: 0)
+//ReadWrite_Routines.c,44 :: 		CS = 1;
+	R2 <1> <- 1   (midx: 0)
+	R1 <4> <- addr(CS)   (midx: 0)
+	[R1] <0> <- R2   (midx: 0)
+//ReadWrite_Routines.c,45 :: 		return data_r;
+	R0 <1> <- R0   (midx: 0)
+	return   (midx: 0)
+  end
+   (midx: 0)
+_write_ZIGBEE_long:
+  begin   (midx: 0)
+//ReadWrite_Routines.c,52 :: 		void write_ZIGBEE_long(int address, short int data_r) {
+_write_ZIGBEE_long:
+  begin   (midx: 0)
+   (midx: 0)
+   (midx: 0)
+	R0 <2> <- R0   (midx: 0)
+   (midx: 0)
+   (midx: 0)
+   (midx: 0)
+	R4 <1> <- R1   (midx: 0)
+   (midx: 0)
+   (midx: 0)
+//ReadWrite_Routines.c,53 :: 		short int address_high = 0, address_low = 0;
+   (midx: 0)
+   (midx: 0)
+//ReadWrite_Routines.c,55 :: 		CS = 0;
+	R3 <1> <- 0   (midx: 0)
+	R2 <4> <- addr(CS)   (midx: 0)
+	[R2] <0> <- R3   (midx: 0)
+//ReadWrite_Routines.c,57 :: 		address_high = (((short int)(address >> 3)) & 0b01111111) | 0x80;  // calculating addressing mode
+	R2 <2> <-  R0 shr 3   (midx: 5)
+	R2 <1> <- R2   (midx: 0)
+	R2 <1> <-  R2 & 127   (midx: 4)
+	R3 <2> <-  R2 | 128   (midx: 0)
+//ReadWrite_Routines.c,58 :: 		address_low  = (((short int)(address << 5)) & 0b11100000) | 0x10;  // calculating addressing mode
+   (midx: 0)
+	R2 <2> <-  R0 shl 5   (midx: 5)
+	R2 <2> <- R2   (midx: 0)
+	R2 <2> <-  R2 & 224   (midx: 0)
+	R2 <2> <-  R2 | 16   (midx: 5)
+   (midx: 0)
+	R5 <1> <- R2   (midx: 0)
+//ReadWrite_Routines.c,59 :: 		SPI3_Write(address_high);           // addressing register
+	R0 <2> <- R3   (midx: 0)
+	CALL _SPI3_Write   (midx: 0)
+//ReadWrite_Routines.c,60 :: 		SPI3_Write(address_low);            // addressing register
+   (midx: 0)
+	R0 <2> <- R5   (midx: 0)
+	CALL _SPI3_Write   (midx: 0)
+//ReadWrite_Routines.c,61 :: 		SPI3_Write(data_r);                 // write data in registerr
+   (midx: 0)
+	R0 <2> <- R4   (midx: 0)
+	CALL _SPI3_Write   (midx: 0)
+//ReadWrite_Routines.c,63 :: 		CS = 1;
+	R3 <1> <- 1   (midx: 0)
+	R2 <4> <- addr(CS)   (midx: 0)
+	[R2] <0> <- R3   (midx: 0)
+  end
+   (midx: 0)
+_read_ZIGBEE_long:
+  begin   (midx: 0)
+//ReadWrite_Routines.c,67 :: 		short int read_ZIGBEE_long(int address) {
+_read_ZIGBEE_long:
+  begin   (midx: 0)
+   (midx: 0)
+   (midx: 0)
+   (midx: 0)
+	R0 <2> <- R0   (midx: 0)
+   (midx: 0)
+//ReadWrite_Routines.c,68 :: 		short int data_r = 0, dummy_data_r = 0;
+   (midx: 0)
+   (midx: 0)
+   (midx: 0)
+	R4 <-initialize(0)   (midx: 0)
+//ReadWrite_Routines.c,69 :: 		short int address_high = 0, address_low = 0;
+   (midx: 0)
+   (midx: 0)
+//ReadWrite_Routines.c,71 :: 		CS = 0;
+	R2 <1> <- 0   (midx: 0)
+	R1 <4> <- addr(CS)   (midx: 0)
+	[R1] <0> <- R2   (midx: 0)
+//ReadWrite_Routines.c,73 :: 		address_high = ((short int)(address >> 3) & 0b01111111) | 0x80;  //calculating addressing mode
+	R1 <2> <-  R0 shr 3   (midx: 5)
+	R1 <1> <- R1   (midx: 0)
+	R1 <1> <-  R1 & 127   (midx: 4)
+	R2 <2> <-  R1 | 128   (midx: 0)
+//ReadWrite_Routines.c,74 :: 		address_low  = ((short int)(address << 5) & 0b11100000);         //calculating addressing mode
+   (midx: 0)
+	R1 <2> <-  R0 shl 5   (midx: 5)
+	R1 <2> <- R1   (midx: 0)
+	R1 <2> <-  R1 & 224   (midx: 0)
+   (midx: 0)
+	R5 <1> <- R1   (midx: 0)
+//ReadWrite_Routines.c,75 :: 		SPI3_Write(address_high);            // addressing register
+	R0 <2> <- R2   (midx: 0)
+	CALL _SPI3_Write   (midx: 0)
+//ReadWrite_Routines.c,76 :: 		SPI3_Write(address_low);             // addressing register
+   (midx: 0)
+	R0 <2> <- R5   (midx: 0)
+	CALL _SPI3_Write   (midx: 0)
+//ReadWrite_Routines.c,77 :: 		data_r = SPI3_Read(dummy_data_r);    // read data from register
+   (midx: 0)
+	R0 <2> <- R4   (midx: 0)
+	CALL _SPI3_Read   (midx: 0)
+//ReadWrite_Routines.c,79 :: 		CS = 1;
+	R2 <1> <- 1   (midx: 0)
+	R1 <4> <- addr(CS)   (midx: 0)
+	[R1] <0> <- R2   (midx: 0)
+//ReadWrite_Routines.c,80 :: 		return data_r;
+	R0 <1> <- R0   (midx: 0)
+	return   (midx: 0)
+  end
+   (midx: 0)
+_start_transmit:
+  begin   (midx: 0)
+//ReadWrite_Routines.c,86 :: 		void start_transmit() {
+_start_transmit:
+  begin   (midx: 0)
+//ReadWrite_Routines.c,87 :: 		short int temp = 0;
+   (midx: 0)
+//ReadWrite_Routines.c,89 :: 		temp = read_ZIGBEE_short(TXNCON);
+	R0 <1> <- 27   (midx: 0)
+	CALL _read_ZIGBEE_short   (midx: 0)
+//ReadWrite_Routines.c,90 :: 		temp = temp | 0x01;                 // mask for start transmit
+	R0 <1> <-  R0 | 1   (midx: 4)
+//ReadWrite_Routines.c,91 :: 		write_ZIGBEE_short(TXNCON, temp);
+	R1 <1> <- R0   (midx: 0)
+	R0 <1> <- 27   (midx: 0)
+	CALL _write_ZIGBEE_short   (midx: 0)
+  end
+   (midx: 0)
+_read_RX_FIFO:
+  begin   (midx: 0)
+//ReadWrite_Routines.c,97 :: 		void read_RX_FIFO() {
+_read_RX_FIFO:
+  begin   (midx: 0)
+//ReadWrite_Routines.c,98 :: 		unsigned short int temp = 0;
+   (midx: 0)
+//ReadWrite_Routines.c,99 :: 		int i = 0;
+   (midx: 0)
+//ReadWrite_Routines.c,101 :: 		temp = read_ZIGBEE_short(BBREG1);      // disable receiving packets off air.
+	R0 <1> <- 57   (midx: 0)
+	CALL _read_ZIGBEE_short   (midx: 0)
+//ReadWrite_Routines.c,102 :: 		temp = temp | 0x04;                    // mask for disable receiving packets
+	R0 <1> <- R0   (midx: 0)
+	R0 <1> <-  R0 | 4   (midx: 0)
+//ReadWrite_Routines.c,103 :: 		write_ZIGBEE_short(BBREG1, temp);
+	R1 <1> <- R0   (midx: 0)
+	R0 <1> <- 57   (midx: 0)
+	CALL _write_ZIGBEE_short   (midx: 0)
+//ReadWrite_Routines.c,105 :: 		for(i=0; i<128; i++) {
+   (midx: 0)
+   (midx: 0)
+	R6 <2> <- 0   (midx: 0)
+	R6 <2> <- R6   (midx: 0)
+0:   (midx: 0)
+   (midx: 0)
+	if ( R6 >= 128) then goto 1   (midx: 5)
+//ReadWrite_Routines.c,106 :: 		if(i <  (1 + DATA_LENGHT + HEADER_LENGHT + 2 + 1 + 1))
+	if ( R6 >= 19) then goto 3   (midx: 5)
+//ReadWrite_Routines.c,107 :: 		data_RX_FIFO[i] = read_ZIGBEE_long(address_RX_FIFO + i);  // reading valid data from RX FIFO
+	R0 <4> <- #_data_RX_FIFO   (midx: 0)
+	R0 <4> <-  R0 + R6   (midx: 2)
+	FLOC_read_RX_FIFO+0 <4> <- R0   (midx: 0)
+	R0 <4> <- addr(_address_RX_FIFO)   (midx: 0)
+	R0 <2> <- [R0]   (midx: 0)
+	R0 <2> <-  R0 + R6   (midx: 5)
+	R0 <2> <- R0   (midx: 0)
+	CALL _read_ZIGBEE_long   (midx: 0)
+	R1 <4> <- FLOC_read_RX_FIFO+0   (midx: 0)
+	[R1] <1> <- R0   (midx: 0)
+3:   (midx: 0)
+//ReadWrite_Routines.c,108 :: 		if(i >= (1 + DATA_LENGHT + HEADER_LENGHT + 2 + 1 + 1))
+	if ( R6 < 19) then goto 4   (midx: 5)
+//ReadWrite_Routines.c,109 :: 		lost_data = read_ZIGBEE_long(address_RX_FIFO + i);        // reading invalid data from RX FIFO
+	R0 <4> <- addr(_address_RX_FIFO)   (midx: 0)
+	R0 <2> <- [R0]   (midx: 0)
+	R0 <2> <-  R0 + R6   (midx: 5)
+	R0 <2> <- R0   (midx: 0)
+	CALL _read_ZIGBEE_long   (midx: 0)
+	R1 <4> <- addr(_lost_data)   (midx: 0)
+	[R1] <1> <- R0   (midx: 0)
+4:   (midx: 0)
+//ReadWrite_Routines.c,105 :: 		for(i=0; i<128; i++) {
+	R6 <2> <-  R6 + 1   (midx: 1)
+	R6 <2> <- R6   (midx: 0)
+//ReadWrite_Routines.c,110 :: 		}
+   (midx: 0)
+	R6 <2> <- R6   (midx: 0)
+	goto	0   (midx: 0)
+1:   (midx: 0)
+//ReadWrite_Routines.c,112 :: 		DATA_RX[0] = data_RX_FIFO[HEADER_LENGHT + 1];               // coping valid data
+	R0 <4> <- addr(_data_RX_FIFO+12)   (midx: 0)
+	R1 <1> <- [R0]   (midx: 0)
+	R0 <4> <- addr(_DATA_RX)   (midx: 0)
+	[R0] <1> <- R1   (midx: 0)
+//ReadWrite_Routines.c,113 :: 		DATA_RX[1] = data_RX_FIFO[HEADER_LENGHT + 2];
+	R0 <4> <- addr(_data_RX_FIFO+13)   (midx: 0)
+	R1 <1> <- [R0]   (midx: 0)
+	R0 <4> <- addr(_DATA_RX+1)   (midx: 0)
+	[R0] <1> <- R1   (midx: 0)
+//ReadWrite_Routines.c,114 :: 		DATA_RX[2] = data_RX_FIFO[HEADER_LENGHT + 3];
+	R0 <4> <- addr(_data_RX_FIFO+14)   (midx: 0)
+	R1 <1> <- [R0]   (midx: 0)
+	R0 <4> <- addr(_DATA_RX+2)   (midx: 0)
+	[R0] <1> <- R1   (midx: 0)
+//ReadWrite_Routines.c,115 :: 		LQI   = data_RX_FIFO[1 + HEADER_LENGHT + DATA_LENGHT + 2];  // coping valid data
+	R0 <4> <- addr(_data_RX_FIFO+17)   (midx: 0)
+	R1 <1> <- [R0]   (midx: 0)
+	R0 <4> <- addr(_LQI)   (midx: 0)
+	[R0] <1> <- R1   (midx: 0)
+//ReadWrite_Routines.c,116 :: 		RSSI2 = data_RX_FIFO[1 + HEADER_LENGHT + DATA_LENGHT + 3];  // coping valid data
+	R0 <4> <- addr(_data_RX_FIFO+18)   (midx: 0)
+	R1 <1> <- [R0]   (midx: 0)
+	R0 <4> <- addr(_RSSI2)   (midx: 0)
+	[R0] <1> <- R1   (midx: 0)
+//ReadWrite_Routines.c,118 :: 		temp = read_ZIGBEE_short(BBREG1);      // enable receiving packets off air.
+	R0 <1> <- 57   (midx: 0)
+	CALL _read_ZIGBEE_short   (midx: 0)
+//ReadWrite_Routines.c,119 :: 		temp = temp & (!0x04);                 // mask for enable receiving
+	R0 <1> <- R0   (midx: 0)
+	R0 <1> <-  R0 & 0   (midx: 0)
+//ReadWrite_Routines.c,120 :: 		write_ZIGBEE_short(BBREG1, temp);
+	R1 <1> <- R0   (midx: 0)
+	R0 <1> <- 57   (midx: 0)
+	CALL _write_ZIGBEE_short   (midx: 0)
+  end
+   (midx: 0)
+_write_TX_normal_FIFO:
+  begin   (midx: 0)
+//ReadWrite_Routines.c,123 :: 		void write_TX_normal_FIFO() {
+_write_TX_normal_FIFO:
+  begin   (midx: 0)
+//ReadWrite_Routines.c,124 :: 		int i = 0;
+   (midx: 0)
+//ReadWrite_Routines.c,126 :: 		data_TX_normal_FIFO[0]  = HEADER_LENGHT;
+	R1 <1> <- 11   (midx: 0)
+	R0 <4> <- addr(_data_TX_normal_FIFO)   (midx: 0)
+	[R0] <1> <- R1   (midx: 0)
+//ReadWrite_Routines.c,127 :: 		data_TX_normal_FIFO[1]  = HEADER_LENGHT + DATA_LENGHT;
+	R1 <1> <- 14   (midx: 0)
+	R0 <4> <- addr(_data_TX_normal_FIFO+1)   (midx: 0)
+	[R0] <1> <- R1   (midx: 0)
+//ReadWrite_Routines.c,128 :: 		data_TX_normal_FIFO[2]  = 0x01;                        // control frame
+	R1 <1> <- 1   (midx: 0)
+	R0 <4> <- addr(_data_TX_normal_FIFO+2)   (midx: 0)
+	[R0] <1> <- R1   (midx: 0)
+//ReadWrite_Routines.c,129 :: 		data_TX_normal_FIFO[3]  = 0x88;
+	R1 <1> <- 136   (midx: 0)
+	R0 <4> <- addr(_data_TX_normal_FIFO+3)   (midx: 0)
+	[R0] <1> <- R1   (midx: 0)
+//ReadWrite_Routines.c,130 :: 		data_TX_normal_FIFO[4]  = SEQ_NUMBER;                  // sequence number
+	R0 <4> <- addr(_SEQ_NUMBER)   (midx: 0)
+	R1 <1> <- [R0]   (midx: 0)
+	R0 <4> <- addr(_data_TX_normal_FIFO+4)   (midx: 0)
+	[R0] <1> <- R1   (midx: 0)
+//ReadWrite_Routines.c,131 :: 		data_TX_normal_FIFO[5]  = PAN_ID_2[1];                 // destinatoin pan
+	R0 <4> <- addr(_PAN_ID_2+1)   (midx: 0)
+	R1 <1> <- [R0]   (midx: 0)
+	R0 <4> <- addr(_data_TX_normal_FIFO+5)   (midx: 0)
+	[R0] <1> <- R1   (midx: 0)
+//ReadWrite_Routines.c,132 :: 		data_TX_normal_FIFO[6]  = PAN_ID_2[0];
+	R0 <4> <- addr(_PAN_ID_2)   (midx: 0)
+	R1 <1> <- [R0]   (midx: 0)
+	R0 <4> <- addr(_data_TX_normal_FIFO+6)   (midx: 0)
+	[R0] <1> <- R1   (midx: 0)
+//ReadWrite_Routines.c,133 :: 		data_TX_normal_FIFO[7]  = ADDRESS_short_2[0];          // destination address
+	R0 <4> <- addr(_ADDRESS_short_2)   (midx: 0)
+	R1 <1> <- [R0]   (midx: 0)
+	R0 <4> <- addr(_data_TX_normal_FIFO+7)   (midx: 0)
+	[R0] <1> <- R1   (midx: 0)
+//ReadWrite_Routines.c,134 :: 		data_TX_normal_FIFO[8]  = ADDRESS_short_2[1];
+	R0 <4> <- addr(_ADDRESS_short_2+1)   (midx: 0)
+	R1 <1> <- [R0]   (midx: 0)
+	R0 <4> <- addr(_data_TX_normal_FIFO+8)   (midx: 0)
+	[R0] <1> <- R1   (midx: 0)
+//ReadWrite_Routines.c,135 :: 		data_TX_normal_FIFO[9]  = PAN_ID_1[0];                 // source pan
+	R0 <4> <- addr(_PAN_ID_1)   (midx: 0)
+	R1 <1> <- [R0]   (midx: 0)
+	R0 <4> <- addr(_data_TX_normal_FIFO+9)   (midx: 0)
+	[R0] <1> <- R1   (midx: 0)
+//ReadWrite_Routines.c,136 :: 		data_TX_normal_FIFO[10] = PAN_ID_1[1];
+	R0 <4> <- addr(_PAN_ID_1+1)   (midx: 0)
+	R1 <1> <- [R0]   (midx: 0)
+	R0 <4> <- addr(_data_TX_normal_FIFO+10)   (midx: 0)
+	[R0] <1> <- R1   (midx: 0)
+//ReadWrite_Routines.c,137 :: 		data_TX_normal_FIFO[11] = ADDRESS_short_1[0];          // source address
+	R0 <4> <- addr(_ADDRESS_short_1)   (midx: 0)
+	R1 <1> <- [R0]   (midx: 0)
+	R0 <4> <- addr(_data_TX_normal_FIFO+11)   (midx: 0)
+	[R0] <1> <- R1   (midx: 0)
+//ReadWrite_Routines.c,138 :: 		data_TX_normal_FIFO[12] = ADDRESS_short_1[1];
+	R0 <4> <- addr(_ADDRESS_short_1+1)   (midx: 0)
+	R1 <1> <- [R0]   (midx: 0)
+	R0 <4> <- addr(_data_TX_normal_FIFO+12)   (midx: 0)
+	[R0] <1> <- R1   (midx: 0)
+//ReadWrite_Routines.c,139 :: 		data_TX_normal_FIFO[13] = DATA_TX[0];                  // data
+	R0 <4> <- addr(_DATA_TX)   (midx: 0)
+	R1 <1> <- [R0]   (midx: 0)
+	R0 <4> <- addr(_data_TX_normal_FIFO+13)   (midx: 0)
+	[R0] <1> <- R1   (midx: 0)
+//ReadWrite_Routines.c,140 :: 		data_TX_normal_FIFO[14] = DATA_TX[1];
+	R0 <4> <- addr(_DATA_TX+1)   (midx: 0)
+	R1 <1> <- [R0]   (midx: 0)
+	R0 <4> <- addr(_data_TX_normal_FIFO+14)   (midx: 0)
+	[R0] <1> <- R1   (midx: 0)
+//ReadWrite_Routines.c,141 :: 		data_TX_normal_FIFO[15] = DATA_TX[2];
+	R0 <4> <- addr(_DATA_TX+2)   (midx: 0)
+	R1 <1> <- [R0]   (midx: 0)
+	R0 <4> <- addr(_data_TX_normal_FIFO+15)   (midx: 0)
+	[R0] <1> <- R1   (midx: 0)
+//ReadWrite_Routines.c,142 :: 		for(i = 0; i < (HEADER_LENGHT + DATA_LENGHT + 2); i++) {
+   (midx: 0)
+   (midx: 0)
+	R6 <2> <- 0   (midx: 0)
+	R6 <2> <- R6   (midx: 0)
+5:   (midx: 0)
+   (midx: 0)
+	if ( R6 >= 16) then goto 6   (midx: 5)
+//ReadWrite_Routines.c,143 :: 		write_ZIGBEE_long(address_TX_normal_FIFO + i, data_TX_normal_FIFO[i]); // write frame into normal FIFO
+	R0 <4> <- #_data_TX_normal_FIFO   (midx: 0)
+	R0 <4> <-  R0 + R6   (midx: 2)
+	R0 <1> <- *R0   (midx: 0)
+	R1 <1> <- R0   (midx: 0)
+	R0 <4> <- addr(_address_TX_normal_FIFO)   (midx: 0)
+	R0 <2> <- [R0]   (midx: 0)
+	R0 <2> <-  R0 + R6   (midx: 5)
+	R1 <1> <- R1   (midx: 0)
+	R0 <2> <- R0   (midx: 0)
+	CALL _write_ZIGBEE_long   (midx: 0)
+//ReadWrite_Routines.c,142 :: 		for(i = 0; i < (HEADER_LENGHT + DATA_LENGHT + 2); i++) {
+	R6 <2> <-  R6 + 1   (midx: 1)
+	R6 <2> <- R6   (midx: 0)
+//ReadWrite_Routines.c,144 :: 		}
+   (midx: 0)
+	R6 <2> <- R6   (midx: 0)
+	goto	5   (midx: 0)
+6:   (midx: 0)
+//ReadWrite_Routines.c,146 :: 		set_not_ACK();
+	CALL _set_not_ACK   (midx: 0)
+//ReadWrite_Routines.c,147 :: 		set_not_encrypt();
+	CALL _set_not_encrypt   (midx: 0)
+//ReadWrite_Routines.c,148 :: 		start_transmit();
+	CALL _start_transmit   (midx: 0)
+  end
+   (midx: 0)

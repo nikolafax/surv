@@ -1,18 +1,14 @@
 package converter;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import org.junit.Ignore;
 import org.junit.Test;
 
-import beans.Aktuatator;
-import beans.Device;
-import beans.Senzor;
-
 public class DataProcessorTest {
-	DataProcessor processor = new DataProcessor(null);
+	DataProcessor processor = new DataProcessor(null, null);
 
 	@Test
 	public void testFromWhoToWho() {
@@ -45,7 +41,7 @@ public class DataProcessorTest {
 		assertNotEquals(FromTo.SenzorToContorler, processor.fromWhoToWho(imputData));
 
 	}
-
+	@Ignore
 	@Test
 	public void testAddressIsSet() {
 		short addresByre = 0;
@@ -54,27 +50,48 @@ public class DataProcessorTest {
 		imputData[2] = (byte) addresByre;
 		boolean isAddressSet = processor.isAddressSet(imputData);
 		assertEquals(false, isAddressSet);
-		
+
 		addresByre = 1;
 		imputData[2] = (byte) addresByre;
 		isAddressSet = processor.isAddressSet(imputData);
 		assertEquals(true, isAddressSet);
-		
-		addresByre = 0b1000_0000;;
+
+		addresByre = 0b1000_0000;
+		;
 		imputData[2] = (byte) addresByre;
 		isAddressSet = processor.isAddressSet(imputData);
 		assertEquals(true, isAddressSet);
 	}
-	
+
 	@Test
 	public void testSetForActuatorSignature() {
-//		byte[] outputData = new byte[64];
-//		
-//		outputData = processor.setForActuatorSignature(outputData);
-//		
-//		byte signatureBits = (byte) (outputData[0] & -64);
-//		assertEquals(FromTo.ControlerToActuator.id, signatureBits);
+		// byte[] outputData = new byte[64];
+		//
+		// outputData = processor.setForActuatorSignature(outputData);
+		//
+		// byte signatureBits = (byte) (outputData[0] & -64);
+		// assertEquals(FromTo.ControlerToActuator.id, signatureBits);
 	}
-	
+
+	@Test
+	public void testIsRepitedMessage() {
+		
+		byte[] imput = new byte[64];
+		byte[] lastMessage = new byte[64];
+		
+		imput[0] = 0;
+		imput[1] = 12;
+		imput[2] = 16;
+		
+		lastMessage[0] = 0;
+		lastMessage[1] = 12;
+		lastMessage[2] = 16;
+		
+		DataProcessor dataProcessor = new DataProcessor(null, null);
+		dataProcessor.lastMessageMap.put(new Integer(lastMessage[2]), lastMessage);
+		
+		assertTrue(dataProcessor.isRepitedMessage(imput));
+
+	}
 
 }

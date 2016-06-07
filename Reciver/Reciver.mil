@@ -1,0 +1,393 @@
+_draw_frame:
+  begin   (midx: 0)
+//Reciver.c,36 :: 		void draw_frame() {
+_draw_frame:
+  begin   (midx: 0)
+//Reciver.c,37 :: 		TFT_Init_ILI9341_8bit(320, 240);
+	R1 <2> <- 240   (midx: 0)
+	R0 <2> <- 320   (midx: 0)
+	CALL _TFT_Init_ILI9341_8bit   (midx: 0)
+//Reciver.c,38 :: 		TFT_Fill_Screen(CL_WHITE);
+	R0 <2> <- 65535   (midx: 0)
+	CALL _TFT_Fill_Screen   (midx: 0)
+//Reciver.c,39 :: 		TFT_Write_Text("BOARD ID :", 140, 40);    // Display string on TFT
+	R0 <4> <- #?lstr1_Reciver   (midx: 0)
+	R2 <2> <- 40   (midx: 0)
+	R1 <2> <- 140   (midx: 0)
+	R0 <4> <- R0   (midx: 0)
+	CALL _TFT_Write_Text   (midx: 0)
+//Reciver.c,40 :: 		TFT_Write_Text("Button 1 :", 140, 80);
+	R0 <4> <- #?lstr2_Reciver   (midx: 0)
+	R2 <2> <- 80   (midx: 0)
+	R1 <2> <- 140   (midx: 0)
+	R0 <4> <- R0   (midx: 0)
+	CALL _TFT_Write_Text   (midx: 0)
+//Reciver.c,41 :: 		TFT_Write_Text("Button 2 :", 140, 120);
+	R0 <4> <- #?lstr3_Reciver   (midx: 0)
+	R2 <2> <- 120   (midx: 0)
+	R1 <2> <- 140   (midx: 0)
+	R0 <4> <- R0   (midx: 0)
+	CALL _TFT_Write_Text   (midx: 0)
+//Reciver.c,42 :: 		TFT_Write_Text("ANALOG 1 :", 140, 160);
+	R0 <4> <- #?lstr4_Reciver   (midx: 0)
+	R2 <2> <- 160   (midx: 0)
+	R1 <2> <- 140   (midx: 0)
+	R0 <4> <- R0   (midx: 0)
+	CALL _TFT_Write_Text   (midx: 0)
+  end
+   (midx: 0)
+_parse_adc_values:
+  begin   (midx: 0)
+//Reciver.c,45 :: 		void parse_adc_values() {
+_parse_adc_values:
+  begin   (midx: 0)
+//Reciver.c,46 :: 		adc_result = adc_h * 265;
+	R0 <4> <- addr(_adc_h)   (midx: 0)
+	R1 <2> <- [R0]   (midx: 0)
+	R0 <2> <- 265   (midx: 0)
+	R2 <2> <-  R1 * R0   (midx: 5)
+	R1 <4> <- addr(_adc_result)   (midx: 0)
+	[R1] <2> <- R2   (midx: 0)
+//Reciver.c,47 :: 		adc_result = adc_result + adc_l;
+	R0 <4> <- addr(_adc_l)   (midx: 0)
+	R0 <2> <- [R0]   (midx: 0)
+	R0 <2> <-  R2 + R0   (midx: 5)
+	[R1] <2> <- R0   (midx: 0)
+  end
+   (midx: 0)
+_display_on_screen:
+  begin   (midx: 0)
+//Reciver.c,51 :: 		void display_on_screen() {
+_display_on_screen:
+  begin   (midx: 0)
+//Reciver.c,53 :: 		TFT_Set_Font(&TFT_defaultFont, CL_BLACK, FO_HORIZONTAL);
+	R2 <1> <- 0   (midx: 0)
+	R1 <2> <- 0   (midx: 0)
+	R0 <4> <- #_TFT_defaultFont   (midx: 0)
+	CALL _TFT_Set_Font   (midx: 0)
+//Reciver.c,55 :: 		ByteToStr(deviceIdByte, &txt);
+	R0 <4> <- addr(_deviceIdByte)   (midx: 0)
+	R0 <1> <- [R0]   (midx: 0)
+	R1 <4> <- #_txt   (midx: 0)
+	R0 <1> <- R0   (midx: 0)
+	CALL _ByteToStr   (midx: 0)
+//Reciver.c,56 :: 		TFT_Write_Text(txt, 215, 40);
+	R2 <2> <- 40   (midx: 0)
+	R1 <2> <- 215   (midx: 0)
+	R0 <4> <- #_txt   (midx: 0)
+	CALL _TFT_Write_Text   (midx: 0)
+//Reciver.c,58 :: 		ByteToStr(button1, &txt);      // Convert byte to string
+	R0 <4> <- addr(_button1)   (midx: 0)
+	R0 <1> <- [R0]   (midx: 0)
+	R1 <4> <- #_txt   (midx: 0)
+	R0 <1> <- R0   (midx: 0)
+	CALL _ByteToStr   (midx: 0)
+//Reciver.c,59 :: 		TFT_Write_Text(txt, 215, 80);    // Display string on TFT
+	R2 <2> <- 80   (midx: 0)
+	R1 <2> <- 215   (midx: 0)
+	R0 <4> <- #_txt   (midx: 0)
+	CALL _TFT_Write_Text   (midx: 0)
+//Reciver.c,61 :: 		ByteToStr(button2, &txt);
+	R0 <4> <- addr(_button2)   (midx: 0)
+	R0 <1> <- [R0]   (midx: 0)
+	R1 <4> <- #_txt   (midx: 0)
+	R0 <1> <- R0   (midx: 0)
+	CALL _ByteToStr   (midx: 0)
+//Reciver.c,62 :: 		TFT_Write_Text(txt, 215, 120);
+	R2 <2> <- 120   (midx: 0)
+	R1 <2> <- 215   (midx: 0)
+	R0 <4> <- #_txt   (midx: 0)
+	CALL _TFT_Write_Text   (midx: 0)
+//Reciver.c,64 :: 		parse_adc_values();
+	CALL _parse_adc_values   (midx: 0)
+//Reciver.c,65 :: 		IntToStr(adc_result, &txt);
+	R0 <4> <- addr(_adc_result)   (midx: 0)
+	R0 <2> <- [R0]   (midx: 0)
+	R1 <4> <- #_txt   (midx: 0)
+	R0 <2> <- R0   (midx: 0)
+	CALL _IntToStr   (midx: 0)
+//Reciver.c,66 :: 		TFT_Write_Text(txt, 215, 160);
+	R2 <2> <- 160   (midx: 0)
+	R1 <2> <- 215   (midx: 0)
+	R0 <4> <- #_txt   (midx: 0)
+	CALL _TFT_Write_Text   (midx: 0)
+  end
+   (midx: 0)
+_clearScreen:
+  begin   (midx: 0)
+//Reciver.c,69 :: 		void clearScreen() {
+_clearScreen:
+  begin   (midx: 0)
+//Reciver.c,71 :: 		TFT_Set_Font(&TFT_defaultFont, CL_WHITE, FO_HORIZONTAL);
+	R2 <1> <- 0   (midx: 0)
+	R1 <2> <- 65535   (midx: 0)
+	R0 <4> <- #_TFT_defaultFont   (midx: 0)
+	CALL _TFT_Set_Font   (midx: 0)
+//Reciver.c,73 :: 		ByteToStr(deviceIdByte, &txt);
+	R0 <4> <- addr(_deviceIdByte)   (midx: 0)
+	R0 <1> <- [R0]   (midx: 0)
+	R1 <4> <- #_txt   (midx: 0)
+	R0 <1> <- R0   (midx: 0)
+	CALL _ByteToStr   (midx: 0)
+//Reciver.c,74 :: 		TFT_Write_Text(txt, 215, 40);
+	R2 <2> <- 40   (midx: 0)
+	R1 <2> <- 215   (midx: 0)
+	R0 <4> <- #_txt   (midx: 0)
+	CALL _TFT_Write_Text   (midx: 0)
+//Reciver.c,76 :: 		ByteToStr(button1, &txt);
+	R0 <4> <- addr(_button1)   (midx: 0)
+	R0 <1> <- [R0]   (midx: 0)
+	R1 <4> <- #_txt   (midx: 0)
+	R0 <1> <- R0   (midx: 0)
+	CALL _ByteToStr   (midx: 0)
+//Reciver.c,77 :: 		TFT_Write_Text(txt, 215, 80);
+	R2 <2> <- 80   (midx: 0)
+	R1 <2> <- 215   (midx: 0)
+	R0 <4> <- #_txt   (midx: 0)
+	CALL _TFT_Write_Text   (midx: 0)
+//Reciver.c,79 :: 		ByteToStr(button2, &txt);
+	R0 <4> <- addr(_button2)   (midx: 0)
+	R0 <1> <- [R0]   (midx: 0)
+	R1 <4> <- #_txt   (midx: 0)
+	R0 <1> <- R0   (midx: 0)
+	CALL _ByteToStr   (midx: 0)
+//Reciver.c,80 :: 		TFT_Write_Text(txt, 215, 120);
+	R2 <2> <- 120   (midx: 0)
+	R1 <2> <- 215   (midx: 0)
+	R0 <4> <- #_txt   (midx: 0)
+	CALL _TFT_Write_Text   (midx: 0)
+//Reciver.c,82 :: 		ByteToStr(adc_result, &txt);
+	R0 <4> <- addr(_adc_result)   (midx: 0)
+	R0 <1> <- [R0]   (midx: 0)
+	R1 <4> <- #_txt   (midx: 0)
+	R0 <1> <- R0   (midx: 0)
+	CALL _ByteToStr   (midx: 0)
+//Reciver.c,83 :: 		TFT_Write_Text(txt, 215, 160);
+	R2 <2> <- 160   (midx: 0)
+	R1 <2> <- 215   (midx: 0)
+	R0 <4> <- #_txt   (midx: 0)
+	CALL _TFT_Write_Text   (midx: 0)
+  end
+   (midx: 0)
+_brodcast_id_request:
+  begin   (midx: 0)
+//Reciver.c,100 :: 		void brodcast_id_request() {
+_brodcast_id_request:
+  begin   (midx: 0)
+//Reciver.c,103 :: 		DATA_TX[0] = 0x40;
+	R1 <1> <- 64   (midx: 0)
+	R0 <4> <- addr(_DATA_TX)   (midx: 0)
+	[R0] <1> <- R1   (midx: 0)
+//Reciver.c,104 :: 		DATA_TX[1] = 0;
+	R1 <1> <- 0   (midx: 0)
+	R0 <4> <- addr(_DATA_TX+1)   (midx: 0)
+	[R0] <1> <- R1   (midx: 0)
+//Reciver.c,105 :: 		DATA_TX[2] = deviceIdByte;
+	R0 <4> <- addr(_deviceIdByte)   (midx: 0)
+	R1 <1> <- [R0]   (midx: 0)
+	R0 <4> <- addr(_DATA_TX+2)   (midx: 0)
+	[R0] <1> <- R1   (midx: 0)
+//Reciver.c,107 :: 		if (life_notifyer_counter > 50) {
+	R0 <4> <- addr(_life_notifyer_counter)   (midx: 0)
+	R0 <2> <- [R0]   (midx: 0)
+	if ( R0 <= 50) then goto 3   (midx: 5)
+//Reciver.c,108 :: 		life_notifyer_counter = 0;
+	R1 <2> <- 0   (midx: 0)
+	R0 <4> <- addr(_life_notifyer_counter)   (midx: 0)
+	[R0] <2> <- R1   (midx: 0)
+//Reciver.c,109 :: 		}
+3:   (midx: 0)
+//Reciver.c,112 :: 		write_TX_normal_FIFO();          // Transmiting
+	CALL _write_TX_normal_FIFO   (midx: 0)
+  end
+   (midx: 0)
+_listen_for_id:
+  begin   (midx: 0)
+//Reciver.c,86 :: 		void listen_for_id() {
+_listen_for_id:
+  begin   (midx: 0)
+//Reciver.c,87 :: 		brodcast_id_request();
+	CALL _brodcast_id_request   (midx: 0)
+//Reciver.c,88 :: 		delay_ms(100);
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 2)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 5)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+//Reciver.c,90 :: 		if (Debounce_INT() == 0) {
+	CALL _Debounce_INT   (midx: 0)
+	if ( R0 != 0) then goto 1   (midx: 0)
+//Reciver.c,91 :: 		temp1 = read_ZIGBEE_short(INTSTAT); // Read and flush register INTSTAT
+	R0 <1> <- 49   (midx: 0)
+	CALL _read_ZIGBEE_short   (midx: 0)
+	R1 <4> <- addr(_temp1)   (midx: 0)
+	[R1] <1> <- R0   (midx: 0)
+//Reciver.c,92 :: 		read_RX_FIFO();                     // Read receive data
+	CALL _read_RX_FIFO   (midx: 0)
+//Reciver.c,94 :: 		if (DATA_RX[0] == 112) { //0xff is controler to senzor message id, which is send only for senzort to get id
+	R0 <4> <- addr(_DATA_RX)   (midx: 0)
+	R0 <1> <- [R0]   (midx: 0)
+	if ( R0 != 112) then goto 2   (midx: 4)
+//Reciver.c,95 :: 		deviceIdByte = DATA_RX[2];
+	R0 <4> <- addr(_DATA_RX+2)   (midx: 0)
+	R1 <1> <- [R0]   (midx: 0)
+	R0 <4> <- addr(_deviceIdByte)   (midx: 0)
+	[R0] <1> <- R1   (midx: 0)
+//Reciver.c,96 :: 		}
+2:   (midx: 0)
+//Reciver.c,97 :: 		}
+1:   (midx: 0)
+  end
+   (midx: 0)
+_processRecivedData:
+  begin   (midx: 0)
+//Reciver.c,115 :: 		void processRecivedData() {
+_processRecivedData:
+  begin   (midx: 0)
+//Reciver.c,116 :: 		button1 = DATA_RX[0] & 0x20;
+	R2 <4> <- addr(_DATA_RX)   (midx: 0)
+	R0 <1> <- [R2]   (midx: 0)
+	R1 <1> <-  R0 & 32   (midx: 4)
+	R0 <4> <- addr(_button1)   (midx: 0)
+	[R0] <1> <- R1   (midx: 0)
+//Reciver.c,117 :: 		button2 = DATA_RX[0] & 0x19;
+	R0 <4> <- R2   (midx: 0)
+	R0 <1> <- [R0]   (midx: 0)
+	R1 <1> <-  R0 & 25   (midx: 4)
+	R0 <4> <- addr(_button2)   (midx: 0)
+	[R0] <1> <- R1   (midx: 0)
+//Reciver.c,118 :: 		adc_h = DATA_RX[0] % 0x0f;
+	R0 <4> <- R2   (midx: 0)
+	R2 <1> <- [R0]   (midx: 0)
+	R0 <1> <- 15   (midx: 0)
+	R1 <1> <-  R2 mod R0   (midx: 4)
+	R0 <4> <- addr(_adc_h)   (midx: 0)
+	[R0] <1> <- R1   (midx: 0)
+//Reciver.c,119 :: 		adc_l = DATA_RX[1];
+	R0 <4> <- addr(_DATA_RX+1)   (midx: 0)
+	R1 <1> <- [R0]   (midx: 0)
+	R0 <4> <- addr(_adc_l)   (midx: 0)
+	[R0] <1> <- R1   (midx: 0)
+  end
+   (midx: 0)
+_beeReciveData:
+  begin   (midx: 0)
+//Reciver.c,122 :: 		void beeReciveData() {
+_beeReciveData:
+  begin   (midx: 0)
+//Reciver.c,123 :: 		if (Debounce_INT() == 0) {
+	CALL _Debounce_INT   (midx: 0)
+	if ( R0 != 0) then goto 4   (midx: 0)
+//Reciver.c,124 :: 		temp1 = read_ZIGBEE_short(INTSTAT); // Read and flush register INTSTAT
+	R0 <1> <- 49   (midx: 0)
+	CALL _read_ZIGBEE_short   (midx: 0)
+	R1 <4> <- addr(_temp1)   (midx: 0)
+	[R1] <1> <- R0   (midx: 0)
+//Reciver.c,125 :: 		read_RX_FIFO();
+	CALL _read_RX_FIFO   (midx: 0)
+//Reciver.c,126 :: 		if (DATA_RX[2] == deviceIdByte) {
+	R0 <4> <- addr(_deviceIdByte)   (midx: 0)
+	R1 <1> <- [R0]   (midx: 0)
+	R0 <4> <- addr(_DATA_RX+2)   (midx: 0)
+	R0 <1> <- [R0]   (midx: 0)
+	if ( R0 != R1) then goto 5   (midx: 5)
+//Reciver.c,127 :: 		clearScreen();
+	CALL _clearScreen   (midx: 0)
+//Reciver.c,128 :: 		processRecivedData();
+	CALL _processRecivedData   (midx: 0)
+//Reciver.c,129 :: 		display_on_screen();
+	CALL _display_on_screen   (midx: 0)
+//Reciver.c,130 :: 		}
+5:   (midx: 0)
+//Reciver.c,131 :: 		DATA_RX[2] = 0;
+	R1 <1> <- 0   (midx: 0)
+	R0 <4> <- addr(_DATA_RX+2)   (midx: 0)
+	[R0] <1> <- R1   (midx: 0)
+//Reciver.c,132 :: 		}
+4:   (midx: 0)
+  end
+   (midx: 0)
+_main:
+  begin   (midx: 0)
+//Reciver.c,136 :: 		void main() {
+_main:
+  begin   (midx: 0)
+//Reciver.c,137 :: 		Initialize();                      // Initialize MCU and Bee click board
+	CALL _Initialize   (midx: 0)
+//Reciver.c,138 :: 		draw_frame();
+	CALL _draw_frame   (midx: 0)
+//Reciver.c,140 :: 		GPIO_Digital_Input(&GPIOD_IDR, _GPIO_PINMASK_0);
+	R1 <4> <- 1   (midx: 0)
+	R0 <4> <- #GPIOD_IDR   (midx: 0)
+	CALL _GPIO_Digital_Input   (midx: 0)
+//Reciver.c,141 :: 		Delay_ms(100);
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 2)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 5)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+//Reciver.c,143 :: 		while (deviceIdByte == 0) {
+7:   (midx: 0)
+	R0 <4> <- addr(_deviceIdByte)   (midx: 0)
+	R0 <1> <- [R0]   (midx: 0)
+	if ( R0 != 0) then goto 8   (midx: 0)
+//Reciver.c,144 :: 		listen_for_id();
+	CALL _listen_for_id   (midx: 0)
+//Reciver.c,146 :: 		Delay_ms(50);
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 2)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 5)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+//Reciver.c,147 :: 		}
+	goto	7   (midx: 0)
+8:   (midx: 0)
+//Reciver.c,148 :: 		while (1) {
+10:   (midx: 0)
+//Reciver.c,149 :: 		beeReciveData();
+	CALL _beeReciveData   (midx: 0)
+//Reciver.c,151 :: 		Delay_ms(10);
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 2)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 5)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+//Reciver.c,152 :: 		life_notifyer_counter++;
+	R1 <4> <- addr(_life_notifyer_counter)   (midx: 0)
+	R0 <2> <- [R1]   (midx: 0)
+	R0 <2> <-  R0 + 1   (midx: 1)
+	[R1] <2> <- R0   (midx: 0)
+//Reciver.c,153 :: 		if (life_notifyer_counter == 50) {
+	if ( R0 != 50) then goto 13   (midx: 5)
+//Reciver.c,154 :: 		brodcast_id_request();
+	CALL _brodcast_id_request   (midx: 0)
+//Reciver.c,155 :: 		}
+13:   (midx: 0)
+//Reciver.c,156 :: 		}
+	goto	10   (midx: 0)
+  end
+   (midx: 0)

@@ -1,0 +1,1082 @@
+_enable_interrupt:
+  begin   (midx: 0)
+//Misc_Routines.c,11 :: 		void enable_interrupt() {
+_enable_interrupt:
+  begin   (midx: 0)
+//Misc_Routines.c,12 :: 		write_ZIGBEE_short(INTCON_M, 0x00);   //0x00  all INTerrupts are enable
+	R1 <1> <- 0   (midx: 0)
+	R0 <1> <- 50   (midx: 0)
+	CALL _write_ZIGBEE_short   (midx: 0)
+  end
+   (midx: 0)
+_set_channel:
+  begin   (midx: 0)
+//Misc_Routines.c,18 :: 		void set_channel(short int channel_number) {               // 11-26 possible channels
+_set_channel:
+  begin   (midx: 0)
+   (midx: 0)
+   (midx: 0)
+   (midx: 0)
+	R0 <1> <- R0   (midx: 0)
+   (midx: 0)
+//Misc_Routines.c,19 :: 		if((channel_number > 26) || (channel_number < 11)) channel_number = 11;
+	if ( R0 > 26) then goto 56   (midx: 4)
+	if ( R0 < 11) then goto 55   (midx: 4)
+   (midx: 0)
+	R0 <1> <- R0   (midx: 0)
+	goto	2   (midx: 0)
+56:   (midx: 0)
+55:   (midx: 0)
+   (midx: 0)
+   (midx: 0)
+	R0 <1> <- 11   (midx: 0)
+	R0 <1> <- R0   (midx: 0)
+2:   (midx: 0)
+//Misc_Routines.c,20 :: 		switch(channel_number) {
+   (midx: 0)
+   (midx: 0)
+	goto	3   (midx: 0)
+//Misc_Routines.c,21 :: 		case 11:
+5:   (midx: 0)
+//Misc_Routines.c,22 :: 		write_ZIGBEE_long(RFCON0, 0x02);  // 0x02 for 11. channel
+	R1 <1> <- 2   (midx: 0)
+	R0 <2> <- 512   (midx: 0)
+	CALL _write_ZIGBEE_long   (midx: 0)
+//Misc_Routines.c,23 :: 		break;
+	goto	4   (midx: 0)
+//Misc_Routines.c,24 :: 		case 12:
+6:   (midx: 0)
+//Misc_Routines.c,25 :: 		write_ZIGBEE_long(RFCON0, 0x12);  // 0x12 for 12. channel
+	R1 <1> <- 18   (midx: 0)
+	R0 <2> <- 512   (midx: 0)
+	CALL _write_ZIGBEE_long   (midx: 0)
+//Misc_Routines.c,26 :: 		break;
+	goto	4   (midx: 0)
+//Misc_Routines.c,27 :: 		case 13:
+7:   (midx: 0)
+//Misc_Routines.c,28 :: 		write_ZIGBEE_long(RFCON0, 0x22);  // 0x22 for 13. channel
+	R1 <1> <- 34   (midx: 0)
+	R0 <2> <- 512   (midx: 0)
+	CALL _write_ZIGBEE_long   (midx: 0)
+//Misc_Routines.c,29 :: 		break;
+	goto	4   (midx: 0)
+//Misc_Routines.c,30 :: 		case 14:
+8:   (midx: 0)
+//Misc_Routines.c,31 :: 		write_ZIGBEE_long(RFCON0, 0x32);  // 0x32 for 14. channel
+	R1 <1> <- 50   (midx: 0)
+	R0 <2> <- 512   (midx: 0)
+	CALL _write_ZIGBEE_long   (midx: 0)
+//Misc_Routines.c,32 :: 		break;
+	goto	4   (midx: 0)
+//Misc_Routines.c,33 :: 		case 15:
+9:   (midx: 0)
+//Misc_Routines.c,34 :: 		write_ZIGBEE_long(RFCON0, 0x42);  // 0x42 for 15. channel
+	R1 <1> <- 66   (midx: 0)
+	R0 <2> <- 512   (midx: 0)
+	CALL _write_ZIGBEE_long   (midx: 0)
+//Misc_Routines.c,35 :: 		break;
+	goto	4   (midx: 0)
+//Misc_Routines.c,36 :: 		case 16:
+10:   (midx: 0)
+//Misc_Routines.c,37 :: 		write_ZIGBEE_long(RFCON0, 0x52);  // 0x52 for 16. channel
+	R1 <1> <- 82   (midx: 0)
+	R0 <2> <- 512   (midx: 0)
+	CALL _write_ZIGBEE_long   (midx: 0)
+//Misc_Routines.c,38 :: 		break;
+	goto	4   (midx: 0)
+//Misc_Routines.c,39 :: 		case 17:
+11:   (midx: 0)
+//Misc_Routines.c,40 :: 		write_ZIGBEE_long(RFCON0, 0x62);  // 0x62 for 17. channel
+	R1 <1> <- 98   (midx: 0)
+	R0 <2> <- 512   (midx: 0)
+	CALL _write_ZIGBEE_long   (midx: 0)
+//Misc_Routines.c,41 :: 		break;
+	goto	4   (midx: 0)
+//Misc_Routines.c,42 :: 		case 18:
+12:   (midx: 0)
+//Misc_Routines.c,43 :: 		write_ZIGBEE_long(RFCON0, 0x72);  // 0x72 for 18. channel
+	R1 <1> <- 114   (midx: 0)
+	R0 <2> <- 512   (midx: 0)
+	CALL _write_ZIGBEE_long   (midx: 0)
+//Misc_Routines.c,44 :: 		break;
+	goto	4   (midx: 0)
+//Misc_Routines.c,45 :: 		case 19:
+13:   (midx: 0)
+//Misc_Routines.c,46 :: 		write_ZIGBEE_long(RFCON0, 0x82);  // 0x82 for 19. channel
+	R1 <1> <- 130   (midx: 0)
+	R0 <2> <- 512   (midx: 0)
+	CALL _write_ZIGBEE_long   (midx: 0)
+//Misc_Routines.c,47 :: 		break;
+	goto	4   (midx: 0)
+//Misc_Routines.c,48 :: 		case 20:
+14:   (midx: 0)
+//Misc_Routines.c,49 :: 		write_ZIGBEE_long(RFCON0, 0x92);  // 0x92 for 20. channel
+	R1 <1> <- 146   (midx: 0)
+	R0 <2> <- 512   (midx: 0)
+	CALL _write_ZIGBEE_long   (midx: 0)
+//Misc_Routines.c,50 :: 		break;
+	goto	4   (midx: 0)
+//Misc_Routines.c,51 :: 		case 21:
+15:   (midx: 0)
+//Misc_Routines.c,52 :: 		write_ZIGBEE_long(RFCON0, 0xA2);  // 0xA2 for 21. channel
+	R1 <1> <- 162   (midx: 0)
+	R0 <2> <- 512   (midx: 0)
+	CALL _write_ZIGBEE_long   (midx: 0)
+//Misc_Routines.c,53 :: 		break;
+	goto	4   (midx: 0)
+//Misc_Routines.c,54 :: 		case 22:
+16:   (midx: 0)
+//Misc_Routines.c,55 :: 		write_ZIGBEE_long(RFCON0, 0xB2);  // 0xB2 for 22. channel
+	R1 <1> <- 178   (midx: 0)
+	R0 <2> <- 512   (midx: 0)
+	CALL _write_ZIGBEE_long   (midx: 0)
+//Misc_Routines.c,56 :: 		break;
+	goto	4   (midx: 0)
+//Misc_Routines.c,57 :: 		case 23:
+17:   (midx: 0)
+//Misc_Routines.c,58 :: 		write_ZIGBEE_long(RFCON0, 0xC2);  // 0xC2 for 23. channel
+	R1 <1> <- 194   (midx: 0)
+	R0 <2> <- 512   (midx: 0)
+	CALL _write_ZIGBEE_long   (midx: 0)
+//Misc_Routines.c,59 :: 		break;
+	goto	4   (midx: 0)
+//Misc_Routines.c,60 :: 		case 24:
+18:   (midx: 0)
+//Misc_Routines.c,61 :: 		write_ZIGBEE_long(RFCON0, 0xD2);  // 0xD2 for 24. channel
+	R1 <1> <- 210   (midx: 0)
+	R0 <2> <- 512   (midx: 0)
+	CALL _write_ZIGBEE_long   (midx: 0)
+//Misc_Routines.c,62 :: 		break;
+	goto	4   (midx: 0)
+//Misc_Routines.c,63 :: 		case 25:
+19:   (midx: 0)
+//Misc_Routines.c,64 :: 		write_ZIGBEE_long(RFCON0, 0xE2);  // 0xE2 for 25. channel
+	R1 <1> <- 226   (midx: 0)
+	R0 <2> <- 512   (midx: 0)
+	CALL _write_ZIGBEE_long   (midx: 0)
+//Misc_Routines.c,65 :: 		break;
+	goto	4   (midx: 0)
+//Misc_Routines.c,66 :: 		case 26:
+20:   (midx: 0)
+//Misc_Routines.c,67 :: 		write_ZIGBEE_long(RFCON0, 0xF2);  // 0xF2 for 26. channel
+	R1 <1> <- 242   (midx: 0)
+	R0 <2> <- 512   (midx: 0)
+	CALL _write_ZIGBEE_long   (midx: 0)
+//Misc_Routines.c,68 :: 		break;
+	goto	4   (midx: 0)
+//Misc_Routines.c,69 :: 		}
+3:   (midx: 0)
+   (midx: 0)
+	if ( R0 = 11) then goto 5   (midx: 4)
+	if ( R0 = 12) then goto 6   (midx: 4)
+	if ( R0 = 13) then goto 7   (midx: 4)
+	if ( R0 = 14) then goto 8   (midx: 4)
+	if ( R0 = 15) then goto 9   (midx: 4)
+	if ( R0 = 16) then goto 10   (midx: 4)
+	if ( R0 = 17) then goto 11   (midx: 4)
+	if ( R0 = 18) then goto 12   (midx: 4)
+	if ( R0 = 19) then goto 13   (midx: 4)
+	if ( R0 = 20) then goto 14   (midx: 4)
+	if ( R0 = 21) then goto 15   (midx: 4)
+	if ( R0 = 22) then goto 16   (midx: 4)
+	if ( R0 = 23) then goto 17   (midx: 4)
+	if ( R0 = 24) then goto 18   (midx: 4)
+	if ( R0 = 25) then goto 19   (midx: 4)
+   (midx: 0)
+	if ( R0 = 26) then goto 20   (midx: 4)
+4:   (midx: 0)
+//Misc_Routines.c,70 :: 		RF_reset();
+	CALL _RF_reset   (midx: 0)
+  end
+   (midx: 0)
+_set_CCA_mode:
+  begin   (midx: 0)
+//Misc_Routines.c,76 :: 		void set_CCA_mode(short int CCA_mode) {
+_set_CCA_mode:
+  begin   (midx: 0)
+   (midx: 0)
+   (midx: 0)
+   (midx: 0)
+	R0 <1> <- R0   (midx: 0)
+   (midx: 0)
+//Misc_Routines.c,77 :: 		short int temp = 0;
+   (midx: 0)
+//Misc_Routines.c,78 :: 		switch(CCA_mode) {
+   (midx: 0)
+	goto	21   (midx: 0)
+//Misc_Routines.c,79 :: 		case 1: {                               // ENERGY ABOVE THRESHOLD
+23:   (midx: 0)
+//Misc_Routines.c,80 :: 		temp = read_ZIGBEE_short(BBREG2);
+	R0 <1> <- 58   (midx: 0)
+	CALL _read_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,81 :: 		temp = temp | 0x80;                   // 0x80 mask
+	R1 <2> <-  R0 | 128   (midx: 0)
+//Misc_Routines.c,82 :: 		temp = temp & 0xDF;                   // 0xDF mask
+	R1 <2> <- R1   (midx: 0)
+	R1 <2> <-  R1 & 223   (midx: 0)
+//Misc_Routines.c,83 :: 		write_ZIGBEE_short(BBREG2, temp);
+	R1 <1> <- R1   (midx: 0)
+	R0 <1> <- 58   (midx: 0)
+	CALL _write_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,84 :: 		write_ZIGBEE_short(CCAEDTH, 0x60);    // Set CCA ED threshold to -69 dBm
+	R1 <1> <- 96   (midx: 0)
+	R0 <1> <- 63   (midx: 0)
+	CALL _write_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,86 :: 		break;
+	goto	22   (midx: 0)
+//Misc_Routines.c,88 :: 		case 2: {                               // CARRIER SENSE ONLY
+24:   (midx: 0)
+//Misc_Routines.c,89 :: 		temp = read_ZIGBEE_short(BBREG2);
+	R0 <1> <- 58   (midx: 0)
+	CALL _read_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,90 :: 		temp = temp | 0x40;                   // 0x40 mask
+	R1 <1> <-  R0 | 64   (midx: 4)
+//Misc_Routines.c,91 :: 		temp = temp & 0x7F;                   // 0x7F mask
+	R1 <1> <-  R1 & 127   (midx: 4)
+//Misc_Routines.c,92 :: 		write_ZIGBEE_short(BBREG2, temp);
+	R1 <1> <- R1   (midx: 0)
+	R0 <1> <- 58   (midx: 0)
+	CALL _write_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,94 :: 		temp = read_ZIGBEE_short(BBREG2);     // carrier sense threshold
+	R0 <1> <- 58   (midx: 0)
+	CALL _read_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,95 :: 		temp = temp | 0x38;
+	R1 <1> <-  R0 | 56   (midx: 4)
+//Misc_Routines.c,96 :: 		temp = temp & 0xFB;
+	R1 <2> <-  R1 & 251   (midx: 0)
+//Misc_Routines.c,97 :: 		write_ZIGBEE_short(BBREG2, temp);
+	R1 <1> <- R1   (midx: 0)
+	R0 <1> <- 58   (midx: 0)
+	CALL _write_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,99 :: 		break;
+	goto	22   (midx: 0)
+//Misc_Routines.c,101 :: 		case 3: {                               // CARRIER SENSE AND ENERGY ABOVE THRESHOLD
+25:   (midx: 0)
+//Misc_Routines.c,102 :: 		temp = read_ZIGBEE_short(BBREG2);
+	R0 <1> <- 58   (midx: 0)
+	CALL _read_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,103 :: 		temp = temp | 0xC0;                   // 0xC0 mask
+	R1 <2> <-  R0 | 192   (midx: 0)
+//Misc_Routines.c,104 :: 		write_ZIGBEE_short(BBREG2, temp);
+	R1 <1> <- R1   (midx: 0)
+	R0 <1> <- 58   (midx: 0)
+	CALL _write_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,106 :: 		temp = read_ZIGBEE_short(BBREG2);     // carrier sense threshold
+	R0 <1> <- 58   (midx: 0)
+	CALL _read_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,107 :: 		temp = temp | 0x38;                   // 0x38 mask
+	R1 <1> <-  R0 | 56   (midx: 4)
+//Misc_Routines.c,108 :: 		temp = temp & 0xFB;                   // 0xFB mask
+	R1 <2> <-  R1 & 251   (midx: 0)
+//Misc_Routines.c,109 :: 		write_ZIGBEE_short(BBREG2, temp);
+	R1 <1> <- R1   (midx: 0)
+	R0 <1> <- 58   (midx: 0)
+	CALL _write_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,111 :: 		write_ZIGBEE_short(CCAEDTH, 0x60);    // Set CCA ED threshold to -69 dBm
+	R1 <1> <- 96   (midx: 0)
+	R0 <1> <- 63   (midx: 0)
+	CALL _write_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,113 :: 		break;
+	goto	22   (midx: 0)
+//Misc_Routines.c,114 :: 		}
+21:   (midx: 0)
+   (midx: 0)
+	if ( R0 = 1) then goto 23   (midx: 4)
+	if ( R0 = 2) then goto 24   (midx: 4)
+   (midx: 0)
+	if ( R0 = 3) then goto 25   (midx: 4)
+22:   (midx: 0)
+  end
+   (midx: 0)
+_set_RSSI_mode:
+  begin   (midx: 0)
+//Misc_Routines.c,120 :: 		void set_RSSI_mode(short int RSSI_mode) {       // 1 for RSSI1, 2 for RSSI2 mode
+_set_RSSI_mode:
+  begin   (midx: 0)
+   (midx: 0)
+   (midx: 0)
+   (midx: 0)
+	R0 <1> <- R0   (midx: 0)
+   (midx: 0)
+//Misc_Routines.c,121 :: 		short int temp = 0;
+   (midx: 0)
+//Misc_Routines.c,123 :: 		switch(RSSI_mode) {
+   (midx: 0)
+	goto	26   (midx: 0)
+//Misc_Routines.c,124 :: 		case 1: {
+28:   (midx: 0)
+//Misc_Routines.c,125 :: 		temp = read_ZIGBEE_short(BBREG6);
+	R0 <1> <- 62   (midx: 0)
+	CALL _read_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,126 :: 		temp = temp | 0x80;                       // 0x80 mask for RSSI1 mode
+	R1 <2> <-  R0 | 128   (midx: 0)
+//Misc_Routines.c,127 :: 		write_ZIGBEE_short(BBREG6, temp);
+	R1 <1> <- R1   (midx: 0)
+	R0 <1> <- 62   (midx: 0)
+	CALL _write_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,129 :: 		break;
+	goto	27   (midx: 0)
+//Misc_Routines.c,131 :: 		case 2:
+29:   (midx: 0)
+//Misc_Routines.c,132 :: 		write_ZIGBEE_short(BBREG6, 0x40);         // 0x40 data for RSSI2 mode
+	R1 <1> <- 64   (midx: 0)
+	R0 <1> <- 62   (midx: 0)
+	CALL _write_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,133 :: 		break;
+	goto	27   (midx: 0)
+//Misc_Routines.c,134 :: 		}
+26:   (midx: 0)
+   (midx: 0)
+	if ( R0 = 1) then goto 28   (midx: 4)
+   (midx: 0)
+	if ( R0 = 2) then goto 29   (midx: 4)
+27:   (midx: 0)
+  end
+   (midx: 0)
+_nonbeacon_PAN_coordinator_device:
+  begin   (midx: 0)
+//Misc_Routines.c,140 :: 		void nonbeacon_PAN_coordinator_device() {
+_nonbeacon_PAN_coordinator_device:
+  begin   (midx: 0)
+//Misc_Routines.c,141 :: 		short int temp = 0;
+   (midx: 0)
+//Misc_Routines.c,143 :: 		temp = read_ZIGBEE_short(RXMCR);
+	R0 <1> <- 0   (midx: 0)
+	CALL _read_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,144 :: 		temp = temp | 0x08;                 // 0x08 mask for PAN coordinator
+	R0 <1> <-  R0 | 8   (midx: 4)
+//Misc_Routines.c,145 :: 		write_ZIGBEE_short(RXMCR, temp);
+	R1 <1> <- R0   (midx: 0)
+	R0 <1> <- 0   (midx: 0)
+	CALL _write_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,147 :: 		temp = read_ZIGBEE_short(TXMCR);
+	R0 <1> <- 17   (midx: 0)
+	CALL _read_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,148 :: 		temp = temp & 0xDF;                 // 0xDF mask for CSMA-CA mode
+	R0 <2> <-  R0 & 223   (midx: 0)
+//Misc_Routines.c,149 :: 		write_ZIGBEE_short(TXMCR, temp);
+	R1 <1> <- R0   (midx: 0)
+	R0 <1> <- 17   (midx: 0)
+	CALL _write_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,151 :: 		write_ZIGBEE_short(ORDER, 0xFF);    // BO, SO are 15
+	R1 <1> <- 255   (midx: 0)
+	R0 <1> <- 16   (midx: 0)
+	CALL _write_ZIGBEE_short   (midx: 0)
+  end
+   (midx: 0)
+_nonbeacon_coordinator_device:
+  begin   (midx: 0)
+//Misc_Routines.c,154 :: 		void nonbeacon_coordinator_device() {
+_nonbeacon_coordinator_device:
+  begin   (midx: 0)
+//Misc_Routines.c,155 :: 		short int temp = 0;
+   (midx: 0)
+//Misc_Routines.c,157 :: 		temp = read_ZIGBEE_short(RXMCR);
+	R0 <1> <- 0   (midx: 0)
+	CALL _read_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,158 :: 		temp = temp | 0x04;                 // 0x04 mask for coordinator
+	R0 <1> <-  R0 | 4   (midx: 4)
+//Misc_Routines.c,159 :: 		write_ZIGBEE_short(RXMCR, temp);
+	R1 <1> <- R0   (midx: 0)
+	R0 <1> <- 0   (midx: 0)
+	CALL _write_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,161 :: 		temp = read_ZIGBEE_short(TXMCR);
+	R0 <1> <- 17   (midx: 0)
+	CALL _read_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,162 :: 		temp = temp & 0xDF;                 // 0xDF mask for CSMA-CA mode
+	R0 <2> <-  R0 & 223   (midx: 0)
+//Misc_Routines.c,163 :: 		write_ZIGBEE_short(TXMCR, temp);
+	R1 <1> <- R0   (midx: 0)
+	R0 <1> <- 17   (midx: 0)
+	CALL _write_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,165 :: 		write_ZIGBEE_short(ORDER, 0xFF);    // BO, SO  are 15
+	R1 <1> <- 255   (midx: 0)
+	R0 <1> <- 16   (midx: 0)
+	CALL _write_ZIGBEE_short   (midx: 0)
+  end
+   (midx: 0)
+_nonbeacon_device:
+  begin   (midx: 0)
+//Misc_Routines.c,168 :: 		void nonbeacon_device() {
+_nonbeacon_device:
+  begin   (midx: 0)
+//Misc_Routines.c,169 :: 		short int temp = 0;
+   (midx: 0)
+//Misc_Routines.c,171 :: 		temp = read_ZIGBEE_short(RXMCR);
+	R0 <1> <- 0   (midx: 0)
+	CALL _read_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,172 :: 		temp = temp & 0xF3;                 // 0xF3 mask for PAN coordinator and coordinator
+	R0 <2> <-  R0 & 243   (midx: 0)
+//Misc_Routines.c,173 :: 		write_ZIGBEE_short(RXMCR, temp);
+	R1 <1> <- R0   (midx: 0)
+	R0 <1> <- 0   (midx: 0)
+	CALL _write_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,175 :: 		temp = read_ZIGBEE_short(TXMCR);
+	R0 <1> <- 17   (midx: 0)
+	CALL _read_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,176 :: 		temp = temp & 0xDF;                 // 0xDF mask for CSMA-CA mode
+	R0 <2> <-  R0 & 223   (midx: 0)
+//Misc_Routines.c,177 :: 		write_ZIGBEE_short(TXMCR, temp);
+	R1 <1> <- R0   (midx: 0)
+	R0 <1> <- 17   (midx: 0)
+	CALL _write_ZIGBEE_short   (midx: 0)
+  end
+   (midx: 0)
+_set_ACK:
+  begin   (midx: 0)
+//Misc_Routines.c,183 :: 		void set_ACK() {
+_set_ACK:
+  begin   (midx: 0)
+//Misc_Routines.c,184 :: 		short int temp = 0;
+   (midx: 0)
+//Misc_Routines.c,186 :: 		temp = read_ZIGBEE_short(TXNCON);
+	R0 <1> <- 27   (midx: 0)
+	CALL _read_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,187 :: 		temp = temp | 0x04;                 // 0x04 mask for set ACK
+	R0 <1> <-  R0 | 4   (midx: 4)
+//Misc_Routines.c,188 :: 		write_ZIGBEE_short(TXNCON, temp);
+	R1 <1> <- R0   (midx: 0)
+	R0 <1> <- 27   (midx: 0)
+	CALL _write_ZIGBEE_short   (midx: 0)
+  end
+   (midx: 0)
+_set_not_ACK:
+  begin   (midx: 0)
+//Misc_Routines.c,191 :: 		void set_not_ACK() {
+_set_not_ACK:
+  begin   (midx: 0)
+//Misc_Routines.c,192 :: 		short int temp = 0;
+   (midx: 0)
+//Misc_Routines.c,194 :: 		temp = read_ZIGBEE_short(TXNCON);
+	R0 <1> <- 27   (midx: 0)
+	CALL _read_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,195 :: 		temp = temp & (!0x04);              // 0x04 mask for set not ACK
+	R0 <1> <-  R0 & 0   (midx: 4)
+//Misc_Routines.c,196 :: 		write_ZIGBEE_short(TXNCON, temp);
+	R1 <1> <- R0   (midx: 0)
+	R0 <1> <- 27   (midx: 0)
+	CALL _write_ZIGBEE_short   (midx: 0)
+  end
+   (midx: 0)
+_set_encrypt:
+  begin   (midx: 0)
+//Misc_Routines.c,202 :: 		void set_encrypt() {
+_set_encrypt:
+  begin   (midx: 0)
+//Misc_Routines.c,203 :: 		short int temp = 0;
+   (midx: 0)
+//Misc_Routines.c,205 :: 		temp = read_ZIGBEE_short(TXNCON);
+	R0 <1> <- 27   (midx: 0)
+	CALL _read_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,206 :: 		temp = temp | 0x02;                 // mask for set encrypt
+	R0 <1> <-  R0 | 2   (midx: 4)
+//Misc_Routines.c,207 :: 		write_ZIGBEE_short(TXNCON, temp);
+	R1 <1> <- R0   (midx: 0)
+	R0 <1> <- 27   (midx: 0)
+	CALL _write_ZIGBEE_short   (midx: 0)
+  end
+   (midx: 0)
+_set_not_encrypt:
+  begin   (midx: 0)
+//Misc_Routines.c,210 :: 		void set_not_encrypt(void){
+_set_not_encrypt:
+  begin   (midx: 0)
+//Misc_Routines.c,211 :: 		short int temp = 0;
+   (midx: 0)
+//Misc_Routines.c,213 :: 		temp = read_ZIGBEE_short(TXNCON);
+	R0 <1> <- 27   (midx: 0)
+	CALL _read_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,214 :: 		temp = temp & (!0x02);              // mask for set not encrypt
+	R0 <1> <-  R0 & 0   (midx: 4)
+//Misc_Routines.c,215 :: 		write_ZIGBEE_short(TXNCON, temp);
+	R1 <1> <- R0   (midx: 0)
+	R0 <1> <- 27   (midx: 0)
+	CALL _write_ZIGBEE_short   (midx: 0)
+  end
+   (midx: 0)
+_set_IFS_recomended:
+  begin   (midx: 0)
+//Misc_Routines.c,221 :: 		void set_IFS_recomended() {
+_set_IFS_recomended:
+  begin   (midx: 0)
+//Misc_Routines.c,222 :: 		short int temp = 0;
+   (midx: 0)
+//Misc_Routines.c,224 :: 		write_ZIGBEE_short(RXMCR, 0x93);    // Min SIFS Period
+	R1 <1> <- 147   (midx: 0)
+	R0 <1> <- 0   (midx: 0)
+	CALL _write_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,226 :: 		temp = read_ZIGBEE_short(TXPEND);
+	R0 <1> <- 33   (midx: 0)
+	CALL _read_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,227 :: 		temp = temp | 0x7C;                 // MinLIFSPeriod
+	R0 <1> <-  R0 | 124   (midx: 4)
+//Misc_Routines.c,228 :: 		write_ZIGBEE_short(TXPEND, temp);
+	R1 <1> <- R0   (midx: 0)
+	R0 <1> <- 33   (midx: 0)
+	CALL _write_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,230 :: 		temp = read_ZIGBEE_short(TXSTBL);
+	R0 <1> <- 46   (midx: 0)
+	CALL _read_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,231 :: 		temp = temp | 0x90;                 // MinLIFSPeriod
+	R0 <2> <-  R0 | 144   (midx: 0)
+//Misc_Routines.c,232 :: 		write_ZIGBEE_short(TXSTBL, temp);
+	R1 <1> <- R0   (midx: 0)
+	R0 <1> <- 46   (midx: 0)
+	CALL _write_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,234 :: 		temp = read_ZIGBEE_short(TXTIME);
+	R0 <1> <- 39   (midx: 0)
+	CALL _read_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,235 :: 		temp = temp | 0x31;                 // TurnaroundTime
+	R0 <1> <-  R0 | 49   (midx: 4)
+//Misc_Routines.c,236 :: 		write_ZIGBEE_short(TXTIME, temp);
+	R1 <1> <- R0   (midx: 0)
+	R0 <1> <- 39   (midx: 0)
+	CALL _write_ZIGBEE_short   (midx: 0)
+  end
+   (midx: 0)
+_set_IFS_default:
+  begin   (midx: 0)
+//Misc_Routines.c,239 :: 		void set_IFS_default() {
+_set_IFS_default:
+  begin   (midx: 0)
+//Misc_Routines.c,240 :: 		short int temp = 0;
+   (midx: 0)
+//Misc_Routines.c,242 :: 		write_ZIGBEE_short(RXMCR, 0x75);    // Min SIFS Period
+	R1 <1> <- 117   (midx: 0)
+	R0 <1> <- 0   (midx: 0)
+	CALL _write_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,244 :: 		temp = read_ZIGBEE_short(TXPEND);
+	R0 <1> <- 33   (midx: 0)
+	CALL _read_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,245 :: 		temp = temp | 0x84;                 // Min LIFS Period
+	R0 <2> <-  R0 | 132   (midx: 0)
+//Misc_Routines.c,246 :: 		write_ZIGBEE_short(TXPEND, temp);
+	R1 <1> <- R0   (midx: 0)
+	R0 <1> <- 33   (midx: 0)
+	CALL _write_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,248 :: 		temp = read_ZIGBEE_short(TXSTBL);
+	R0 <1> <- 46   (midx: 0)
+	CALL _read_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,249 :: 		temp = temp | 0x50;                 // Min LIFS Period
+	R0 <1> <-  R0 | 80   (midx: 4)
+//Misc_Routines.c,250 :: 		write_ZIGBEE_short(TXSTBL, temp);
+	R1 <1> <- R0   (midx: 0)
+	R0 <1> <- 46   (midx: 0)
+	CALL _write_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,252 :: 		temp = read_ZIGBEE_short(TXTIME);
+	R0 <1> <- 39   (midx: 0)
+	CALL _read_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,253 :: 		temp = temp | 0x41;                 // Turnaround Time
+	R0 <1> <-  R0 | 65   (midx: 4)
+//Misc_Routines.c,254 :: 		write_ZIGBEE_short(TXTIME, temp);
+	R1 <1> <- R0   (midx: 0)
+	R0 <1> <- 39   (midx: 0)
+	CALL _write_ZIGBEE_short   (midx: 0)
+  end
+   (midx: 0)
+_set_reception_mode:
+  begin   (midx: 0)
+//Misc_Routines.c,260 :: 		void set_reception_mode(short int r_mode) { // 1 normal, 2 error, 3 promiscuous mode
+_set_reception_mode:
+  begin   (midx: 0)
+   (midx: 0)
+   (midx: 0)
+   (midx: 0)
+	R0 <1> <- R0   (midx: 0)
+   (midx: 0)
+//Misc_Routines.c,261 :: 		short int temp = 0;
+   (midx: 0)
+//Misc_Routines.c,263 :: 		switch(r_mode) {
+   (midx: 0)
+	goto	30   (midx: 0)
+//Misc_Routines.c,264 :: 		case 1: {
+32:   (midx: 0)
+//Misc_Routines.c,265 :: 		temp = read_ZIGBEE_short(RXMCR);      // normal mode
+	R0 <1> <- 0   (midx: 0)
+	CALL _read_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,266 :: 		temp = temp & (!0x03);                // mask for normal mode
+	R1 <1> <-  R0 & 0   (midx: 4)
+//Misc_Routines.c,267 :: 		write_ZIGBEE_short(RXMCR, temp);
+	R1 <1> <- R1   (midx: 0)
+	R0 <1> <- 0   (midx: 0)
+	CALL _write_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,269 :: 		break;
+	goto	31   (midx: 0)
+//Misc_Routines.c,271 :: 		case 2: {
+33:   (midx: 0)
+//Misc_Routines.c,272 :: 		temp = read_ZIGBEE_short(RXMCR);      // error mode
+	R0 <1> <- 0   (midx: 0)
+	CALL _read_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,273 :: 		temp = temp & (!0x01);                // mask for error mode
+	R1 <1> <-  R0 & 0   (midx: 4)
+//Misc_Routines.c,274 :: 		temp = temp | 0x02;                   // mask for error mode
+	R1 <1> <-  R1 | 2   (midx: 4)
+//Misc_Routines.c,275 :: 		write_ZIGBEE_short(RXMCR, temp);
+	R1 <1> <- R1   (midx: 0)
+	R0 <1> <- 0   (midx: 0)
+	CALL _write_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,277 :: 		break;
+	goto	31   (midx: 0)
+//Misc_Routines.c,279 :: 		case 3: {
+34:   (midx: 0)
+//Misc_Routines.c,280 :: 		temp = read_ZIGBEE_short(RXMCR);      // promiscuous mode
+	R0 <1> <- 0   (midx: 0)
+	CALL _read_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,281 :: 		temp = temp & (!0x02);                // mask for promiscuous mode
+	R1 <1> <-  R0 & 0   (midx: 4)
+//Misc_Routines.c,282 :: 		temp = temp | 0x01;                   // mask for promiscuous mode
+	R1 <1> <-  R1 | 1   (midx: 4)
+//Misc_Routines.c,283 :: 		write_ZIGBEE_short(RXMCR, temp);
+	R1 <1> <- R1   (midx: 0)
+	R0 <1> <- 0   (midx: 0)
+	CALL _write_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,285 :: 		break;
+	goto	31   (midx: 0)
+//Misc_Routines.c,286 :: 		}
+30:   (midx: 0)
+   (midx: 0)
+	if ( R0 = 1) then goto 32   (midx: 4)
+	if ( R0 = 2) then goto 33   (midx: 4)
+   (midx: 0)
+	if ( R0 = 3) then goto 34   (midx: 4)
+31:   (midx: 0)
+  end
+   (midx: 0)
+_set_frame_format_filter:
+  begin   (midx: 0)
+//Misc_Routines.c,292 :: 		void set_frame_format_filter(short int fff_mode) {   // 1 all frames, 2 command only, 3 data only, 4 beacon only
+_set_frame_format_filter:
+  begin   (midx: 0)
+   (midx: 0)
+   (midx: 0)
+   (midx: 0)
+	R0 <1> <- R0   (midx: 0)
+   (midx: 0)
+//Misc_Routines.c,293 :: 		short int temp = 0;
+   (midx: 0)
+//Misc_Routines.c,295 :: 		switch(fff_mode) {
+   (midx: 0)
+	goto	35   (midx: 0)
+//Misc_Routines.c,296 :: 		case 1: {
+37:   (midx: 0)
+//Misc_Routines.c,297 :: 		temp = read_ZIGBEE_short(RXFLUSH);      // all frames
+	R0 <1> <- 13   (midx: 0)
+	CALL _read_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,298 :: 		temp = temp & (!0x0E);                  // mask for all frames
+	R1 <1> <-  R0 & 0   (midx: 4)
+//Misc_Routines.c,299 :: 		write_ZIGBEE_short(RXFLUSH, temp);
+	R1 <1> <- R1   (midx: 0)
+	R0 <1> <- 13   (midx: 0)
+	CALL _write_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,301 :: 		break;
+	goto	36   (midx: 0)
+//Misc_Routines.c,303 :: 		case 2: {
+38:   (midx: 0)
+//Misc_Routines.c,304 :: 		temp = read_ZIGBEE_short(RXFLUSH);      // command only
+	R0 <1> <- 13   (midx: 0)
+	CALL _read_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,305 :: 		temp = temp & (!0x06);                  // mask for command only
+	R1 <1> <-  R0 & 0   (midx: 4)
+//Misc_Routines.c,306 :: 		temp = temp | 0x08;                     // mask for command only
+	R1 <1> <-  R1 | 8   (midx: 4)
+//Misc_Routines.c,307 :: 		write_ZIGBEE_short(RXFLUSH, temp);
+	R1 <1> <- R1   (midx: 0)
+	R0 <1> <- 13   (midx: 0)
+	CALL _write_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,309 :: 		break;
+	goto	36   (midx: 0)
+//Misc_Routines.c,311 :: 		case 3: {
+39:   (midx: 0)
+//Misc_Routines.c,312 :: 		temp = read_ZIGBEE_short(RXFLUSH);      // data only
+	R0 <1> <- 13   (midx: 0)
+	CALL _read_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,313 :: 		temp = temp & (!0x0A);                  // mask for data only
+	R1 <1> <-  R0 & 0   (midx: 4)
+//Misc_Routines.c,314 :: 		temp = temp | 0x04;                     // mask for data only
+	R1 <1> <-  R1 | 4   (midx: 4)
+//Misc_Routines.c,315 :: 		write_ZIGBEE_short(RXFLUSH, temp);
+	R1 <1> <- R1   (midx: 0)
+	R0 <1> <- 13   (midx: 0)
+	CALL _write_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,317 :: 		break;
+	goto	36   (midx: 0)
+//Misc_Routines.c,319 :: 		case 4: {
+40:   (midx: 0)
+//Misc_Routines.c,320 :: 		temp = read_ZIGBEE_short(RXFLUSH);      // beacon only
+	R0 <1> <- 13   (midx: 0)
+	CALL _read_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,321 :: 		temp = temp & (!0x0C);                  // mask for beacon only
+	R1 <1> <-  R0 & 0   (midx: 4)
+//Misc_Routines.c,322 :: 		temp = temp | 0x02;                     // mask for beacon only
+	R1 <1> <-  R1 | 2   (midx: 4)
+//Misc_Routines.c,323 :: 		write_ZIGBEE_short(RXFLUSH, temp);
+	R1 <1> <- R1   (midx: 0)
+	R0 <1> <- 13   (midx: 0)
+	CALL _write_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,325 :: 		break;
+	goto	36   (midx: 0)
+//Misc_Routines.c,326 :: 		}
+35:   (midx: 0)
+   (midx: 0)
+	if ( R0 = 1) then goto 37   (midx: 4)
+	if ( R0 = 2) then goto 38   (midx: 4)
+	if ( R0 = 3) then goto 39   (midx: 4)
+   (midx: 0)
+	if ( R0 = 4) then goto 40   (midx: 4)
+36:   (midx: 0)
+  end
+   (midx: 0)
+_flush_RX_FIFO_pointer:
+  begin   (midx: 0)
+//Misc_Routines.c,332 :: 		void flush_RX_FIFO_pointer() {
+_flush_RX_FIFO_pointer:
+  begin   (midx: 0)
+//Misc_Routines.c,335 :: 		temp = read_ZIGBEE_short(RXFLUSH);
+	R0 <1> <- 13   (midx: 0)
+	CALL _read_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,336 :: 		temp = temp | 0x01;                        // mask for flush RX FIFO
+	R0 <1> <-  R0 | 1   (midx: 4)
+//Misc_Routines.c,337 :: 		write_ZIGBEE_short(RXFLUSH, temp);
+	R1 <1> <- R0   (midx: 0)
+	R0 <1> <- 13   (midx: 0)
+	CALL _write_ZIGBEE_short   (midx: 0)
+  end
+   (midx: 0)
+_set_short_address:
+  begin   (midx: 0)
+//Misc_Routines.c,343 :: 		void set_short_address(short int * address) {
+_set_short_address:
+  begin   (midx: 0)
+   (midx: 0)
+   (midx: 0)
+   (midx: 0)
+	R0 <4> <- R0   (midx: 0)
+   (midx: 0)
+//Misc_Routines.c,344 :: 		write_ZIGBEE_short(SADRL, address[0]);
+	R1 <1> <- *R0   (midx: 0)
+	R1 <1> <- R1   (midx: 0)
+	R0 <4> <- PUSH(R0)   (midx: 255)
+	R1 <1> <- R1   (midx: 0)
+	R0 <1> <- 3   (midx: 0)
+	CALL _write_ZIGBEE_short   (midx: 0)
+	R0 <4> <- POP   (midx: 255)
+//Misc_Routines.c,345 :: 		write_ZIGBEE_short(SADRH, address[1]);
+   (midx: 0)
+	R1 <4> <-  R0 + 1   (midx: 2)
+	R1 <1> <- *R1   (midx: 0)
+	R1 <1> <- R1   (midx: 0)
+	R1 <1> <- R1   (midx: 0)
+	R0 <1> <- 4   (midx: 0)
+	CALL _write_ZIGBEE_short   (midx: 0)
+  end
+   (midx: 0)
+_set_long_address:
+  begin   (midx: 0)
+//Misc_Routines.c,348 :: 		void set_long_address(short int * address) {
+_set_long_address:
+  begin   (midx: 0)
+//Misc_Routines.c,351 :: 		for(i = 0; i < 8; i++) {
+   (midx: 0)
+//Misc_Routines.c,348 :: 		void set_long_address(short int * address) {
+   (midx: 0)
+//Misc_Routines.c,351 :: 		for(i = 0; i < 8; i++) {
+   (midx: 0)
+//Misc_Routines.c,348 :: 		void set_long_address(short int * address) {
+	FARG_set_long_address_address <4> <- R0   (midx: 0)
+//Misc_Routines.c,349 :: 		short int i = 0;
+   (midx: 0)
+//Misc_Routines.c,351 :: 		for(i = 0; i < 8; i++) {
+   (midx: 0)
+   (midx: 0)
+	R3 <1> <- 0   (midx: 0)
+	R0 <1> <- R3   (midx: 0)
+41:   (midx: 0)
+   (midx: 0)
+	if ( R0 >= 8) then goto 42   (midx: 4)
+//Misc_Routines.c,352 :: 		write_ZIGBEE_short(EADR0 + i, address[i]);   // 0x05 address of EADR0
+	R1 <4> <- FARG_set_long_address_address   (midx: 0)
+	R1 <4> <-  R1 + R0   (midx: 2)
+	R1 <1> <- *R1   (midx: 0)
+	R2 <1> <- R1   (midx: 0)
+	R1 <2> <-  5 + R0   (midx: 4)
+	R0 <1> <- PUSH(R0)   (midx: 255)
+	R0 <1> <- R1   (midx: 0)
+	R1 <1> <- R2   (midx: 0)
+	CALL _write_ZIGBEE_short   (midx: 0)
+	R0 <1> <- POP   (midx: 255)
+//Misc_Routines.c,351 :: 		for(i = 0; i < 8; i++) {
+   (midx: 0)
+	R1 <1> <-  R0 + 1   (midx: 0)
+   (midx: 0)
+	R3 <1> <- R1   (midx: 0)
+//Misc_Routines.c,353 :: 		}
+   (midx: 0)
+	R0 <1> <- R3   (midx: 0)
+	goto	41   (midx: 0)
+42:   (midx: 0)
+  end
+   (midx: 0)
+_set_PAN_ID:
+  begin   (midx: 0)
+//Misc_Routines.c,356 :: 		void set_PAN_ID(short int * address) {
+_set_PAN_ID:
+  begin   (midx: 0)
+   (midx: 0)
+   (midx: 0)
+   (midx: 0)
+	R0 <4> <- R0   (midx: 0)
+   (midx: 0)
+//Misc_Routines.c,357 :: 		write_ZIGBEE_short(PANIDL, address[0]);
+	R1 <1> <- *R0   (midx: 0)
+	R1 <1> <- R1   (midx: 0)
+	R0 <4> <- PUSH(R0)   (midx: 255)
+	R1 <1> <- R1   (midx: 0)
+	R0 <1> <- 1   (midx: 0)
+	CALL _write_ZIGBEE_short   (midx: 0)
+	R0 <4> <- POP   (midx: 255)
+//Misc_Routines.c,358 :: 		write_ZIGBEE_short(PANIDH, address[1]);
+   (midx: 0)
+	R1 <4> <-  R0 + 1   (midx: 2)
+	R1 <1> <- *R1   (midx: 0)
+	R1 <1> <- R1   (midx: 0)
+	R1 <1> <- R1   (midx: 0)
+	R0 <1> <- 2   (midx: 0)
+	CALL _write_ZIGBEE_short   (midx: 0)
+  end
+   (midx: 0)
+_set_wake_from_pin:
+  begin   (midx: 0)
+//Misc_Routines.c,364 :: 		void set_wake_from_pin() {
+_set_wake_from_pin:
+  begin   (midx: 0)
+//Misc_Routines.c,365 :: 		short int temp = 0;
+   (midx: 0)
+//Misc_Routines.c,367 :: 		WAKE_ = 0;
+	R1 <1> <- 0   (midx: 0)
+	R0 <4> <- addr(WAKE_)   (midx: 0)
+	[R0] <0> <- R1   (midx: 0)
+//Misc_Routines.c,368 :: 		temp = read_ZIGBEE_short(RXFLUSH);
+	R0 <1> <- 13   (midx: 0)
+	CALL _read_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,369 :: 		temp = temp | 0x60;                     // mask
+	R0 <1> <-  R0 | 96   (midx: 4)
+//Misc_Routines.c,370 :: 		write_ZIGBEE_short(RXFLUSH, temp);
+	R1 <1> <- R0   (midx: 0)
+	R0 <1> <- 13   (midx: 0)
+	CALL _write_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,372 :: 		temp = read_ZIGBEE_short(WAKECON);
+	R0 <1> <- 34   (midx: 0)
+	CALL _read_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,373 :: 		temp = temp | 0x80;
+	R0 <2> <-  R0 | 128   (midx: 0)
+//Misc_Routines.c,374 :: 		write_ZIGBEE_short(WAKECON, temp);
+	R1 <1> <- R0   (midx: 0)
+	R0 <1> <- 34   (midx: 0)
+	CALL _write_ZIGBEE_short   (midx: 0)
+  end
+   (midx: 0)
+_pin_wake:
+  begin   (midx: 0)
+//Misc_Routines.c,377 :: 		void pin_wake() {
+_pin_wake:
+  begin   (midx: 0)
+//Misc_Routines.c,378 :: 		WAKE_ = 1;
+	R1 <1> <- 1   (midx: 0)
+	R0 <4> <- addr(WAKE_)   (midx: 0)
+	[R0] <0> <- R1   (midx: 0)
+//Misc_Routines.c,379 :: 		Delay_ms(5);
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 2)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 5)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+	asm: -1   (midx: 1)
+  end
+   (midx: 0)
+_enable_PLL:
+  begin   (midx: 0)
+//Misc_Routines.c,385 :: 		void enable_PLL() {
+_enable_PLL:
+  begin   (midx: 0)
+//Misc_Routines.c,386 :: 		write_ZIGBEE_long(RFCON2, 0x80);       // mask for PLL enable
+	R1 <1> <- 128   (midx: 0)
+	R0 <2> <- 514   (midx: 0)
+	CALL _write_ZIGBEE_long   (midx: 0)
+  end
+   (midx: 0)
+_disable_PLL:
+  begin   (midx: 0)
+//Misc_Routines.c,389 :: 		void disable_PLL() {
+_disable_PLL:
+  begin   (midx: 0)
+//Misc_Routines.c,390 :: 		write_ZIGBEE_long(RFCON2, 0x00);       // mask for PLL disable
+	R1 <1> <- 0   (midx: 0)
+	R0 <2> <- 514   (midx: 0)
+	CALL _write_ZIGBEE_long   (midx: 0)
+  end
+   (midx: 0)
+_set_TX_power:
+  begin   (midx: 0)
+//Misc_Routines.c,396 :: 		void set_TX_power(unsigned short int power) {             // 0-31 possible variants
+_set_TX_power:
+  begin   (midx: 0)
+   (midx: 0)
+   (midx: 0)
+   (midx: 0)
+	R0 <1> <- R0   (midx: 0)
+   (midx: 0)
+//Misc_Routines.c,397 :: 		if((power < 0) || (power > 31))
+	if ( R0 < 0) then goto 59   (midx: 0)
+	if ( R0 > 31) then goto 58   (midx: 0)
+   (midx: 0)
+	R0 <1> <- R0   (midx: 0)
+	goto	47   (midx: 0)
+59:   (midx: 0)
+58:   (midx: 0)
+//Misc_Routines.c,398 :: 		power = 31;
+   (midx: 0)
+   (midx: 0)
+	R0 <1> <- 31   (midx: 0)
+	R0 <1> <- R0   (midx: 0)
+47:   (midx: 0)
+//Misc_Routines.c,399 :: 		power = 31 - power;                                     // 0 max, 31 min -> 31 max, 0 min
+   (midx: 0)
+   (midx: 0)
+	R1 <2> <-  31 - R0   (midx: 0)
+//Misc_Routines.c,400 :: 		power = ((power & 0b00011111) << 3) & 0b11111000;       // calculating power
+	R1 <1> <- R1   (midx: 0)
+	R1 <1> <-  R1 & 31   (midx: 0)
+	R1 <2> <-  R1 shl 3   (midx: 1)
+	R1 <2> <-  R1 & 248   (midx: 1)
+//Misc_Routines.c,401 :: 		write_ZIGBEE_long(RFCON3, power);
+	R1 <1> <- R1   (midx: 0)
+	R0 <2> <- 515   (midx: 0)
+	CALL _write_ZIGBEE_long   (midx: 0)
+  end
+   (midx: 0)
+_init_ZIGBEE_basic:
+  begin   (midx: 0)
+//Misc_Routines.c,407 :: 		void init_ZIGBEE_basic() {
+_init_ZIGBEE_basic:
+  begin   (midx: 0)
+//Misc_Routines.c,408 :: 		write_ZIGBEE_short(PACON2, 0x98);   // Initialize FIFOEN = 1 and TXONTS = 0x6
+	R1 <1> <- 152   (midx: 0)
+	R0 <1> <- 24   (midx: 0)
+	CALL _write_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,409 :: 		write_ZIGBEE_short(TXSTBL, 0x95);   // Initialize RFSTBL = 0x9
+	R1 <1> <- 149   (midx: 0)
+	R0 <1> <- 46   (midx: 0)
+	CALL _write_ZIGBEE_short   (midx: 0)
+//Misc_Routines.c,410 :: 		write_ZIGBEE_long(RFCON1, 0x01);    // Initialize VCOOPT = 0x01
+	R1 <1> <- 1   (midx: 0)
+	R0 <2> <- 513   (midx: 0)
+	CALL _write_ZIGBEE_long   (midx: 0)
+//Misc_Routines.c,411 :: 		enable_PLL();                       // Enable PLL (PLLEN = 1)
+	CALL _enable_PLL   (midx: 0)
+//Misc_Routines.c,412 :: 		write_ZIGBEE_long(RFCON6, 0x90);    // Initialize TXFIL = 1 and 20MRECVR = 1
+	R1 <1> <- 144   (midx: 0)
+	R0 <2> <- 518   (midx: 0)
+	CALL _write_ZIGBEE_long   (midx: 0)
+//Misc_Routines.c,413 :: 		write_ZIGBEE_long(RFCON7, 0x80);    // Initialize SLPCLKSEL = 0x2 (100 kHz Internal oscillator)
+	R1 <1> <- 128   (midx: 0)
+	R0 <2> <- 519   (midx: 0)
+	CALL _write_ZIGBEE_long   (midx: 0)
+//Misc_Routines.c,414 :: 		write_ZIGBEE_long(RFCON8, 0x10);    // Initialize RFVCO = 1
+	R1 <1> <- 16   (midx: 0)
+	R0 <2> <- 520   (midx: 0)
+	CALL _write_ZIGBEE_long   (midx: 0)
+//Misc_Routines.c,415 :: 		write_ZIGBEE_long(SLPCON1, 0x21);   // Initialize CLKOUTEN = 1 and SLPCLKDIV = 0x01
+	R1 <1> <- 33   (midx: 0)
+	R0 <2> <- 544   (midx: 0)
+	CALL _write_ZIGBEE_long   (midx: 0)
+  end
+   (midx: 0)
+_init_ZIGBEE_nonbeacon:
+  begin   (midx: 0)
+//Misc_Routines.c,418 :: 		void init_ZIGBEE_nonbeacon() {
+_init_ZIGBEE_nonbeacon:
+  begin   (midx: 0)
+//Misc_Routines.c,419 :: 		init_ZIGBEE_basic();
+	CALL _init_ZIGBEE_basic   (midx: 0)
+//Misc_Routines.c,420 :: 		set_CCA_mode(1);     // Set CCA mode to ED and set threshold
+	R0 <1> <- 1   (midx: 0)
+	CALL _set_CCA_mode   (midx: 0)
+//Misc_Routines.c,421 :: 		set_RSSI_mode(2);    // RSSI2 mode
+	R0 <1> <- 2   (midx: 0)
+	CALL _set_RSSI_mode   (midx: 0)
+//Misc_Routines.c,422 :: 		enable_interrupt();  // Enables all interrupts
+	CALL _enable_interrupt   (midx: 0)
+//Misc_Routines.c,423 :: 		set_channel(11);     // Channel 11
+	R0 <1> <- 11   (midx: 0)
+	CALL _set_channel   (midx: 0)
+//Misc_Routines.c,424 :: 		RF_reset();
+	CALL _RF_reset   (midx: 0)
+  end
+   (midx: 0)
+_Debounce_INT:
+  begin   (midx: 0)
+//Misc_Routines.c,427 :: 		char Debounce_INT() {
+_Debounce_INT:
+  begin   (midx: 0)
+//Misc_Routines.c,428 :: 		char i = 0, j = 0, intn_d = 0;
+   (midx: 0)
+   (midx: 0)
+   (midx: 0)
+	R2 <-initialize(0)   (midx: 0)
+   (midx: 0)
+//Misc_Routines.c,429 :: 		for(i = 0; i < 5; i++) {
+   (midx: 0)
+   (midx: 0)
+   (midx: 0)
+	R1 <1> <- 0   (midx: 0)
+	R2 <1> <- R2   (midx: 0)
+	R1 <1> <- R1   (midx: 0)
+48:   (midx: 0)
+   (midx: 0)
+   (midx: 0)
+	if ( R1 >= 5) then goto 49   (midx: 0)
+//Misc_Routines.c,430 :: 		intn_d = INT;
+	R0 <4> <- addr(INT)   (midx: 0)
+   (midx: 0)
+	R0 <1> <- [R0]   (midx: 0)
+//Misc_Routines.c,431 :: 		if (intn_d == 1)
+   (midx: 0)
+	if ( R0 != 1) then goto 60   (midx: 0)
+//Misc_Routines.c,432 :: 		j++;
+	R2 <1> <-  R2 + 1   (midx: 0)
+   (midx: 0)
+	R2 <1> <- R2   (midx: 0)
+	R2 <1> <- R2   (midx: 0)
+	goto	51   (midx: 0)
+60:   (midx: 0)
+//Misc_Routines.c,431 :: 		if (intn_d == 1)
+	R2 <1> <- R2   (midx: 0)
+//Misc_Routines.c,432 :: 		j++;
+51:   (midx: 0)
+//Misc_Routines.c,429 :: 		for(i = 0; i < 5; i++) {
+   (midx: 0)
+	R1 <1> <-  R1 + 1   (midx: 0)
+	R1 <1> <- R1   (midx: 0)
+//Misc_Routines.c,433 :: 		}
+   (midx: 0)
+	R2 <1> <- R2   (midx: 0)
+	R1 <1> <- R1   (midx: 0)
+	goto	48   (midx: 0)
+49:   (midx: 0)
+//Misc_Routines.c,434 :: 		if (j > 2)
+   (midx: 0)
+	if ( R2 <= 2) then goto 52   (midx: 0)
+//Misc_Routines.c,435 :: 		return 1;
+	R0 <1> <- 1   (midx: 0)
+	return   (midx: 0)
+52:   (midx: 0)
+//Misc_Routines.c,437 :: 		return 0;
+	R0 <1> <- 0   (midx: 0)
+	return   (midx: 0)
+  end
+   (midx: 0)

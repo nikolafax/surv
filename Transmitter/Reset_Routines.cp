@@ -1,6 +1,6 @@
-#line 1 "C:/SRV/Transmitter/Reset_Routines.c"
-#line 1 "c:/srv/transmitter/registers.h"
-#line 1 "c:/srv/transmitter/readwrite_routines.h"
+#line 1 "D:/git/sur/Transmitter/Reset_Routines.c"
+#line 1 "d:/git/sur/transmitter/registers.h"
+#line 1 "d:/git/sur/transmitter/readwrite_routines.h"
 short int read_ZIGBEE_long(int address);
 void write_ZIGBEE_long(int address, short int data_r);
 short int read_ZIGBEE_short(short int address);
@@ -8,9 +8,9 @@ void write_ZIGBEE_short(short int address, short int data_r);
 void read_RX_FIFO();
 void start_transmit();
 void write_TX_normal_FIFO();
-#line 4 "C:/SRV/Transmitter/Reset_Routines.c"
+#line 4 "D:/git/sur/Transmitter/Reset_Routines.c"
 extern sfr sbit RST;
-#line 12 "C:/SRV/Transmitter/Reset_Routines.c"
+#line 12 "D:/git/sur/Transmitter/Reset_Routines.c"
 void pin_reset() {
  RST = 0;
  Delay_ms(5);

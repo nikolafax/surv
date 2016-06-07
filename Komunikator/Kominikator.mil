@@ -1,255 +1,291 @@
 _usbSend:
   begin   (midx: 0)
-//Kominikator.c,26 :: 		void usbSend() {
+//Kominikator.c,43 :: 		void usbSend() {
 _usbSend:
   begin   (midx: 0)
-//Kominikator.c,28 :: 		for (cnt = 0; cnt < 64; cnt++) {
-	R1 <1> <- 0   (midx: 0)
-	R0 <4> <- addr(_cnt)   (midx: 0)
-	[R0] <1> <- R1   (midx: 0)
-0:   (midx: 0)
-	R0 <4> <- addr(_cnt)   (midx: 0)
-	R0 <1> <- [R0]   (midx: 0)
-	if ( R0 >= 64) then goto 1   (midx: 0)
-//Kominikator.c,29 :: 		writebuff[cnt] = 0;
-	R2 <4> <- addr(_cnt)   (midx: 0)
-	R1 <4> <- [R2]   (midx: 0)
-	R0 <4> <- #_writebuff   (midx: 0)
-	R1 <4> <-  R0 + R1   (midx: 2)
-	R0 <1> <- 0   (midx: 0)
-	[R1] <1> <- R0   (midx: 0)
-//Kominikator.c,28 :: 		for (cnt = 0; cnt < 64; cnt++) {
-	R0 <4> <- R2   (midx: 0)
-	R0 <1> <- [R0]   (midx: 0)
-	R0 <1> <-  R0 + 1   (midx: 0)
-	[R2] <1> <- R0   (midx: 0)
-//Kominikator.c,30 :: 		}
-	goto	0   (midx: 0)
-1:   (midx: 0)
-//Kominikator.c,31 :: 		writebuff[0] = DATA_RX[0];
-	R0 <4> <- addr(_DATA_RX)   (midx: 0)
+//Kominikator.c,44 :: 		writebuff[0] = BEE_RECIVED_DATA[0];
+	R0 <4> <- addr(_BEE_RECIVED_DATA)   (midx: 0)
 	R1 <1> <- [R0]   (midx: 0)
 	R0 <4> <- addr(_writebuff)   (midx: 0)
 	[R0] <1> <- R1   (midx: 0)
-//Kominikator.c,32 :: 		writebuff[1] = DATA_RX[1];
-	R0 <4> <- addr(_DATA_RX+1)   (midx: 0)
+//Kominikator.c,45 :: 		writebuff[1] = BEE_RECIVED_DATA[1];
+	R0 <4> <- addr(_BEE_RECIVED_DATA+1)   (midx: 0)
+	FLOC_usbSend+4 <4> <- R0   (midx: 0)
 	R1 <1> <- [R0]   (midx: 0)
 	R0 <4> <- addr(_writebuff+1)   (midx: 0)
 	[R0] <1> <- R1   (midx: 0)
-//Kominikator.c,33 :: 		writebuff[2] = DATA_RX[2];
-	R0 <4> <- addr(_DATA_RX+2)   (midx: 0)
+//Kominikator.c,46 :: 		writebuff[2] = BEE_RECIVED_DATA[2];
+	R0 <4> <- addr(_BEE_RECIVED_DATA+2)   (midx: 0)
+	FLOC_usbSend+0 <4> <- R0   (midx: 0)
 	R1 <1> <- [R0]   (midx: 0)
 	R0 <4> <- addr(_writebuff+2)   (midx: 0)
 	[R0] <1> <- R1   (midx: 0)
-//Kominikator.c,35 :: 		HID_Write(&writebuff, 64);
+//Kominikator.c,48 :: 		HID_Write(&writebuff, 64);
 	R1 <1> <- 64   (midx: 0)
 	R0 <4> <- #_writebuff   (midx: 0)
 	CALL _HID_Write   (midx: 0)
+//Kominikator.c,50 :: 		BEE_RECIVED_DATA[0] = 0;
+	R1 <1> <- 0   (midx: 0)
+	R0 <4> <- addr(_BEE_RECIVED_DATA)   (midx: 0)
+	[R0] <1> <- R1   (midx: 0)
+//Kominikator.c,51 :: 		BEE_RECIVED_DATA[1] = 0;
+	R1 <1> <- 0   (midx: 0)
+	R0 <4> <- FLOC_usbSend+4   (midx: 0)
+	[R0] <1> <- R1   (midx: 0)
+//Kominikator.c,52 :: 		BEE_RECIVED_DATA[2] = 0;
+	R1 <1> <- 0   (midx: 0)
+	R0 <4> <- FLOC_usbSend+0   (midx: 0)
+	[R0] <1> <- R1   (midx: 0)
   end
    (midx: 0)
 _beeSend:
   begin   (midx: 0)
-//Kominikator.c,50 :: 		void beeSend() {
+//Kominikator.c,55 :: 		void beeSend() {
 _beeSend:
   begin   (midx: 0)
-//Kominikator.c,51 :: 		DATA_TX[0] = writebuff[0];
-	R0 <4> <- addr(_writebuff)   (midx: 0)
+//Kominikator.c,57 :: 		DATA_TX[0] = readbuff[0];
+	R0 <4> <- addr(_readbuff)   (midx: 0)
 	R1 <1> <- [R0]   (midx: 0)
 	R0 <4> <- addr(_DATA_TX)   (midx: 0)
 	[R0] <1> <- R1   (midx: 0)
-//Kominikator.c,52 :: 		DATA_TX[1] = writebuff[1];
-	R0 <4> <- addr(_writebuff+1)   (midx: 0)
+//Kominikator.c,58 :: 		DATA_TX[1] = readbuff[1];
+	R0 <4> <- addr(_readbuff+1)   (midx: 0)
+	FLOC_beeSend+4 <4> <- R0   (midx: 0)
 	R1 <1> <- [R0]   (midx: 0)
 	R0 <4> <- addr(_DATA_TX+1)   (midx: 0)
 	[R0] <1> <- R1   (midx: 0)
-//Kominikator.c,53 :: 		DATA_TX[2] = writebuff[2];
-	R0 <4> <- addr(_writebuff+2)   (midx: 0)
+//Kominikator.c,59 :: 		DATA_TX[2] = readbuff[2];
+	R0 <4> <- addr(_readbuff+2)   (midx: 0)
+	FLOC_beeSend+0 <4> <- R0   (midx: 0)
 	R1 <1> <- [R0]   (midx: 0)
 	R0 <4> <- addr(_DATA_TX+2)   (midx: 0)
 	[R0] <1> <- R1   (midx: 0)
-//Kominikator.c,54 :: 		write_TX_normal_FIFO();
+//Kominikator.c,61 :: 		write_TX_normal_FIFO();
 	CALL _write_TX_normal_FIFO   (midx: 0)
-  end
-   (midx: 0)
-_usbRecive:
-  begin   (midx: 0)
-//Kominikator.c,39 :: 		void usbRecive() {
-_usbRecive:
-  begin   (midx: 0)
-//Kominikator.c,40 :: 		USB_Polling_Proc();
-	CALL _USB_Polling_Proc   (midx: 0)
-//Kominikator.c,42 :: 		kk = HID_Read();
-	CALL _HID_Read   (midx: 0)
-	R1 <4> <- addr(_kk)   (midx: 0)
-	[R1] <1> <- R0   (midx: 0)
-//Kominikator.c,43 :: 		if(kk != 0){
-	if ( R0 = 0) then goto 3   (midx: 0)
-//Kominikator.c,44 :: 		beeSend();
-	CALL _beeSend   (midx: 0)
-//Kominikator.c,45 :: 		writebuff[0] = 0;
+//Kominikator.c,63 :: 		readbuff[0] = 0;
 	R1 <1> <- 0   (midx: 0)
-	R0 <4> <- addr(_writebuff)   (midx: 0)
+	R0 <4> <- addr(_readbuff)   (midx: 0)
 	[R0] <1> <- R1   (midx: 0)
-//Kominikator.c,46 :: 		HID_Write(&writebuff,64);
-	R1 <1> <- 64   (midx: 0)
-	R0 <4> <- #_writebuff   (midx: 0)
-	CALL _HID_Write   (midx: 0)
-//Kominikator.c,47 :: 		}
-3:   (midx: 0)
+//Kominikator.c,64 :: 		readbuff[1] = 0;
+	R1 <1> <- 0   (midx: 0)
+	R0 <4> <- FLOC_beeSend+4   (midx: 0)
+	[R0] <1> <- R1   (midx: 0)
+//Kominikator.c,65 :: 		readbuff[2] = 0;
+	R1 <1> <- 0   (midx: 0)
+	R0 <4> <- FLOC_beeSend+0   (midx: 0)
+	[R0] <1> <- R1   (midx: 0)
   end
    (midx: 0)
-_beeRecive:
+_usbCommunication:
   begin   (midx: 0)
-//Kominikator.c,57 :: 		void beeRecive() {
-_beeRecive:
+//Kominikator.c,31 :: 		void usbCommunication() {
+_usbCommunication:
   begin   (midx: 0)
-//Kominikator.c,58 :: 		if (Debounce_INT() == 0) {             // Debounce line INT
-	CALL _Debounce_INT   (midx: 0)
-	if ( R0 != 0) then goto 4   (midx: 0)
-//Kominikator.c,59 :: 		temp1 = read_ZIGBEE_short(INTSTAT); // Read and flush register INTSTAT
-	R0 <1> <- 49   (midx: 0)
-	CALL _read_ZIGBEE_short   (midx: 0)
-	R1 <4> <- addr(_temp1)   (midx: 0)
-	[R1] <1> <- R0   (midx: 0)
-//Kominikator.c,60 :: 		read_RX_FIFO();                     // Read receive data
-	CALL _read_RX_FIFO   (midx: 0)
-//Kominikator.c,62 :: 		TFT_Set_Font(&TFT_defaultFont, CL_BLACK, FO_HORIZONTAL);
+//Kominikator.c,32 :: 		USB_Polling_Proc();
+	CALL _USB_Polling_Proc   (midx: 0)
+//Kominikator.c,34 :: 		if (HID_Read() != 0) {                                    //usb data recived
+	CALL _HID_Read   (midx: 0)
+	if ( R0 = 0) then goto 0   (midx: 0)
+//Kominikator.c,35 :: 		if (readbuff[2] == 0) { //Read request from server - usb polling protocol
+	R0 <4> <- addr(_readbuff+2)   (midx: 0)
+	R0 <1> <- [R0]   (midx: 0)
+	if ( R0 != 0) then goto 1   (midx: 0)
+//Kominikator.c,36 :: 		usbSend();
+	CALL _usbSend   (midx: 0)
+//Kominikator.c,37 :: 		} else {                                      //Data recived form server
+	goto	2   (midx: 0)
+1:   (midx: 0)
+//Kominikator.c,38 :: 		beeSend();
+	CALL _beeSend   (midx: 0)
+//Kominikator.c,39 :: 		}
+2:   (midx: 0)
+//Kominikator.c,40 :: 		}
+0:   (midx: 0)
+  end
+   (midx: 0)
+_DrawFrame:
+  begin   (midx: 0)
+//Kominikator.c,79 :: 		void DrawFrame() {
+_DrawFrame:
+  begin   (midx: 0)
+//Kominikator.c,80 :: 		TFT_Init_ILI9341_8bit(320, 240);
+	R1 <2> <- 240   (midx: 0)
+	R0 <2> <- 320   (midx: 0)
+	CALL _TFT_Init_ILI9341_8bit   (midx: 0)
+//Kominikator.c,81 :: 		TFT_Fill_Screen(CL_WHITE);
+	R0 <2> <- 65535   (midx: 0)
+	CALL _TFT_Fill_Screen   (midx: 0)
+//Kominikator.c,83 :: 		TFT_Set_Font(&TFT_defaultFont, CL_BLACK, FO_HORIZONTAL);
 	R2 <1> <- 0   (midx: 0)
 	R1 <2> <- 0   (midx: 0)
 	R0 <4> <- #_TFT_defaultFont   (midx: 0)
 	CALL _TFT_Set_Font   (midx: 0)
-//Kominikator.c,63 :: 		ByteToStr(DATA_RX[0], &txt);         // Convert third byte to string
+//Kominikator.c,84 :: 		ByteToStr(DATA_RX[0], &txt);         // Convert third byte to string
 	R0 <4> <- addr(_DATA_RX)   (midx: 0)
 	R0 <1> <- [R0]   (midx: 0)
 	R1 <4> <- #_txt   (midx: 0)
 	R0 <1> <- R0   (midx: 0)
 	CALL _ByteToStr   (midx: 0)
-//Kominikator.c,64 :: 		TFT_Write_Text(txt, 195, 80);       // Display string on TFT
+//Kominikator.c,86 :: 		TFT_Write_Text(txt, 195, 80);       // Display string on TFT
 	R2 <2> <- 80   (midx: 0)
 	R1 <2> <- 195   (midx: 0)
 	R0 <4> <- #_txt   (midx: 0)
 	CALL _TFT_Write_Text   (midx: 0)
-//Kominikator.c,66 :: 		ByteToStr(DATA_RX[1], &txt);
+//Kominikator.c,88 :: 		ByteToStr(DATA_RX[1], &txt);
 	R0 <4> <- addr(_DATA_RX+1)   (midx: 0)
 	R0 <1> <- [R0]   (midx: 0)
 	R1 <4> <- #_txt   (midx: 0)
 	R0 <1> <- R0   (midx: 0)
 	CALL _ByteToStr   (midx: 0)
-//Kominikator.c,67 :: 		TFT_Write_Text(txt, 195, 90);
+//Kominikator.c,89 :: 		TFT_Write_Text(txt, 195, 90);
 	R2 <2> <- 90   (midx: 0)
 	R1 <2> <- 195   (midx: 0)
 	R0 <4> <- #_txt   (midx: 0)
 	CALL _TFT_Write_Text   (midx: 0)
-//Kominikator.c,69 :: 		ByteToStr(DATA_RX[2], &txt);
+//Kominikator.c,91 :: 		ByteToStr(DATA_RX[2], &txt);
 	R0 <4> <- addr(_DATA_RX+2)   (midx: 0)
 	R0 <1> <- [R0]   (midx: 0)
 	R1 <4> <- #_txt   (midx: 0)
 	R0 <1> <- R0   (midx: 0)
 	CALL _ByteToStr   (midx: 0)
-//Kominikator.c,70 :: 		TFT_Write_Text(txt, 195, 100);
+//Kominikator.c,92 :: 		TFT_Write_Text(txt, 195, 100);
 	R2 <2> <- 100   (midx: 0)
 	R1 <2> <- 195   (midx: 0)
 	R0 <4> <- #_txt   (midx: 0)
 	CALL _TFT_Write_Text   (midx: 0)
-//Kominikator.c,72 :: 		delay_ms(500);
-	asm: -1   (midx: 1)
-	asm: -1   (midx: 1)
-	asm: -1   (midx: 1)
-	asm: -1   (midx: 1)
-	asm: -1   (midx: 2)
-	asm: -1   (midx: 1)
-	asm: -1   (midx: 5)
-	asm: -1   (midx: 1)
-	asm: -1   (midx: 1)
-	asm: -1   (midx: 1)
-	asm: -1   (midx: 1)
-//Kominikator.c,73 :: 		TFT_Set_Font(&TFT_defaultFont, CL_WHITE, FO_HORIZONTAL);
+  end
+   (midx: 0)
+_beeRecive:
+  begin   (midx: 0)
+//Kominikator.c,69 :: 		void beeRecive() {
+_beeRecive:
+  begin   (midx: 0)
+//Kominikator.c,70 :: 		if (Debounce_INT() == 0) {             // Debounce line INT
+	CALL _Debounce_INT   (midx: 0)
+	if ( R0 != 0) then goto 3   (midx: 0)
+//Kominikator.c,71 :: 		temp1 = read_ZIGBEE_short(INTSTAT); // Read and flush register INTSTAT
+	R0 <1> <- 49   (midx: 0)
+	CALL _read_ZIGBEE_short   (midx: 0)
+	R1 <4> <- addr(_temp1)   (midx: 0)
+	[R1] <1> <- R0   (midx: 0)
+//Kominikator.c,72 :: 		read_RX_FIFO();                     // Read receive data
+	CALL _read_RX_FIFO   (midx: 0)
+//Kominikator.c,73 :: 		BEE_RECIVED_DATA[0] = DATA_RX[0];
+	R0 <4> <- addr(_DATA_RX)   (midx: 0)
+	R1 <1> <- [R0]   (midx: 0)
+	R0 <4> <- addr(_BEE_RECIVED_DATA)   (midx: 0)
+	[R0] <1> <- R1   (midx: 0)
+//Kominikator.c,74 :: 		BEE_RECIVED_DATA[1] = DATA_RX[1];
+	R0 <4> <- addr(_DATA_RX+1)   (midx: 0)
+	R1 <1> <- [R0]   (midx: 0)
+	R0 <4> <- addr(_BEE_RECIVED_DATA+1)   (midx: 0)
+	[R0] <1> <- R1   (midx: 0)
+//Kominikator.c,75 :: 		BEE_RECIVED_DATA[2] = DATA_RX[2];
+	R0 <4> <- addr(_DATA_RX+2)   (midx: 0)
+	R1 <1> <- [R0]   (midx: 0)
+	R0 <4> <- addr(_BEE_RECIVED_DATA+2)   (midx: 0)
+	[R0] <1> <- R1   (midx: 0)
+//Kominikator.c,76 :: 		DrawFrame();
+	CALL _DrawFrame   (midx: 0)
+//Kominikator.c,77 :: 		}
+3:   (midx: 0)
+  end
+   (midx: 0)
+_clearDataFromScreen:
+  begin   (midx: 0)
+//Kominikator.c,96 :: 		void clearDataFromScreen() {
+_clearDataFromScreen:
+  begin   (midx: 0)
+//Kominikator.c,97 :: 		TFT_Set_Font(&TFT_defaultFont, CL_WHITE, FO_HORIZONTAL);
 	R2 <1> <- 0   (midx: 0)
 	R1 <2> <- 65535   (midx: 0)
 	R0 <4> <- #_TFT_defaultFont   (midx: 0)
 	CALL _TFT_Set_Font   (midx: 0)
-//Kominikator.c,74 :: 		ByteToStr(DATA_RX[0], &txt);
+//Kominikator.c,98 :: 		ByteToStr(DATA_RX[0], &txt);
 	R0 <4> <- addr(_DATA_RX)   (midx: 0)
 	R0 <1> <- [R0]   (midx: 0)
 	R1 <4> <- #_txt   (midx: 0)
 	R0 <1> <- R0   (midx: 0)
 	CALL _ByteToStr   (midx: 0)
-//Kominikator.c,75 :: 		TFT_Write_Text(txt, 195, 80);       // Delete string from TFT
+//Kominikator.c,99 :: 		TFT_Write_Text(txt, 195, 80);       // Delete string from TFT
 	R2 <2> <- 80   (midx: 0)
 	R1 <2> <- 195   (midx: 0)
 	R0 <4> <- #_txt   (midx: 0)
 	CALL _TFT_Write_Text   (midx: 0)
-//Kominikator.c,77 :: 		ByteToStr(DATA_RX[1], &txt);
+//Kominikator.c,101 :: 		ByteToStr(DATA_RX[1], &txt);
 	R0 <4> <- addr(_DATA_RX+1)   (midx: 0)
 	R0 <1> <- [R0]   (midx: 0)
 	R1 <4> <- #_txt   (midx: 0)
 	R0 <1> <- R0   (midx: 0)
 	CALL _ByteToStr   (midx: 0)
-//Kominikator.c,78 :: 		TFT_Write_Text(txt, 195, 90);
+//Kominikator.c,102 :: 		TFT_Write_Text(txt, 195, 90);
 	R2 <2> <- 90   (midx: 0)
 	R1 <2> <- 195   (midx: 0)
 	R0 <4> <- #_txt   (midx: 0)
 	CALL _TFT_Write_Text   (midx: 0)
-//Kominikator.c,80 :: 		ByteToStr(DATA_RX[2], &txt);
+//Kominikator.c,104 :: 		ByteToStr(DATA_RX[2], &txt);
 	R0 <4> <- addr(_DATA_RX+2)   (midx: 0)
 	R0 <1> <- [R0]   (midx: 0)
 	R1 <4> <- #_txt   (midx: 0)
 	R0 <1> <- R0   (midx: 0)
 	CALL _ByteToStr   (midx: 0)
-//Kominikator.c,81 :: 		TFT_Write_Text(txt, 195, 100);
+//Kominikator.c,105 :: 		TFT_Write_Text(txt, 195, 100);
 	R2 <2> <- 100   (midx: 0)
 	R1 <2> <- 195   (midx: 0)
 	R0 <4> <- #_txt   (midx: 0)
 	CALL _TFT_Write_Text   (midx: 0)
-//Kominikator.c,83 :: 		GPIOD_ODR = DATA_RX[0];
-	R0 <4> <- addr(_DATA_RX)   (midx: 0)
-	R1 <4> <- [R0]   (midx: 0)
-	R0 <4> <- addr(GPIOD_ODR)   (midx: 0)
-	[R0] <4> <- R1   (midx: 0)
-//Kominikator.c,84 :: 		}
-4:   (midx: 0)
-  end
-   (midx: 0)
-_DrawFrame:
-  begin   (midx: 0)
-//Kominikator.c,86 :: 		void DrawFrame() {
-_DrawFrame:
-  begin   (midx: 0)
-//Kominikator.c,87 :: 		TFT_Init_ILI9341_8bit(320, 240);
-	R1 <2> <- 240   (midx: 0)
-	R0 <2> <- 320   (midx: 0)
-	CALL _TFT_Init_ILI9341_8bit   (midx: 0)
-//Kominikator.c,88 :: 		TFT_Fill_Screen(CL_WHITE);
-	R0 <2> <- 65535   (midx: 0)
-	CALL _TFT_Fill_Screen   (midx: 0)
   end
    (midx: 0)
 _main:
   begin   (midx: 0)
-//Kominikator.c,90 :: 		void main() {
+//Kominikator.c,108 :: 		void main() {
 _main:
   begin   (midx: 0)
-//Kominikator.c,92 :: 		HID_Enable(&readbuff, &writebuff);
+//Kominikator.c,110 :: 		BEE_RECIVED_DATA[0] = 0;
+	R1 <1> <- 0   (midx: 0)
+	R0 <4> <- addr(_BEE_RECIVED_DATA)   (midx: 0)
+	[R0] <1> <- R1   (midx: 0)
+//Kominikator.c,111 :: 		BEE_RECIVED_DATA[1] = 0;
+	R1 <1> <- 0   (midx: 0)
+	R0 <4> <- addr(_BEE_RECIVED_DATA+1)   (midx: 0)
+	[R0] <1> <- R1   (midx: 0)
+//Kominikator.c,112 :: 		BEE_RECIVED_DATA[2] = 0;
+	R1 <1> <- 0   (midx: 0)
+	R0 <4> <- addr(_BEE_RECIVED_DATA+2)   (midx: 0)
+	[R0] <1> <- R1   (midx: 0)
+//Kominikator.c,114 :: 		USB_RECIVED_DATA[0] = 0;
+	R1 <1> <- 0   (midx: 0)
+	R0 <4> <- addr(_USB_RECIVED_DATA)   (midx: 0)
+	[R0] <1> <- R1   (midx: 0)
+//Kominikator.c,115 :: 		USB_RECIVED_DATA[1] = 1;
+	R1 <1> <- 1   (midx: 0)
+	R0 <4> <- addr(_USB_RECIVED_DATA+1)   (midx: 0)
+	[R0] <1> <- R1   (midx: 0)
+//Kominikator.c,116 :: 		USB_RECIVED_DATA[2] = 2;
+	R1 <1> <- 2   (midx: 0)
+	R0 <4> <- addr(_USB_RECIVED_DATA+2)   (midx: 0)
+	[R0] <1> <- R1   (midx: 0)
+//Kominikator.c,118 :: 		HID_Enable(&readbuff, &writebuff);
 	R1 <4> <- #_writebuff   (midx: 0)
 	R0 <4> <- #_readbuff   (midx: 0)
 	CALL _HID_Enable   (midx: 0)
-//Kominikator.c,94 :: 		GPIO_Digital_Input(&GPIOD_IDR, _GPIO_PINMASK_0); // Set PA0 as digital input
+//Kominikator.c,120 :: 		GPIO_Digital_Input(&GPIOD_IDR, _GPIO_PINMASK_0); // Set PA0 as digital input
 	R1 <4> <- 1   (midx: 0)
 	R0 <4> <- #GPIOD_IDR   (midx: 0)
 	CALL _GPIO_Digital_Input   (midx: 0)
-//Kominikator.c,95 :: 		GPIO_Digital_Input(&GPIOD_IDR, _GPIO_PINMASK_1); // Set PA0 as digital input
+//Kominikator.c,121 :: 		GPIO_Digital_Input(&GPIOD_IDR, _GPIO_PINMASK_1); // Set PA0 as digital input
 	R1 <4> <- 2   (midx: 0)
 	R0 <4> <- #GPIOD_IDR   (midx: 0)
 	CALL _GPIO_Digital_Input   (midx: 0)
-//Kominikator.c,97 :: 		GPIO_Digital_Output(&GPIOC_BASE, _GPIO_PINMASK_ALL);
+//Kominikator.c,123 :: 		GPIO_Digital_Output(&GPIOC_BASE, _GPIO_PINMASK_ALL);
 	R1 <4> <- 65535   (midx: 0)
 	R0 <4> <- #GPIOC_BASE   (midx: 0)
 	CALL _GPIO_Digital_Output   (midx: 0)
-//Kominikator.c,98 :: 		GPIOC_ODR = 0;
+//Kominikator.c,124 :: 		GPIOC_ODR = 0;
 	R1 <4> <- 0   (midx: 0)
 	R0 <4> <- addr(GPIOC_ODR)   (midx: 0)
 	[R0] <4> <- R1   (midx: 0)
-//Kominikator.c,100 :: 		Delay_ms(100);
+//Kominikator.c,126 :: 		Delay_ms(100);
 	asm: -1   (midx: 1)
 	asm: -1   (midx: 1)
 	asm: -1   (midx: 1)
@@ -261,35 +297,21 @@ _main:
 	asm: -1   (midx: 1)
 	asm: -1   (midx: 1)
 	asm: -1   (midx: 1)
-//Kominikator.c,102 :: 		GPIO_Digital_Output(&GPIOD_ODR, _GPIO_PINMASK_LOW);
+//Kominikator.c,128 :: 		GPIO_Digital_Output(&GPIOD_ODR, _GPIO_PINMASK_LOW);
 	R1 <4> <- 255   (midx: 0)
 	R0 <4> <- #GPIOD_ODR   (midx: 0)
 	CALL _GPIO_Digital_Output   (midx: 0)
-//Kominikator.c,104 :: 		Initialize();
+//Kominikator.c,130 :: 		Initialize();
 	CALL _Initialize   (midx: 0)
-//Kominikator.c,105 :: 		DrawFrame();
+//Kominikator.c,131 :: 		DrawFrame();
 	CALL _DrawFrame   (midx: 0)
-//Kominikator.c,107 :: 		do {
-7:   (midx: 0)
-//Kominikator.c,108 :: 		beeRecive();
+//Kominikator.c,133 :: 		do {
+5:   (midx: 0)
+//Kominikator.c,134 :: 		beeRecive();
 	CALL _beeRecive   (midx: 0)
-//Kominikator.c,110 :: 		USB_Polling_Proc();
-	CALL _USB_Polling_Proc   (midx: 0)
-//Kominikator.c,111 :: 		kk = HID_Read();
-	CALL _HID_Read   (midx: 0)
-	R1 <4> <- addr(_kk)   (midx: 0)
-	[R1] <1> <- R0   (midx: 0)
-//Kominikator.c,112 :: 		if (kk != 0) {
-	if ( R0 = 0) then goto 10   (midx: 0)
-//Kominikator.c,113 :: 		usbSend();
-	CALL _usbSend   (midx: 0)
-//Kominikator.c,114 :: 		}
-10:   (midx: 0)
-//Kominikator.c,116 :: 		USB_Polling_Proc();
-	CALL _USB_Polling_Proc   (midx: 0)
-//Kominikator.c,118 :: 		usbRecive();
-	CALL _usbRecive   (midx: 0)
-//Kominikator.c,121 :: 		} while (1);
-	goto	7   (midx: 0)
+//Kominikator.c,135 :: 		usbCommunication();
+	CALL _usbCommunication   (midx: 0)
+//Kominikator.c,136 :: 		} while (1);
+	goto	5   (midx: 0)
   end
    (midx: 0)

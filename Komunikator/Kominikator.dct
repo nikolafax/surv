@@ -1127,6 +1127,7 @@ bdrst_bit
 bdsctype
 bdsctype
 bdsctype
+bee_recived_data
 beerecive
 beesend
 berr
@@ -3553,6 +3554,7 @@ cl_silver
 cl_teal
 cl_white
 cl_yellow
+cleardatafromscreen
 clken
 clken
 clken
@@ -31605,6 +31607,7 @@ usb_otg_pwrclk_fs_pcgcctl
 usb_otg_pwrclk_fs_pcgcctlbits
 usb_polling_proc
 usb_product_id
+usb_recived_data
 usb_self_power
 usb_string_dsc_ptr
 usb_transfer_type
@@ -31626,7 +31629,7 @@ usbaep_usb_otg_device_doepctl0_bit
 usbaep_usb_otg_device_doepctl1_bit
 usbaep_usb_otg_device_doepctl2_bit
 usbaep_usb_otg_device_doepctl3_bit
-usbrecive
+usbcommunication
 usbrst
 usbrst
 usbrst

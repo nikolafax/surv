@@ -2,6 +2,8 @@ package web;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -16,29 +18,40 @@ public class ServerHandler extends javax.servlet.http.HttpServlet implements jav
 
 	private static final long serialVersionUID = -38738955644587451L;
 	private static final String SENZORID = "SENZORID";
+	private static final String AKTUATOR = "AKTUATORID";
 	private Comunicator comunicator;
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
-		comunicator = new Comunicator();
-		Thread t = new Thread(comunicator);
-		t.start();
+		comunicator = new Comunicator();		
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
 		for (Senzor senzor : comunicator.getSenzors()) {
-			String[] parameterValues = request.getParameterValues(SENZORID + senzor.getId());
-			if (parameterValues != null) {
-				for (String string : parameterValues) {
-					Aktuatator a = new Aktuatator();
-					Integer aktuatorId = new Integer(string);
-					a.setId(aktuatorId);
-					senzor.addAktuator(a);
+			String[] senzorParam = request.getParameterValues(SENZORID);
+			if (senzorParam != null) {
+				String senzorId = senzorParam[0];
+				if (senzorId != null && senzorId.equals(senzor.getId().toString())) {
+
+					String[] aktuatorParam = request.getParameterValues(AKTUATOR);
+
+					List<Aktuatator> aktuatators = new ArrayList<>();
+					if (aktuatorParam != null) {
+						for (String string : aktuatorParam) {
+							Aktuatator a = new Aktuatator();
+							Integer aktuatorId = new Integer(string);
+							a.setId(aktuatorId);
+							aktuatators.add(a);
+						}
+					}
+
+					senzor.setAktuatators(aktuatators);
 				}
 			}
+
 		}
 
 		PrintWriter pout = response.getWriter();
@@ -58,13 +71,14 @@ public class ServerHandler extends javax.servlet.http.HttpServlet implements jav
 
 			pout.print("senzor : " + senzor.getId() + "<br>");
 
+			pout.print("<input type=\"hidden\" name=\"" + SENZORID + "\" value=\"" + senzor.getId() + "\" />");
+
 			for (Aktuatator aktuatator : comunicator.getActuators()) {
 				if (aktuatator == null) {
 					continue;
 				}
 
-				pout.println("<input type=\"checkbox\" name=\"" + SENZORID + senzor.getId() + "\" value=\""
-						+ aktuatator.getId() + "\"");
+				pout.println("<input type=\"checkbox\" name=\"" + AKTUATOR + "\" value=\"" + aktuatator.getId() + "\"");
 
 				if (senzor.contains(aktuatator)) {
 					pout.println("checked");

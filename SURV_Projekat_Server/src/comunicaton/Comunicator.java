@@ -2,6 +2,8 @@ package comunicaton;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
@@ -10,7 +12,8 @@ import com.codeminders.hidapi.HIDManager;
 
 import beans.Aktuatator;
 import beans.Senzor;
-import converter.DataProcessor;
+import life.FailureDetector;
+import messages.MessageQeue;
 
 public class Comunicator implements Serializable, Runnable {
 
@@ -19,7 +22,6 @@ public class Comunicator implements Serializable, Runnable {
 	}
 
 	private static final long serialVersionUID = 6951379001754652085L;
-	private static final int BUF_SIZE = 64;
 
 	private HIDDevice dev = null;
 	private HIDManager hidMgr = null;
@@ -30,17 +32,30 @@ public class Comunicator implements Serializable, Runnable {
 	private HIDDeviceSend deviceSend;
 	private HIDDeviceRead deviceRead;
 
-	private DataProcessor processor;
+	private MessageQeue messageQeue;
+	private FailureDetector failureDetector;
 
 	public Comunicator() {
 		aktuators = new Vector<Aktuatator>();
 		senzors = new Vector<Senzor>();
 
-		deviceSend = new HIDDeviceSend(dev);
-		deviceRead = new HIDDeviceRead(dev);
+		failureDetector = new FailureDetector(this, 5000);
+		messageQeue = new MessageQeue(20);
+		deviceSend = new HIDDeviceSend(dev, messageQeue);
+		deviceRead = new HIDDeviceRead(dev, this, messageQeue, failureDetector);
 
-		processor = new DataProcessor(this);
 		// setMockData();
+	}
+
+	@Override
+	public void run() {
+		connectHID();
+
+		Thread t1 = new Thread(deviceRead);
+		Thread t2 = new Thread(deviceSend);
+
+		t1.start();
+		t2.start();
 	}
 
 	public void connectHID() {
@@ -64,27 +79,6 @@ public class Comunicator implements Serializable, Runnable {
 		hidMgr.release();
 	}
 
-	@Override
-	public void run() {
-		connectHID();
-
-		while (true) {
-			if (deviceRead != null && deviceSend != null) {
-				final byte[] readFromDevice = deviceRead.readFromDevice();
-				procesDataFromComunicator(readFromDevice);
-			}
-
-		}
-
-	}
-
-	private void procesDataFromComunicator(byte[] readFromDevice) {
-		final List<byte[]> datOutputData = processor.getDatOutputData(readFromDevice);
-		for (byte[] procesedDataFromComunicator : datOutputData) {
-			deviceSend.sendToAktuator(procesedDataFromComunicator);
-		}
-	}
-
 	public Vector<Senzor> getSenzors() {
 		return senzors;
 	}
@@ -101,7 +95,7 @@ public class Comunicator implements Serializable, Runnable {
 		this.aktuators = actuators;
 	}
 
-	private void setMockData() {
+	public void setMockData() {
 		Aktuatator a = new Aktuatator();
 		a.setId(1);
 		aktuators.add(a);
@@ -123,4 +117,36 @@ public class Comunicator implements Serializable, Runnable {
 		s.setId(6);
 		senzors.add(s);
 	}
+
+	public void remove(int pid) {
+		for (Iterator<Senzor> senzorIt = senzors.iterator(); senzorIt.hasNext();) {
+			Senzor next = senzorIt.next();
+			if (next.getId() == pid) {
+				senzors.remove(next);
+			}
+		}
+		for (Iterator<Aktuatator> aktuatorIt = aktuators.iterator(); aktuatorIt.hasNext();) {
+			Aktuatator next = aktuatorIt.next();
+			if (next.getId() == pid) {
+				aktuators.remove(next);
+			}
+		}
+
+	}
+
+	public int getNumberOfDevices() {
+		return senzors.size() + aktuators.size();
+	}
+
+	public List<Integer> getDevicesIds() {
+		List<Integer> ids = new ArrayList<>();
+		for (int i = 0; i < senzors.size(); i++) {
+			ids.add(senzors.get(i).getId());
+		}
+		for (int i = 0; i < aktuators.size(); i++) {
+			ids.add(aktuators.get(i).getId());
+		}
+		return ids;
+	}
+
 }

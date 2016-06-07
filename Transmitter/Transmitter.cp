@@ -1,5 +1,5 @@
-#line 1 "C:/SRV/Transmitter/Transmitter.c"
-#line 1 "c:/srv/transmitter/resources.h"
+#line 1 "D:/git/sur/Transmitter/Transmitter.c"
+#line 1 "d:/git/sur/transmitter/resources.h"
 
 char TFT_DataPort at GPIOE_ODR;
 sbit TFT_RST at GPIOE_ODR.B8;
@@ -613,8 +613,8 @@ const code char Verdana12x13_Regular[] = {
  0x00,0x00,0x00,0x00,0x00,0x00,0x8C,0x92,0x62,0x00,0x00,0x00,0x00,
  0x00,0x00,0x00,0x00,0x00,0x00,0xFE,0x01,0x02,0x01,0x02,0x01,0x02,0x01,0x02,0x01,0x02,0x01,0x02,0x01,0xFE,0x01,0x00,0x00,0x00,0x00
  };
-#line 1 "c:/srv/transmitter/registers.h"
-#line 1 "c:/srv/transmitter/readwrite_routines.h"
+#line 1 "d:/git/sur/transmitter/registers.h"
+#line 1 "d:/git/sur/transmitter/readwrite_routines.h"
 short int read_ZIGBEE_long(int address);
 void write_ZIGBEE_long(int address, short int data_r);
 short int read_ZIGBEE_short(short int address);
@@ -622,14 +622,14 @@ void write_ZIGBEE_short(short int address, short int data_r);
 void read_RX_FIFO();
 void start_transmit();
 void write_TX_normal_FIFO();
-#line 1 "c:/srv/transmitter/reset_routines.h"
+#line 1 "d:/git/sur/transmitter/reset_routines.h"
 void RF_reset();
 void software_reset();
 void MAC_reset();
 void BB_reset();
 void PWR_reset();
 void pin_reset();
-#line 1 "c:/srv/transmitter/misc_routines.h"
+#line 1 "d:/git/sur/transmitter/misc_routines.h"
 void init_ZIGBEE_nonbeacon();
 void init_ZIGBEE_basic();
 void set_TX_power(unsigned short int power);
@@ -658,9 +658,9 @@ void set_CCA_mode(short int CCA_mode);
 void set_channel(short int channel_number);
 void enable_interrupt();
 char Debounce_INT();
-#line 1 "c:/srv/transmitter/init_routines.h"
+#line 1 "d:/git/sur/transmitter/init_routines.h"
 void Initialize();
-#line 9 "C:/SRV/Transmitter/Transmitter.c"
+#line 9 "D:/git/sur/Transmitter/Transmitter.c"
 sbit CS at GPIOD_ODR.B13;
 sbit RST at GPIOC_ODR.B2;
 sbit INT at GPIOD_ODR.B10;
@@ -671,9 +671,8 @@ extern short int DATA_TX[];
 extern short int DATA_RX[];
 
 char txt[4];
-short int state1;
-short int state2;
-short int state3;
+short int button1;
+short int button2;
 short int temp1;
 
 unsigned short sendByteOne = 0;
@@ -685,21 +684,17 @@ unsigned short sendByteThree = 0;
 unsigned short adc_h;
 unsigned short adc_l;
 int adc_result = 0;
-int adc_result_screen = 0;
 
-void draw_frame(){
- TFT_Init_ILI9341_8bit (320,240);
+void draw_frame() {
+ TFT_Init_ILI9341_8bit(320, 240);
  TFT_Fill_Screen(CL_WHITE);
  TFT_Write_Text("BOARD ID :", 140, 40);
  TFT_Write_Text("Button 1 :", 140, 80);
  TFT_Write_Text("Button 2 :", 140, 120);
  TFT_Write_Text("ANALOG 1 :", 140, 160);
-
- DATA_RX[2] = 0;
 }
 
-void parse_analog()
-{
+void parse_analog() {
  adc_l = adc_result % 256;
  adc_h = (adc_result - adc_l) / 265;
  sendByteTwo = adc_l;
@@ -707,20 +702,20 @@ void parse_analog()
 
 }
 
-void display_on_screen(){
+void display_on_screen() {
 
  TFT_Set_Font(&TFT_defaultFont, CL_BLACK, FO_HORIZONTAL);
 
- ByteToStr(sendByteThree,&txt);
+ ByteToStr(sendByteThree, &txt);
  TFT_Write_Text(txt, 215, 40);
 
- ByteToStr(state1,&txt);
+ ByteToStr(button1, &txt);
  TFT_Write_Text(txt, 215, 80);
 
- ByteToStr(state2,&txt);
+ ByteToStr(button2, &txt);
  TFT_Write_Text(txt, 215, 120);
 
- IntToStr(adc_result_screen,&txt);
+ IntToStr(adc_result, &txt);
  TFT_Write_Text(txt, 215, 160);
 
  delay_ms(1000);
@@ -728,74 +723,72 @@ void display_on_screen(){
 
  TFT_Set_Font(&TFT_defaultFont, CL_WHITE, FO_HORIZONTAL);
 
- ByteToStr(sendByteThree,&txt);
+ ByteToStr(sendByteThree, &txt);
  TFT_Write_Text(txt, 215, 40);
 
- ByteToStr(state1,&txt);
+ ByteToStr(button1, &txt);
  TFT_Write_Text(txt, 215, 80);
 
- ByteToStr(state2,&txt);
+ ByteToStr(button2, &txt);
  TFT_Write_Text(txt, 215, 120);
 
- ByteToStr(adc_result_screen,&txt);
- TFT_Write_Text(adc_result_screen, 215, 160);
+ ByteToStr(adc_result, &txt);
+ TFT_Write_Text(txt, 215, 160);
 }
 
-void read_sensors(){
- if (Button(&GPIOD_IDR, 0, 1, 1)){
- if (state1 == 0){
- state1 = 1;
- sendByteOne ^= 0b00100000;
+void read_sensors() {
+ if (Button(&GPIOD_IDR, 0, 1, 1)) {
+ button1 = 1;
+ sendByteOne &= 0b00100000;
  }
- else{
- state1 = 0;
- sendByteOne ^= 0b00100000;
- }
- }
- if (Button(&GPIOD_IDR, 1, 1, 1)){
- if (state2 == 0){
- state2 = 1;
- sendByteOne ^= 0b00010000;
- }
- else{
- state2 = 0;
- sendByteOne ^= 0b00010000;
- }
+ if (Button(&GPIOD_IDR, 1, 1, 1)) {
+ button2 = 1;
+ sendByteOne &= 0b00010000;
  }
 
  adc_result = ADC1_Get_Sample(3);
  parse_analog();
- Delay_ms(20);
 
 }
 
-void listen_for_id(){
-
- if (sendByteThree == 0 && Debounce_INT() == 0){
- temp1 = read_ZIGBEE_short( 0x31 );
- read_RX_FIFO();
-
- if(DATA_RX[0] == 127){
- sendByteThree = DATA_RX[2];
- }
- }
+void reset_values() {
+ sendByteOne = 0;
+ sendByteTwo = 0;
 }
 
 void run_transmitter() {
- read_sensors();
 
 
  DATA_TX[0] = sendByteOne;
  DATA_TX[1] = sendByteTwo;
  DATA_TX[2] = sendByteThree;
 
- adc_result_screen = ((DATA_TX[0] & 0b00001111) * 256) + DATA_TX[1];
-
 
  write_TX_normal_FIFO();
 
 
  display_on_screen();
+ reset_values();
+}
+
+void listen_for_id() {
+ run_transmitter();
+ delay_ms(100);
+
+ if (Debounce_INT() == 0) {
+ temp1 = read_ZIGBEE_short( 0x31 );
+ read_RX_FIFO();
+
+ if (DATA_RX[0] == 64) {
+ sendByteThree = DATA_RX[2];
+ }
+ }
+}
+
+void send_senzor_data() {
+ read_sensors();
+ run_transmitter();
+
 }
 
 void main() {
@@ -805,12 +798,19 @@ void main() {
  GPIO_Digital_Input(&GPIOD_IDR, _GPIO_PINMASK_0);
  ADC_Set_Input_Channel(_ADC_CHANNEL_3);
  ADC1_Init();
+ DATA_RX[2] = 0;
  Delay_ms(100);
- while(1) {
+ reset_values();
 
+ while (sendByteThree == 0) {
  listen_for_id();
 
+ Delay_ms(50);
+ }
+ while (1) {
 
- run_transmitter();
+ send_senzor_data();
+
+ Delay_ms(100);
  }
 }

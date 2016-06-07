@@ -1,0 +1,7 @@
+[PROJECTS]
+Count=3
+Project0=Transmitter\Transmitter.mcpar
+Project1=Reciver\Reciver.mcpar
+Project2=Komunikator\Kominikator.mcpar
+[ActiveProject]
+Index=2
