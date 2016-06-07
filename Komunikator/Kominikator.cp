@@ -1,5 +1,5 @@
-#line 1 "D:/git/sur/Komunikator/Kominikator.c"
-#line 1 "d:/git/sur/komunikator/resources.h"
+#line 1 "C:/SRV/Projekat/surv/Komunikator/Kominikator.c"
+#line 1 "c:/srv/projekat/surv/komunikator/resources.h"
 
 char TFT_DataPort at GPIOE_ODR;
 sbit TFT_RST at GPIOE_ODR.B8;
@@ -613,8 +613,8 @@ const code char Verdana12x13_Regular[] = {
  0x00,0x00,0x00,0x00,0x00,0x00,0x8C,0x92,0x62,0x00,0x00,0x00,0x00,
  0x00,0x00,0x00,0x00,0x00,0x00,0xFE,0x01,0x02,0x01,0x02,0x01,0x02,0x01,0x02,0x01,0x02,0x01,0x02,0x01,0xFE,0x01,0x00,0x00,0x00,0x00
  };
-#line 1 "d:/git/sur/komunikator/registers.h"
-#line 1 "d:/git/sur/komunikator/readwrite_routines.h"
+#line 1 "c:/srv/projekat/surv/komunikator/registers.h"
+#line 1 "c:/srv/projekat/surv/komunikator/readwrite_routines.h"
 short int read_ZIGBEE_long(int address);
 void write_ZIGBEE_long(int address, short int data_r);
 short int read_ZIGBEE_short(short int address);
@@ -622,14 +622,14 @@ void write_ZIGBEE_short(short int address, short int data_r);
 void read_RX_FIFO();
 void start_transmit();
 void write_TX_normal_FIFO();
-#line 1 "d:/git/sur/komunikator/reset_routines.h"
+#line 1 "c:/srv/projekat/surv/komunikator/reset_routines.h"
 void RF_reset();
 void software_reset();
 void MAC_reset();
 void BB_reset();
 void PWR_reset();
 void pin_reset();
-#line 1 "d:/git/sur/komunikator/misc_routines.h"
+#line 1 "c:/srv/projekat/surv/komunikator/misc_routines.h"
 void init_ZIGBEE_nonbeacon();
 void init_ZIGBEE_basic();
 void set_TX_power(unsigned short int power);
@@ -658,21 +658,19 @@ void set_CCA_mode(short int CCA_mode);
 void set_channel(short int channel_number);
 void enable_interrupt();
 char Debounce_INT();
-#line 1 "d:/git/sur/komunikator/init_routines.h"
+#line 1 "c:/srv/projekat/surv/komunikator/init_routines.h"
 void Initialize();
-#line 9 "D:/git/sur/Komunikator/Kominikator.c"
+#line 9 "C:/SRV/Projekat/surv/Komunikator/Kominikator.c"
 sbit CS at GPIOD_ODR.B13;
 sbit RST at GPIOC_ODR.B2;
 sbit INT at GPIOD_ODR.B10;
 sbit WAKE_ at GPIOA_ODR.B4;
 
 extern short int DATA_RX[];
+
 extern short int DATA_TX[];
-short int BEE_RECIVED_DATA[64];
-short int USB_RECIVED_DATA[64];
 short int temp1;
-char txt[1];
-char
+char txt[4];
 char cnt;
 
 char writebuff[64];
@@ -681,7 +679,38 @@ char kk;
 void usbRecive();
 void beeSend();
 void usbSend();
-void DrawFrame();
+void draw_frame();
+
+void draw_frame() {
+ TFT_Init_ILI9341_8bit(320, 240);
+ TFT_Fill_Screen(CL_WHITE);
+ TFT_Write_Text("Byte 1 :", 140, 80);
+ TFT_Write_Text("Byte 2 :", 140, 120);
+ TFT_Write_Text("Byte 3 :", 140, 160);
+
+ TFT_Set_Font(&TFT_defaultFont, CL_BLACK, FO_HORIZONTAL);
+
+ TFT_Set_Brush(1, CL_WHITE, 0, LEFT_TO_RIGHT, CL_AQUA, CL_AQUA);
+
+ TFT_Set_Pen(CL_WHITE, 0);
+}
+
+void display_on_screen() {
+ ByteToStr(DATA_RX[0], &txt);
+ TFT_Write_Text(txt, 215, 80);
+
+ ByteToStr(DATA_RX[1], &txt);
+ TFT_Write_Text(txt, 215, 120);
+
+ ByteToStr(DATA_RX[2], &txt);
+ TFT_Write_Text(txt, 215, 160);
+
+ delay_ms(1000);
+
+
+ TFT_Rectangle(215, 40, 255, 180);
+
+}
 
 void usbCommunication() {
  USB_Polling_Proc();
@@ -696,15 +725,11 @@ void usbCommunication() {
 }
 
 void usbSend() {
- writebuff[0] = BEE_RECIVED_DATA[0];
- writebuff[1] = BEE_RECIVED_DATA[1];
- writebuff[2] = BEE_RECIVED_DATA[2];
+ writebuff[0] = DATA_RX[0];
+ writebuff[1] = DATA_RX[1];
+ writebuff[2] = DATA_RX[2];
 
  HID_Write(&writebuff, 64);
-
- BEE_RECIVED_DATA[0] = 0;
- BEE_RECIVED_DATA[1] = 0;
- BEE_RECIVED_DATA[2] = 0;
 }
 
 void beeSend() {
@@ -725,27 +750,8 @@ void beeRecive() {
  if (Debounce_INT() == 0) {
  temp1 = read_ZIGBEE_short( 0x31 );
  read_RX_FIFO();
- BEE_RECIVED_DATA[0] = DATA_RX[0];
- BEE_RECIVED_DATA[1] = DATA_RX[1];
- BEE_RECIVED_DATA[2] = DATA_RX[2];
- DrawFrame();
+ display_on_screen();
  }
-}
-void DrawFrame() {
- TFT_Init_ILI9341_8bit(320, 240);
- TFT_Fill_Screen(CL_WHITE);
-
- TFT_Set_Font(&TFT_defaultFont, CL_BLACK, FO_HORIZONTAL);
- ByteToStr(DATA_RX[0], &txt);
-
- TFT_Write_Text(txt, 195, 80);
-
- ByteToStr(DATA_RX[1], &txt);
- TFT_Write_Text(txt, 195, 90);
-
- ByteToStr(DATA_RX[2], &txt);
- TFT_Write_Text(txt, 195, 100);
-
 }
 
 void clearDataFromScreen() {
@@ -761,29 +767,16 @@ void clearDataFromScreen() {
 }
 
 void main() {
-
- BEE_RECIVED_DATA[0] = 0;
- BEE_RECIVED_DATA[1] = 0;
- BEE_RECIVED_DATA[2] = 0;
-
- USB_RECIVED_DATA[0] = 0;
- USB_RECIVED_DATA[1] = 1;
- USB_RECIVED_DATA[2] = 2;
+ Initialize();
+ draw_frame();
 
  HID_Enable(&readbuff, &writebuff);
 
- GPIO_Digital_Input(&GPIOD_IDR, _GPIO_PINMASK_0);
- GPIO_Digital_Input(&GPIOD_IDR, _GPIO_PINMASK_1);
 
- GPIO_Digital_Output(&GPIOC_BASE, _GPIO_PINMASK_ALL);
- GPIOC_ODR = 0;
+
+
 
  Delay_ms(100);
-
- GPIO_Digital_Output(&GPIOD_ODR, _GPIO_PINMASK_LOW);
-
- Initialize();
- DrawFrame();
 
  do {
  beeRecive();

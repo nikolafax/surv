@@ -1,6 +1,6 @@
-#line 1 "D:/git/sur/Komunikator/ReadWrite_Routines.c"
-#line 1 "d:/git/sur/komunikator/registers.h"
-#line 1 "d:/git/sur/komunikator/misc_routines.h"
+#line 1 "C:/SRV/Projekat/surv/Komunikator/ReadWrite_Routines.c"
+#line 1 "c:/srv/projekat/surv/komunikator/registers.h"
+#line 1 "c:/srv/projekat/surv/komunikator/misc_routines.h"
 void init_ZIGBEE_nonbeacon();
 void init_ZIGBEE_basic();
 void set_TX_power(unsigned short int power);
@@ -29,7 +29,7 @@ void set_CCA_mode(short int CCA_mode);
 void set_channel(short int channel_number);
 void enable_interrupt();
 char Debounce_INT();
-#line 4 "D:/git/sur/Komunikator/ReadWrite_Routines.c"
+#line 4 "C:/SRV/Projekat/surv/Komunikator/ReadWrite_Routines.c"
 extern sfr sbit CS;
 
 
@@ -45,7 +45,7 @@ short int PAN_ID_1[2];
 short int PAN_ID_2[2];
 short int DATA_RX[DATA_LENGHT], DATA_TX[DATA_LENGHT], data_TX_normal_FIFO[DATA_LENGHT + HEADER_LENGHT + 2];
 short int LQI, RSSI2, SEQ_NUMBER;
-#line 25 "D:/git/sur/Komunikator/ReadWrite_Routines.c"
+#line 25 "C:/SRV/Projekat/surv/Komunikator/ReadWrite_Routines.c"
 void write_ZIGBEE_short(short int address, short int data_r) {
  CS = 0;
 
@@ -68,7 +68,7 @@ short int read_ZIGBEE_short(short int address) {
  CS = 1;
  return data_r;
 }
-#line 52 "D:/git/sur/Komunikator/ReadWrite_Routines.c"
+#line 52 "C:/SRV/Projekat/surv/Komunikator/ReadWrite_Routines.c"
 void write_ZIGBEE_long(int address, short int data_r) {
  short int address_high = 0, address_low = 0;
 
@@ -99,7 +99,7 @@ short int read_ZIGBEE_long(int address) {
  CS = 1;
  return data_r;
 }
-#line 86 "D:/git/sur/Komunikator/ReadWrite_Routines.c"
+#line 86 "C:/SRV/Projekat/surv/Komunikator/ReadWrite_Routines.c"
 void start_transmit() {
  short int temp = 0;
 
@@ -107,7 +107,7 @@ void start_transmit() {
  temp = temp | 0x01;
  write_ZIGBEE_short( 0x1B , temp);
 }
-#line 97 "D:/git/sur/Komunikator/ReadWrite_Routines.c"
+#line 97 "C:/SRV/Projekat/surv/Komunikator/ReadWrite_Routines.c"
 void read_RX_FIFO() {
  unsigned short int temp = 0;
  int i = 0;

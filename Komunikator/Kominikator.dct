@@ -1127,7 +1127,6 @@ bdrst_bit
 bdsctype
 bdsctype
 bdsctype
-bee_recived_data
 beerecive
 beesend
 berr
@@ -7441,6 +7440,7 @@ discnum1_bit
 discnum2
 discnum2_adc2_cr1_bit
 discnum2_bit
+display_on_screen
 div_0_trp
 div_0_trp
 div_0_trp_bit
@@ -8227,7 +8227,7 @@ dr9_bit
 dr9_crc_dr_bit
 dr9_spi2_dr_bit
 dr9_spi3_dr_bit
-drawframe
+draw_frame
 dsl
 dsl0
 dsl0_bit
@@ -31607,7 +31607,6 @@ usb_otg_pwrclk_fs_pcgcctl
 usb_otg_pwrclk_fs_pcgcctlbits
 usb_polling_proc
 usb_product_id
-usb_recived_data
 usb_self_power
 usb_string_dsc_ptr
 usb_transfer_type

@@ -6,7 +6,7 @@ Value=0
 [BUILD_TYPE]
 Value=0
 [ACTIVE_TAB]
-Value=
+Value=Kominikator.c
 [USE_EEPROM]
 Value=0
 [USE_HEAP]
@@ -29,7 +29,9 @@ Count=0
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=0
+Count=2
+File0=Kominikator.c
+File1=..\..\..\..\Users\Public\Documents\Mikroelektronika\mikroC PRO for ARM\Defs\STM32F107VC.c
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -37,14 +39,11 @@ Count=0
 [OTHER_FILES]
 Count=0
 [SEARCH_PATH]
-Count=7
+Count=8
 Path0=C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for ARM\Defs\
 Path1=C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for ARM\Uses\
-Path2=D:\git\sur\Komunikator\
-Path3=D:\nikola fax\8. semestar\Sistemi u realnom vremenu 2016\Komunikator\
-Path4=C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for ARM\Uses\ST M3\
-Path5=D:\nikola fax\8. semestar\Sistemi u realnom vremenu 2016\Domaci1Senzor\
-Path6=D:\nikola fax\8. semestar\Sistemi u realnom vremenu 2016\Domaci1Aktuator\
+Path2=C:\SRV\Projekat\surv\Komunikator\
+Path5=C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for ARM\Uses\ST M3\
 [HEADER_PATH]
 Count=0
 [HEADERS]
