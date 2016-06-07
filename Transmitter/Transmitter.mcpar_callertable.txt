@@ -181,6 +181,9 @@ main
 			_TFT_Write_Char
 				TFT_Set_Font
 				TFT_Dot
+		TFT_Set_Font
+		TFT_Set_Brush
+		TFT_Set_Pen
 	GPIO_Digital_Input
 	ADC_Set_Input_Channel
 		GPIO_Analog_Input
@@ -189,25 +192,6 @@ main
 		ADCx_Init
 	reset_values
 	listen_for_id
-		run_transmitter
-			write_TX_normal_FIFO
-				write_ZIGBEE_long
-				set_not_ACK
-					read_ZIGBEE_short
-					write_ZIGBEE_short
-				set_not_encrypt
-					read_ZIGBEE_short
-					write_ZIGBEE_short
-				start_transmit
-					read_ZIGBEE_short
-					write_ZIGBEE_short
-			display_on_screen
-				TFT_Set_Font
-				ByteToStr
-				TFT_Write_Text
-				IntToStr
-					WordToStr
-			reset_values
 		Debounce_INT
 		read_ZIGBEE_short
 		read_RX_FIFO
@@ -216,7 +200,7 @@ main
 			read_ZIGBEE_long
 				SPI3_Write
 				SPI3_Read
-	send_senzor_data
+	run_transmitter
 		read_sensors
 			Button
 				Delay_500us
@@ -224,4 +208,44 @@ main
 				ADCx_Get_Sample
 					Delay_1us
 			parse_analog
-		run_transmitter
+		write_TX_normal_FIFO
+			write_ZIGBEE_long
+			set_not_ACK
+				read_ZIGBEE_short
+				write_ZIGBEE_short
+			set_not_encrypt
+				read_ZIGBEE_short
+				write_ZIGBEE_short
+			start_transmit
+				read_ZIGBEE_short
+				write_ZIGBEE_short
+		display_on_screen
+			ByteToStr
+			TFT_Write_Text
+			IntToStr
+				WordToStr
+			TFT_Rectangle
+				TFT_H_Line
+					Is_SSD1963_Set
+					TFT_Dot
+					TFT_Set_Address_SSD1963II
+					TFT_Set_Address
+					TFT_Set_Address_SST7715R
+					TFT_Set_Address_HX8352A
+					TFT_Set_Address_R61526
+					TFT_Set_Address_ILI9481
+					TFT_Set_Address_ILI9342
+					TFT_Set_Address_ILI9340
+					SPI1_Write
+					SPI2_Write
+					SPI3_Write
+					TFT_Write_Data
+					TFT_16bit_Write_Data
+					TFT_SSD1963_8bit_Write_Data
+				TFT_V_Line
+					TFT_Dot
+				TFT_GetCurrentColor
+					TFT_Color16bitToRGB
+					TFT_RGBToColor16bit
+				TFT_Set_Pen
+		reset_values

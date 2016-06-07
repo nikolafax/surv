@@ -31,131 +31,118 @@ unsigned short adc_l;
 int adc_result = 0;
 
 void draw_frame() {
-	TFT_Init_ILI9341_8bit(320, 240);
-	TFT_Fill_Screen(CL_WHITE);
-	TFT_Write_Text("BOARD ID :", 140, 40);    // Display string on TFT
-	TFT_Write_Text("Button 1 :", 140, 80);
-	TFT_Write_Text("Button 2 :", 140, 120);
-	TFT_Write_Text("ANALOG 1 :", 140, 160);
+        TFT_Init_ILI9341_8bit(320, 240);
+        TFT_Fill_Screen(CL_WHITE);
+        TFT_Write_Text("BOARD ID :", 140, 40);    // Display string on TFT
+        TFT_Write_Text("Button 1 :", 140, 80);
+        TFT_Write_Text("Button 2 :", 140, 120);
+        TFT_Write_Text("ANALOG 1 :", 140, 160);
+        // Display stuff
+        TFT_Set_Font(&TFT_defaultFont, CL_BLACK, FO_HORIZONTAL);
+        // Fill rect
+        TFT_Set_Brush(1, CL_WHITE, 0, LEFT_TO_RIGHT, CL_AQUA, CL_AQUA);
+        // Rect border delete
+        TFT_Set_Pen(CL_WHITE, 0);
 }
 
 void parse_analog() {
-	adc_l = adc_result % 256;
-	adc_h = (adc_result - adc_l) / 265;
-	sendByteTwo = adc_l;
-	sendByteOne |= adc_h;
-
+        adc_l = adc_result % 256;
+        adc_h = (adc_result - adc_l) / 265;
+        sendByteTwo = adc_l;
+        sendByteOne |= adc_h;
 }
 
 void display_on_screen() {
-	// Display stuff
-	TFT_Set_Font(&TFT_defaultFont, CL_BLACK, FO_HORIZONTAL);
+        ByteToStr(sendByteThree, &txt);  //Board ID
+        TFT_Write_Text(txt, 215, 40);
 
-	ByteToStr(sendByteThree, &txt);  //dev ID
-	TFT_Write_Text(txt, 215, 40);
+        ByteToStr(button1, &txt);      // Convert byte to string
+        TFT_Write_Text(txt, 215, 80);    // Display string on TFT
 
-	ByteToStr(button1, &txt);      // Convert byte to string
-	TFT_Write_Text(txt, 215, 80);    // Display string on TFT
+        ByteToStr(button2, &txt);
+        TFT_Write_Text(txt, 215, 120);
 
-	ByteToStr(button2, &txt);
-	TFT_Write_Text(txt, 215, 120);
+        IntToStr(adc_result, &txt);
+        TFT_Write_Text(txt, 215, 160);
 
-	IntToStr(adc_result, &txt);
-	TFT_Write_Text(txt, 215, 160);
+        delay_ms(1000);
 
-	delay_ms(1000);
-
-	// Clear screen
-	TFT_Set_Font(&TFT_defaultFont, CL_WHITE, FO_HORIZONTAL);
-
-	ByteToStr(sendByteThree, &txt);
-	TFT_Write_Text(txt, 215, 40);
-
-	ByteToStr(button1, &txt);
-	TFT_Write_Text(txt, 215, 80);
-
-	ByteToStr(button2, &txt);
-	TFT_Write_Text(txt, 215, 120);
-
-	ByteToStr(adc_result, &txt);
-	TFT_Write_Text(txt, 215, 160);
+        // Clear screen with white rectangle
+        TFT_Rectangle(215, 40, 255, 180);
 }
 
 void read_sensors() {
-	if (Button(&GPIOD_IDR, 0, 1, 1)) {          // detect logical one on PA0 pin
-		button1 = 1;
-		sendByteOne &= 0b00100000;
-	}
-	if (Button(&GPIOD_IDR, 1, 1, 1)) {          // detect logical one on PA0 pin
-		button2 = 1;
-		sendByteOne &= 0b00010000;
-	}
-	// ANALOG
-	adc_result = ADC1_Get_Sample(3); // Get ADC value from corresponding channel
-	parse_analog();
-	// END ANALOG
+        // Button 1 pressed
+        if (Button(&GPIOD_IDR, 0, 1, 1) && button1 == 0) {          // detect logical one on PA0 pin
+            button1 = 1;
+            sendByteOne |= 0b00100000;
+        }
+        // Button 1 relesed
+        else if (!Button(&GPIOD_IDR, 0, 1, 1) && button1 == 1){
+            button1 = 0;
+            sendByteOne &= 0b11011111;
+        }
+        // Button 2 pressed
+        if (Button(&GPIOD_IDR, 1, 1, 1) && button2 == 0) {          // detect logical one on PA0 pin
+            button2 = 1;
+            sendByteOne |= 0b00010000;
+        }
+        // Button 2 relesed
+        else if (!Button(&GPIOD_IDR, 1, 1, 1) && button2 == 1){
+            button2 = 0;
+            sendByteOne &= 0b11101111;
+        }
+        // ANALOG
+        adc_result = ADC1_Get_Sample(3); // Get ADC value from corresponding channel
+        parse_analog();
+        // END ANALOG
 }
 
 void reset_values() {
-	sendByteOne = 0;
-	sendByteTwo = 0;
+        sendByteOne = 0;
+        sendByteTwo = 0;
 }
 
 void run_transmitter() {
+        read_sensors();
+        // PROTOCOL BYTES
+        DATA_TX[0] = sendByteOne;
+        DATA_TX[1] = sendByteTwo;
+        DATA_TX[2] = sendByteThree;
 
-	// PROTOCOL BYTES
-	DATA_TX[0] = sendByteOne;
-	DATA_TX[1] = sendByteTwo;
-	DATA_TX[2] = sendByteThree;
+        // SENDING
+        write_TX_normal_FIFO();          // Transmiting
 
-	// SENDING
-	write_TX_normal_FIFO();          // Transmiting
-
-	// Display inputs on TFT
-	display_on_screen();
-	reset_values();
+        // Display inputs on TFT
+        display_on_screen();
+        reset_values();
 }
 
 void listen_for_id() {
-	run_transmitter();
-	delay_ms(100);
-	// ID is not,jet, set
-	if (Debounce_INT() == 0) {
-		temp1 = read_ZIGBEE_short(INTSTAT); // Read and flush register INTSTAT
-		read_RX_FIFO();                     // Read receive data
-		// Check if message is for me
-		if (DATA_RX[0] == 64) { //64 is controler to senzor message id, which is send only for senzort to get id
-			sendByteThree = DATA_RX[2];
-		}
-	}
-}
-
-void send_senzor_data() {
-	read_sensors();
-	run_transmitter();
-
+        // Check if message is for me 0b01000000
+        if (Debounce_INT() == 0 && DATA_RX[0] == 64 && sendByteThree == 0) {
+           temp1 = read_ZIGBEE_short(INTSTAT); // Read and flush register INTSTAT
+           read_RX_FIFO();                     // Read receive data
+           sendByteThree = DATA_RX[2];
+        }
 }
 
 void main() {
-	Initialize();                      // Initialize MCU and Bee click board
-	draw_frame();
+        Initialize();                      // Initialize MCU and Bee click board
+        draw_frame();
 
-	GPIO_Digital_Input(&GPIOD_IDR, _GPIO_PINMASK_0);
-	ADC_Set_Input_Channel(_ADC_CHANNEL_3);                 // Choose ADC channel
-	ADC1_Init();                                               // Init
-	DATA_RX[2] = 0;
-	Delay_ms(100);
-	reset_values();
-	// Listen for my ID
-	while (sendByteThree == 0) {
-		listen_for_id();
-		// Pause between sendings
-		Delay_ms(50);
-	}
-	while (1) {
-		// Transmit board inputs
-		send_senzor_data();
-		// Pause between sendings
-		Delay_ms(100);
-	}
+        GPIO_Digital_Input(&GPIOD_IDR, _GPIO_PINMASK_0);
+        ADC_Set_Input_Channel(_ADC_CHANNEL_3);                 // Choose ADC channel
+        ADC1_Init();                                               // Init
+        DATA_RX[2] = 0;
+        Delay_ms(100);
+        reset_values();
+        while (1) {
+              // Listen for my ID
+              listen_for_id();
+              // Run Transmitter
+              run_transmitter();
+              // Pause between sendings
+              Delay_ms(100);
+        }
 }
