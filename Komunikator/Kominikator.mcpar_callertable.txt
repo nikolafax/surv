@@ -500,6 +500,7 @@ main
 				USBD_IsoOUTIncomplete
 				USBD_DevConnected
 				USBD_DevDisconnected
+	GPIO_Digital_Input
 	beeRecive
 		Debounce_INT
 		read_ZIGBEE_short

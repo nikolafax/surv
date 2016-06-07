@@ -277,7 +277,11 @@ _main:
 	R1 <4> <- #_writebuff   (midx: 0)
 	R0 <4> <- #_readbuff   (midx: 0)
 	CALL _HID_Enable   (midx: 0)
-//Kominikator.c,124 :: 		Delay_ms(100);
+//Kominikator.c,119 :: 		GPIO_Digital_Input(&GPIOD_IDR, _GPIO_PINMASK_0);
+	R1 <4> <- 1   (midx: 0)
+	R0 <4> <- #GPIOD_IDR   (midx: 0)
+	CALL _GPIO_Digital_Input   (midx: 0)
+//Kominikator.c,125 :: 		Delay_ms(100);
 	asm: -1   (midx: 1)
 	asm: -1   (midx: 1)
 	asm: -1   (midx: 1)
@@ -289,13 +293,13 @@ _main:
 	asm: -1   (midx: 1)
 	asm: -1   (midx: 1)
 	asm: -1   (midx: 1)
-//Kominikator.c,126 :: 		do {
+//Kominikator.c,127 :: 		do {
 6:   (midx: 0)
-//Kominikator.c,127 :: 		beeRecive();
+//Kominikator.c,128 :: 		beeRecive();
 	CALL _beeRecive   (midx: 0)
-//Kominikator.c,128 :: 		usbCommunication();
+//Kominikator.c,129 :: 		usbCommunication();
 	CALL _usbCommunication   (midx: 0)
-//Kominikator.c,129 :: 		} while (1);
+//Kominikator.c,130 :: 		} while (1);
 	goto	6   (midx: 0)
   end
    (midx: 0)

@@ -339,7 +339,12 @@ MOVT	R1, #hi_addr(_writebuff+0)
 MOVW	R0, #lo_addr(_readbuff+0)
 MOVT	R0, #hi_addr(_readbuff+0)
 BL	_HID_Enable+0
-;Kominikator.c,124 :: 		Delay_ms(100);
+;Kominikator.c,119 :: 		GPIO_Digital_Input(&GPIOD_IDR, _GPIO_PINMASK_0);
+MOVW	R1, #1
+MOVW	R0, #lo_addr(GPIOD_IDR+0)
+MOVT	R0, #hi_addr(GPIOD_IDR+0)
+BL	_GPIO_Digital_Input+0
+;Kominikator.c,125 :: 		Delay_ms(100);
 MOVW	R7, #20351
 MOVT	R7, #18
 NOP
@@ -350,16 +355,16 @@ BNE	L_main6
 NOP
 NOP
 NOP
-;Kominikator.c,126 :: 		do {
+;Kominikator.c,127 :: 		do {
 L_main8:
-;Kominikator.c,127 :: 		beeRecive();
+;Kominikator.c,128 :: 		beeRecive();
 BL	_beeRecive+0
-;Kominikator.c,128 :: 		usbCommunication();
+;Kominikator.c,129 :: 		usbCommunication();
 BL	_usbCommunication+0
-;Kominikator.c,129 :: 		} while (1);
+;Kominikator.c,130 :: 		} while (1);
 IT	AL
 BAL	L_main8
-;Kominikator.c,131 :: 		}
+;Kominikator.c,132 :: 		}
 L_end_main:
 L__main_end_loop:
 B	L__main_end_loop

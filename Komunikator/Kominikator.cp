@@ -771,6 +771,7 @@ void main() {
  draw_frame();
 
  HID_Enable(&readbuff, &writebuff);
+ GPIO_Digital_Input(&GPIOD_IDR, _GPIO_PINMASK_0);
 
 
 

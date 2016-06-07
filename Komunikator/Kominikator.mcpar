@@ -39,11 +39,11 @@ Count=0
 [OTHER_FILES]
 Count=0
 [SEARCH_PATH]
-Count=8
+Count=4
 Path0=C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for ARM\Defs\
 Path1=C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for ARM\Uses\
 Path2=C:\SRV\Projekat\surv\Komunikator\
-Path5=C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for ARM\Uses\ST M3\
+Path3=C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for ARM\Uses\ST M3\
 [HEADER_PATH]
 Count=0
 [HEADERS]

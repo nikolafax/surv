@@ -61,11 +61,11 @@ void usbCommunication() {
         USB_Polling_Proc();
 
         if (HID_Read() != 0) {                                    //usb data recived
-                if (readbuff[2] == 0) { //Read request from server - usb polling protocol
-                        usbSend();
-                } else {                                      //Data recived form server
-                        beeSend();
-                }
+            if (readbuff[2] == 0) { //Read request from server - usb polling protocol
+                    usbSend();
+            } else {                                      //Data recived form server
+                    beeSend();
+            }
         }
 }
 
@@ -116,13 +116,8 @@ void main() {
         draw_frame();
 
         HID_Enable(&readbuff, &writebuff);
-//        GPIO_Digital_Input(&GPIOD_IDR, _GPIO_PINMASK_0); // Set PA0 as digital input
-//        GPIO_Digital_Input(&GPIOD_IDR, _GPIO_PINMASK_1); // Set PA0 as digital input
-//        GPIO_Digital_Output(&GPIOC_BASE, _GPIO_PINMASK_ALL);
-//        GPIO_Digital_Output(&GPIOD_ODR, _GPIO_PINMASK_LOW);
-//        GPIOC_ODR = 0;
+        GPIO_Digital_Input(&GPIOD_IDR, _GPIO_PINMASK_0);
         Delay_ms(100);
-
         do {
                 beeRecive();
                 usbCommunication();
