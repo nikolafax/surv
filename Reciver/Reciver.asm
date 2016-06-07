@@ -231,7 +231,7 @@ MOVT	R1, #hi_addr(_temp1+0)
 STRB	R0, [R1, #0]
 ;Reciver.c,92 :: 		read_RX_FIFO();                     // Read receive data
 BL	_read_RX_FIFO+0
-;Reciver.c,94 :: 		if (DATA_RX[0] == 112) { //0xff is controler to senzor message id, which is send only for senzort to get id
+;Reciver.c,94 :: 		if (DATA_RX[0] == 0x70) { //0xff is controler to senzor message id, which is send only for senzort to get id
 MOVW	R0, #lo_addr(_DATA_RX+0)
 MOVT	R0, #hi_addr(_DATA_RX+0)
 LDRSB	R0, [R0, #0]

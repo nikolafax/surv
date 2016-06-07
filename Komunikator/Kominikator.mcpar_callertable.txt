@@ -1,5 +1,93 @@
 main
+	__CC2DW
 	__FillZeros
+	TFT_Init_ILI9341_8bit
+		Is_TFT_Set
+		TFT_Set_Pen
+		TFT_Set_Brush
+		TFT_Move_Cursor
+		TFT_Set_DataPort_Direction
+			GPIO_Config
+				GPIO_Clk_Enable
+		TFT_Reset_ILI9341
+			TFT_Set_Pin_Directions
+				GPIO_Config
+			Delay_100ms
+			Delay_5ms
+			Is_TFT_Rotated_180
+			USBD_USR_DeviceReset
+			TFT_Set_Index
+				Write_to_Port
+			TFT_Write_Command
+				Write_to_Port
+			TFT_SSD1963_8bit_Set_Index
+				Delay_1us
+				Write_to_Port
+			TFT_SSD1963YT_8bit_Write_Command
+				Write_to_Port
+				Delay_1us
+	TFT_Fill_Screen
+		Is_SSD1963_Set
+		TFT_Set_Address_SSD1963II
+			Is_TFT_Rotated_180
+			USBD_USR_DeviceReset
+			TFT_Set_Index
+			TFT_Write_Command
+			TFT_SSD1963_8bit_Set_Index
+			TFT_SSD1963YT_8bit_Write_Command
+		TFT_Set_Address
+			USBD_USR_DeviceReset
+			TFT_Set_Index
+			TFT_Write_Command
+			TFT_SSD1963_8bit_Set_Index
+			TFT_SSD1963YT_8bit_Write_Command
+		TFT_Set_Address_SST7715R
+			USBD_USR_DeviceReset
+			TFT_Set_Index
+			TFT_Write_Command
+			TFT_SSD1963_8bit_Set_Index
+			TFT_SSD1963YT_8bit_Write_Command
+		TFT_Set_Address_HX8352A
+			USBD_USR_DeviceReset
+			TFT_Set_Index
+			TFT_Write_Command
+			TFT_SSD1963_8bit_Set_Index
+			TFT_SSD1963YT_8bit_Write_Command
+		TFT_Set_Address_R61526
+			USBD_USR_DeviceReset
+			TFT_Set_Index
+			TFT_Write_Command
+			TFT_SSD1963_8bit_Set_Index
+			TFT_SSD1963YT_8bit_Write_Command
+		TFT_Set_Address_ILI9481
+			USBD_USR_DeviceReset
+			TFT_Set_Index
+			TFT_Write_Command
+			TFT_SSD1963_8bit_Set_Index
+			TFT_SSD1963YT_8bit_Write_Command
+		TFT_Set_Address_ILI9342
+			USBD_USR_DeviceReset
+			TFT_Set_Index
+			TFT_Write_Command
+			TFT_SSD1963_8bit_Set_Index
+			TFT_SSD1963YT_8bit_Write_Command
+		TFT_Set_Address_ILI9340
+			USBD_USR_DeviceReset
+			TFT_Set_Index
+			TFT_Write_Command
+			TFT_SSD1963_8bit_Set_Index
+			TFT_SSD1963YT_8bit_Write_Command
+		SPI1_Write
+			SPIx_Read
+		SPI2_Write
+			SPIx_Read
+		SPI3_Write
+			SPIx_Read
+		TFT_Write_Data
+			Write_to_Port
+		TFT_16bit_Write_Data
+		TFT_SSD1963_8bit_Write_Data
+			TFT_SSD1963YT_8bit_Write_Command
 	HID_Enable
 		NVIC_IntEnable
 		GetMaxStrignDscIndex
@@ -8,7 +96,6 @@ main
 		USB_Init_Desc
 		usb_hw_config
 			GPIO_Config
-				GPIO_Clk_Enable
 		USBD_Init
 			USB_OTG_BSP_Init
 			USBD_DeInit
@@ -173,15 +260,9 @@ main
 					DCD_EP_Open
 					USBD_USR_DeviceReset
 					TFT_Set_Index
-						Write_to_Port
 					TFT_Write_Command
-						Write_to_Port
 					TFT_SSD1963_8bit_Set_Index
-						Delay_1us
-						Write_to_Port
 					TFT_SSD1963YT_8bit_Write_Command
-						Write_to_Port
-						Delay_1us
 				USBD_Suspend
 					USBD_USR_Init
 					USBD_USR_DeviceConfigured
@@ -313,13 +394,11 @@ main
 				USBD_IsoOUTIncomplete
 				USBD_DevConnected
 				USBD_DevDisconnected
-	GPIO_Digital_Input
-		GPIO_Config
-	GPIO_Digital_Output
-		GPIO_Config
 	Initialize
 		GPIO_Digital_Output
+			GPIO_Config
 		GPIO_Digital_Input
+			GPIO_Config
 		SPI3_Init_Advanced
 			GPIO_Alternate_Function_Enable
 				GPIO_Configure_Pin
@@ -331,10 +410,8 @@ main
 			TFT_Set_Brush
 			TFT_Move_Cursor
 			TFT_Set_DataPort_Direction
-				GPIO_Config
 			TFT_Reset_Device
 				TFT_Set_Pin_Directions
-					GPIO_Config
 				Delay_100ms
 				TFT_Set_Reg
 					USBD_USR_DeviceReset
@@ -346,67 +423,6 @@ main
 				Delay_5ms
 				Delay_10ms
 		TFT_Fill_Screen
-			Is_SSD1963_Set
-			TFT_Set_Address_SSD1963II
-				Is_TFT_Rotated_180
-				USBD_USR_DeviceReset
-				TFT_Set_Index
-				TFT_Write_Command
-				TFT_SSD1963_8bit_Set_Index
-				TFT_SSD1963YT_8bit_Write_Command
-			TFT_Set_Address
-				USBD_USR_DeviceReset
-				TFT_Set_Index
-				TFT_Write_Command
-				TFT_SSD1963_8bit_Set_Index
-				TFT_SSD1963YT_8bit_Write_Command
-			TFT_Set_Address_SST7715R
-				USBD_USR_DeviceReset
-				TFT_Set_Index
-				TFT_Write_Command
-				TFT_SSD1963_8bit_Set_Index
-				TFT_SSD1963YT_8bit_Write_Command
-			TFT_Set_Address_HX8352A
-				USBD_USR_DeviceReset
-				TFT_Set_Index
-				TFT_Write_Command
-				TFT_SSD1963_8bit_Set_Index
-				TFT_SSD1963YT_8bit_Write_Command
-			TFT_Set_Address_R61526
-				USBD_USR_DeviceReset
-				TFT_Set_Index
-				TFT_Write_Command
-				TFT_SSD1963_8bit_Set_Index
-				TFT_SSD1963YT_8bit_Write_Command
-			TFT_Set_Address_ILI9481
-				USBD_USR_DeviceReset
-				TFT_Set_Index
-				TFT_Write_Command
-				TFT_SSD1963_8bit_Set_Index
-				TFT_SSD1963YT_8bit_Write_Command
-			TFT_Set_Address_ILI9342
-				USBD_USR_DeviceReset
-				TFT_Set_Index
-				TFT_Write_Command
-				TFT_SSD1963_8bit_Set_Index
-				TFT_SSD1963YT_8bit_Write_Command
-			TFT_Set_Address_ILI9340
-				USBD_USR_DeviceReset
-				TFT_Set_Index
-				TFT_Write_Command
-				TFT_SSD1963_8bit_Set_Index
-				TFT_SSD1963YT_8bit_Write_Command
-			SPI1_Write
-				SPIx_Read
-			SPI2_Write
-				SPIx_Read
-			SPI3_Write
-				SPIx_Read
-			TFT_Write_Data
-				Write_to_Port
-			TFT_16bit_Write_Data
-			TFT_SSD1963_8bit_Write_Data
-				TFT_SSD1963YT_8bit_Write_Command
 		pin_reset
 		software_reset
 			write_ZIGBEE_short
@@ -457,49 +473,29 @@ main
 			read_ZIGBEE_short
 			write_ZIGBEE_short
 		pin_wake
-	DrawFrame
-		TFT_Init_ILI9341_8bit
-			Is_TFT_Set
-			TFT_Set_Pen
-			TFT_Set_Brush
-			TFT_Move_Cursor
-			TFT_Set_DataPort_Direction
-			TFT_Reset_ILI9341
-				TFT_Set_Pin_Directions
-				Delay_100ms
-				Delay_5ms
-				Is_TFT_Rotated_180
-				USBD_USR_DeviceReset
-				TFT_Set_Index
-				TFT_Write_Command
-				TFT_SSD1963_8bit_Set_Index
-				TFT_SSD1963YT_8bit_Write_Command
-		TFT_Fill_Screen
-		TFT_Set_Font
-		ByteToStr
-		TFT_Write_Text
-			TFT_Move_Cursor
-			_TFT_Write_Char_E
-				_TFT_getHeader
-				TFT_Dot
-					Is_SSD1963_Set
-					TFT_Set_Address_SSD1963II
-					TFT_Set_Address
-					TFT_Set_Address_SST7715R
-					TFT_Set_Address_HX8352A
-					TFT_Set_Address_R61526
-					TFT_Set_Address_ILI9481
-					TFT_Set_Address_ILI9342
-					TFT_Set_Address_ILI9340
-					SPI1_Write
-					SPI2_Write
-					SPI3_Write
-					TFT_Write_Data
-					TFT_16bit_Write_Data
-					TFT_SSD1963_8bit_Write_Data
-			_TFT_Write_Char
-				TFT_Set_Font
-				TFT_Dot
+	TFT_Write_Text
+		TFT_Move_Cursor
+		_TFT_Write_Char_E
+			_TFT_getHeader
+			TFT_Dot
+				Is_SSD1963_Set
+				TFT_Set_Address_SSD1963II
+				TFT_Set_Address
+				TFT_Set_Address_SST7715R
+				TFT_Set_Address_HX8352A
+				TFT_Set_Address_R61526
+				TFT_Set_Address_ILI9481
+				TFT_Set_Address_ILI9342
+				TFT_Set_Address_ILI9340
+				SPI1_Write
+				SPI2_Write
+				SPI3_Write
+				TFT_Write_Data
+				TFT_16bit_Write_Data
+				TFT_SSD1963_8bit_Write_Data
+		_TFT_Write_Char
+			TFT_Set_Font
+			TFT_Dot
 	beeRecive
 		Debounce_INT
 		read_ZIGBEE_short
@@ -509,9 +505,12 @@ main
 			read_ZIGBEE_long
 				SPI3_Write
 				SPI3_Read
-		DrawFrame
 	usbCommunication
 		USB_Polling_Proc
+		DrawFrame
+			TFT_Set_Font
+			ByteToStr
+			TFT_Write_Text
 		HID_Read
 			DCD_EP_PrepareRx
 			USBD_OTG_ISR_Handler
@@ -530,10 +529,15 @@ main
 				DCD_SessionRequest_ISR
 				DCD_OTG_ISR
 		usbSend
+			DrawFrame
 			HID_Write
 				USBD_HID_SendReport
 					DCD_EP_Tx
 				USBD_OTG_ISR_Handler
+			clearDataFromScreen
+				TFT_Set_Font
+				ByteToStr
+				TFT_Write_Text
 		beeSend
 			write_TX_normal_FIFO
 				write_ZIGBEE_long

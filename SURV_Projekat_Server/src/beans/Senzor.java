@@ -22,6 +22,12 @@ public class Senzor extends Device implements Serializable{
 			getAktuatators().add(aktuatator);
 		}
 	}
+	
+	public void removeAktuator(Aktuatator aktuatator) {
+		if (!contains(aktuatator)) {
+			getAktuatators().remove(aktuatator);
+		}
+	}
 
 	public List<Aktuatator> getAktuatators() {
 		return aktuatators;

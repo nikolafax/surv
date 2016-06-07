@@ -24,7 +24,9 @@ public class ServerHandler extends javax.servlet.http.HttpServlet implements jav
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
-		comunicator = new Comunicator();		
+		comunicator = new Comunicator();
+		Thread t = new Thread(comunicator);
+		t.start();
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -59,7 +61,13 @@ public class ServerHandler extends javax.servlet.http.HttpServlet implements jav
 		pout.println("<head>");
 		pout.println("</head>");
 		pout.println("<body>");
-
+		
+		pout.println("<h3>Recivers list:<h3><br><br>");
+		
+		for (Aktuatator aktuatator : comunicator.getActuators()) {
+			pout.println("reciver id :" + aktuatator.getId());
+		}
+		
 		pout.println("<h3>Sensor list:<h3><br><br>");
 
 		for (Senzor senzor : comunicator.getSenzors()) {

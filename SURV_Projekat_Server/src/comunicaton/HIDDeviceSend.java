@@ -39,7 +39,9 @@ public class HIDDeviceSend implements Runnable {
 	public void run() {
 		while (true) {
 			byte[] writeBuf = messageQeue.take();
-			sendToAktuator(writeBuf);
+			if (writeBuf != null) {
+				sendToAktuator(writeBuf);
+			}
 		}
 
 	}

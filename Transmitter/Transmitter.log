@@ -53,6 +53,6 @@ hint: 0	1144	Used RX: 16 (100%)   Free RX: 0 (0%)	Used RX: 16 (100%)   Free RX: 
 hint: 0	1144	Static RAM (bytes): 227   Dynamic RAM (bytes): 65305	Static RAM (bytes): 227   Dynamic RAM (bytes): 65305
 hint: 0	1144	Used ROM (bytes): 16235 (6%)  Free ROM (bytes): 245909 (94%)	Used ROM (bytes): 16235 (6%)  Free ROM (bytes): 245909 (94%)
 diagnostics: 0	125	Project Linked Successfully	Transmitter.mcpar
-diagnostics: 0	128	Linked in 313 ms	 
-diagnostics: 0	129	Project 'Transmitter.mcpar' completed: 1641 ms	 
-diagnostics: 0	103	Finished successfully: 07 Jun 2016, 02:15:33	Transmitter.mcpar
+diagnostics: 0	128	Linked in 297 ms	 
+diagnostics: 0	129	Project 'Transmitter.mcpar' completed: 1578 ms	 
+diagnostics: 0	103	Finished successfully: 07 Jun 2016, 15:21:30	Transmitter.mcpar

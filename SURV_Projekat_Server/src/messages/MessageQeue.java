@@ -2,13 +2,14 @@ package messages;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.SynchronousQueue;
 
 public class MessageQeue {
 	
 	private BlockingQueue<byte[]> buffer;
 	
 	public MessageQeue(int BUFFER_SIZE) {
-		buffer = new ArrayBlockingQueue<byte[]>(BUFFER_SIZE, true);
+		buffer =  new SynchronousQueue<>();// new ArrayBlockingQueue<byte[]>(BUFFER_SIZE, false);
 	}
 	
 	public byte[] take() {

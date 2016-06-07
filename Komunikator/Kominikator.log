@@ -1,6 +1,8 @@
 0	1	mikroCARM.exe -MSF -DBG -pSTM32F107VC -BIN -LHF -DL -SSA -O11111114 -fo72 -N"D:\git\sur\Komunikator\Kominikator.mcpar" -SP"C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for ARM\Defs\" -SP"C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for ARM\Uses\" -SP"D:\git\sur\Komunikator\" -SP"D:\nikola fax\8. semestar\Sistemi u realnom vremenu 2016\Komunikator\" -SP"C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for ARM\Uses\ST M3\" -SP"D:\nikola fax\8. semestar\Sistemi u realnom vremenu 2016\Domaci1Senzor\" -SP"D:\nikola fax\8. semestar\Sistemi u realnom vremenu 2016\Domaci1Aktuator\" "Kominikator.c" "USBdsc.c" "Init_Routines.c" "Misc_Routines.c" "ReadWrite_Routines.c" "Reset_Routines.c" "__Lib_Math.emcl" "__Lib_MathDouble.emcl" "__Lib_Delays.emcl" "__Lib_System_105_107.emcl" "__Lib_GPIO_32F10x_Defs.emcl" "__Lib_GPIO_32F10x.emcl" "__Lib_CString.emcl" "__Lib_Conversions.emcl" "__Lib_SPI_123.emcl" "__Lib_USB_32F10x_CL.emcl" "__Lib_LcdConsts.emcl" "__Lib_Lcd.emcl" "__Lib_TFT.emcl" "__Lib_TFT_Defs.emcl"	 
 diagnostics: 0	122	Compilation Started	resources.h
-diagnostics: 138	123	Compiled Successfully	Kominikator.c
+warning: 99	1508	Implicit conversion of int to ptr	Kominikator.c
+warning: 115	1508	Implicit conversion of int to ptr	Kominikator.c
+diagnostics: 154	123	Compiled Successfully	Kominikator.c
 diagnostics: 0	122	Compilation Started	USBdsc.c
 diagnostics: 166	123	Compiled Successfully	USBdsc.c
 diagnostics: 0	122	Compilation Started	readwrite_routines.h
@@ -32,11 +34,11 @@ hint: 87	1164	Variable 'temp' has been eliminated by optimizer	ReadWrite_Routine
 hint: 98	1164	Variable 'temp' has been eliminated by optimizer	ReadWrite_Routines.c
 diagnostics: 0	122	Compilation Started	readwrite_routines.h
 diagnostics: 43	123	Compiled Successfully	Reset_Routines.c
-diagnostics: 0	127	All files Compiled in 235 ms	 
+diagnostics: 0	127	All files Compiled in 219 ms	 
 hint: 0	1144	Used RX: 16 (100%)   Free RX: 0 (0%)	Used RX: 16 (100%)   Free RX: 0 (0%)
-hint: 0	1144	Static RAM (bytes): 2167   Dynamic RAM (bytes): 63365	Static RAM (bytes): 2167   Dynamic RAM (bytes): 63365
-hint: 0	1144	Used ROM (bytes): 30031 (11%)  Free ROM (bytes): 232113 (89%)	Used ROM (bytes): 30031 (11%)  Free ROM (bytes): 232113 (89%)
+hint: 0	1144	Static RAM (bytes): 2179   Dynamic RAM (bytes): 63353	Static RAM (bytes): 2179   Dynamic RAM (bytes): 63353
+hint: 0	1144	Used ROM (bytes): 30219 (12%)  Free ROM (bytes): 231925 (88%)	Used ROM (bytes): 30219 (12%)  Free ROM (bytes): 231925 (88%)
 diagnostics: 0	125	Project Linked Successfully	Kominikator.mcpar
 diagnostics: 0	128	Linked in 375 ms	 
-diagnostics: 0	129	Project 'Kominikator.mcpar' completed: 750 ms	 
-diagnostics: 0	103	Finished successfully: 07 Jun 2016, 02:15:40	Kominikator.mcpar
+diagnostics: 0	129	Project 'Kominikator.mcpar' completed: 735 ms	 
+diagnostics: 0	103	Finished successfully: 07 Jun 2016, 15:43:33	Kominikator.mcpar

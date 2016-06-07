@@ -55,7 +55,7 @@ public class DataProcessor {
 
 	public boolean isRepitedMessage(byte[] imputData) {
 		final byte[] bs = lastMessageMap.get(new Integer(imputData[2]));
-		if(bs[0] == imputData[0] && bs[1] == imputData[1]){
+		if (bs != null && bs[0] == imputData[0] && bs[1] == imputData[1]) {
 			return true;
 		}
 		return false;
@@ -113,9 +113,9 @@ public class DataProcessor {
 		comunicator.getActuators().add(aktuatator);
 
 		outputData = setDeviceAddress(outputData, aktId);
-		outputData[1] = (byte) 0xff;
+		outputData[3] = (byte) 0xff;
 		// outputData = setSignature(outputData, FromTo.ControlerToActuator);
-		outputData[0] = 112; // set message id for reciver id message
+		outputData[1] = 112; // set message id for reciver id message
 		messages.add(outputData);
 		return messages;
 	}
@@ -128,12 +128,12 @@ public class DataProcessor {
 		byteWithSignature = (short) (byteWithSignature ^ signature); // setuj
 																		// from
 																		// fleg
-		outputData[0] = (byte) byteWithSignature;
+		outputData[1] = (byte) byteWithSignature;
 		return outputData;
 	}
 
 	private byte[] setDeviceAddress(byte[] outputData, int id) {
-		outputData[2] = (byte) id;
+		outputData[3] = (byte) id;
 		return outputData;
 	}
 
@@ -148,7 +148,7 @@ public class DataProcessor {
 
 	public FromTo fromWhoToWho(byte[] imputData) {
 
-		short byteOne = imputData[0];
+		short byteOne = (short) (imputData[0] & 0xC0);
 		FromTo fromTo = FromTo.getById(byteOne);
 
 		return fromTo;

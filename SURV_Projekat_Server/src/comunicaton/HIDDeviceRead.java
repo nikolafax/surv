@@ -28,6 +28,7 @@ public class HIDDeviceRead implements Runnable {
 		byte[] readBuf = new byte[BUF_SIZE];
 		byte[] writeBuf = new byte[BUF_SIZE];
 		writeBuf[0] = 0;
+		writeBuf[2] = 0;
 
 		try {
 			dev.write(writeBuf);
@@ -44,7 +45,9 @@ public class HIDDeviceRead implements Runnable {
 		while (true) {
 			byte[] readFromDevice = readFromDevice();
 			List<byte[]> datOutputData = dataProcessor.getDatOutputData(readFromDevice);
-
+			
+			if(datOutputData == null) 
+				continue;
 			for (byte[] procesedDataFromComunicator : datOutputData) {
 				messageQeue.put(procesedDataFromComunicator);
 			}

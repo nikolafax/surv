@@ -91,7 +91,7 @@ void listen_for_id() {
 		temp1 = read_ZIGBEE_short(INTSTAT); // Read and flush register INTSTAT
 		read_RX_FIFO();                     // Read receive data
 		// Check if message is for me
-		if (DATA_RX[0] == 112) { //0xff is controler to senzor message id, which is send only for senzort to get id
+		if (DATA_RX[0] == 0x70) { //0xff is controler to senzor message id, which is send only for senzort to get id
 			deviceIdByte = DATA_RX[2];
 		}
 	}

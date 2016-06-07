@@ -28,14 +28,9 @@ Count=0
 Count=0
 ActiveImageIndex=-1
 [OPENED_FILES]
-Count=7
+Count=2
 File0=Transmitter.c
-File1=..\Reciver\Reciver.c
-File2=..\Komunikator\Kominikator.c
-File3=..\Komunikator\USBdsc.c
-File4=..\..\..\nikola fax\8. semestar\Sistemi u realnom vremenu 2016\Domaci1Senzor\Domaci1Senzor.c
-File5=..\..\..\nikola fax\8. semestar\Sistemi u realnom vremenu 2016\Domaci1Aktuator\Domaci1Aktuator.c
-File6=C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for ARM\Uses\ST M3\__Lib_Delays.c
+File1=C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for ARM\Uses\ST M3\__Lib_Delays.c
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]

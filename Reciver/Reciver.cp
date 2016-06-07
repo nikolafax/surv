@@ -746,7 +746,7 @@ void listen_for_id() {
  temp1 = read_ZIGBEE_short( 0x31 );
  read_RX_FIFO();
 
- if (DATA_RX[0] == 112) {
+ if (DATA_RX[0] == 0x70) {
  deviceIdByte = DATA_RX[2];
  }
  }

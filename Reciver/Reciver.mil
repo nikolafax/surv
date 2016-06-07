@@ -230,7 +230,7 @@ _listen_for_id:
 	[R1] <1> <- R0   (midx: 0)
 //Reciver.c,92 :: 		read_RX_FIFO();                     // Read receive data
 	CALL _read_RX_FIFO   (midx: 0)
-//Reciver.c,94 :: 		if (DATA_RX[0] == 112) { //0xff is controler to senzor message id, which is send only for senzort to get id
+//Reciver.c,94 :: 		if (DATA_RX[0] == 0x70) { //0xff is controler to senzor message id, which is send only for senzort to get id
 	R0 <4> <- addr(_DATA_RX)   (midx: 0)
 	R0 <1> <- [R0]   (midx: 0)
 	if ( R0 != 112) then goto 2   (midx: 4)

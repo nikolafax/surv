@@ -93,5 +93,10 @@ public class DataProcessorTest {
 		assertTrue(dataProcessor.isRepitedMessage(imput));
 
 	}
+	
+	@Test
+	public void mtest(){
+		
+	}
 
 }

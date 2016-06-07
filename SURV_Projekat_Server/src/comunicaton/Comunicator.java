@@ -41,15 +41,21 @@ public class Comunicator implements Serializable, Runnable {
 
 		failureDetector = new FailureDetector(this, 5000);
 		messageQeue = new MessageQeue(20);
-		deviceSend = new HIDDeviceSend(dev, messageQeue);
-		deviceRead = new HIDDeviceRead(dev, this, messageQeue, failureDetector);
 
+		try {
+			Thread.sleep(200);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		// setMockData();
 	}
 
 	@Override
 	public void run() {
 		connectHID();
+
+		deviceSend = new HIDDeviceSend(dev, messageQeue);
+		deviceRead = new HIDDeviceRead(dev, this, messageQeue, failureDetector);
 
 		Thread t1 = new Thread(deviceRead);
 		Thread t2 = new Thread(deviceSend);
@@ -120,9 +126,16 @@ public class Comunicator implements Serializable, Runnable {
 
 	public void remove(int pid) {
 		for (Iterator<Senzor> senzorIt = senzors.iterator(); senzorIt.hasNext();) {
-			Senzor next = senzorIt.next();
-			if (next.getId() == pid) {
-				senzors.remove(next);
+			Senzor senzorNext = senzorIt.next();
+			if (senzorNext.getId() == pid) {
+				senzors.remove(senzorNext);
+			} else {
+				for (Iterator<Aktuatator> aktuatorIt = senzorNext.getAktuatators().iterator(); aktuatorIt.hasNext();) {
+					Aktuatator nextAkt = aktuatorIt.next();
+					if (nextAkt.getId() == pid) {
+						senzorNext.removeAktuator(nextAkt);
+					}
+				}
 			}
 		}
 		for (Iterator<Aktuatator> aktuatorIt = aktuators.iterator(); aktuatorIt.hasNext();) {
