@@ -181,6 +181,9 @@ main
 			_TFT_Write_Char
 				TFT_Set_Font
 				TFT_Dot
+		TFT_Set_Font
+		TFT_Set_Brush
+		TFT_Set_Pen
 	GPIO_Digital_Input
 	listen_for_id
 		brodcast_id_request
@@ -203,20 +206,39 @@ main
 			read_ZIGBEE_long
 				SPI3_Write
 				SPI3_Read
-	beeReciveData
+	listen_messages
 		Debounce_INT
 		read_ZIGBEE_short
 		read_RX_FIFO
-		clearScreen
-			TFT_Set_Font
-			ByteToStr
-			TFT_Write_Text
-		processRecivedData
+		parse_adc_values
 		display_on_screen
 			TFT_Set_Font
 			ByteToStr
 			TFT_Write_Text
-			parse_adc_values
 			IntToStr
 				WordToStr
+			TFT_Rectangle
+				TFT_H_Line
+					Is_SSD1963_Set
+					TFT_Dot
+					TFT_Set_Address_SSD1963II
+					TFT_Set_Address
+					TFT_Set_Address_SST7715R
+					TFT_Set_Address_HX8352A
+					TFT_Set_Address_R61526
+					TFT_Set_Address_ILI9481
+					TFT_Set_Address_ILI9342
+					TFT_Set_Address_ILI9340
+					SPI1_Write
+					SPI2_Write
+					SPI3_Write
+					TFT_Write_Data
+					TFT_16bit_Write_Data
+					TFT_SSD1963_8bit_Write_Data
+				TFT_V_Line
+					TFT_Dot
+				TFT_GetCurrentColor
+					TFT_Color16bitToRGB
+					TFT_RGBToColor16bit
+				TFT_Set_Pen
 	brodcast_id_request

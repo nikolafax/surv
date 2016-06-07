@@ -1,6 +1,6 @@
-#line 1 "D:/git/sur/Reciver/Init_Routines.c"
-#line 1 "d:/git/sur/reciver/registers.h"
-#line 1 "d:/git/sur/reciver/readwrite_routines.h"
+#line 1 "C:/SRV/Projekat/surv/Reciver/Init_Routines.c"
+#line 1 "c:/srv/projekat/surv/reciver/registers.h"
+#line 1 "c:/srv/projekat/surv/reciver/readwrite_routines.h"
 short int read_ZIGBEE_long(int address);
 void write_ZIGBEE_long(int address, short int data_r);
 short int read_ZIGBEE_short(short int address);
@@ -8,14 +8,14 @@ void write_ZIGBEE_short(short int address, short int data_r);
 void read_RX_FIFO();
 void start_transmit();
 void write_TX_normal_FIFO();
-#line 1 "d:/git/sur/reciver/reset_routines.h"
+#line 1 "c:/srv/projekat/surv/reciver/reset_routines.h"
 void RF_reset();
 void software_reset();
 void MAC_reset();
 void BB_reset();
 void PWR_reset();
 void pin_reset();
-#line 1 "d:/git/sur/reciver/misc_routines.h"
+#line 1 "c:/srv/projekat/surv/reciver/misc_routines.h"
 void init_ZIGBEE_nonbeacon();
 void init_ZIGBEE_basic();
 void set_TX_power(unsigned short int power);
@@ -44,7 +44,7 @@ void set_CCA_mode(short int CCA_mode);
 void set_channel(short int channel_number);
 void enable_interrupt();
 char Debounce_INT();
-#line 6 "D:/git/sur/Reciver/Init_Routines.c"
+#line 6 "C:/SRV/Projekat/surv/Reciver/Init_Routines.c"
 extern sfr sbit TFT_BLED;
 extern short int ADDRESS_short_1[], ADDRESS_short_2[], ADDRESS_long_1[], ADDRESS_long_2[], PAN_ID_1[], PAN_ID_2[];
 extern short int LQI, RSSI2, SEQ_NUMBER, lost_data;

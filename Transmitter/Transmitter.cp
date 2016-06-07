@@ -753,11 +753,6 @@ void read_sensors() {
 
 }
 
-void reset_values() {
- sendByteOne = 0;
- sendByteTwo = 0;
-}
-
 void run_transmitter() {
  read_sensors();
 
@@ -770,7 +765,6 @@ void run_transmitter() {
 
 
  display_on_screen();
- reset_values();
 }
 
 void listen_for_id() {
@@ -791,7 +785,6 @@ void main() {
  ADC1_Init();
  DATA_RX[2] = 0;
  Delay_ms(100);
- reset_values();
  while (1) {
 
  listen_for_id();

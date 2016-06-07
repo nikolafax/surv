@@ -1104,7 +1104,6 @@ bdatabits
 bdrst
 bdrst
 bdrst_bit
-beerecivedata
 berr
 berr
 berr
@@ -3526,7 +3525,6 @@ cl_silver
 cl_teal
 cl_white
 cl_yellow
-clearscreen
 clken
 clken
 clken
@@ -20995,6 +20993,7 @@ linen_uart5_cr2_bit
 linen_usart2_cr2_bit
 linen_usart3_cr2_bit
 listen_for_id
+listen_messages
 lm
 lm
 lm_bit
@@ -25701,7 +25700,6 @@ prll8
 prll8_bit
 prll9
 prll9_bit
-processreciveddata
 product_id
 product_id0
 product_id0_bit

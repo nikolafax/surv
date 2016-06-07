@@ -190,7 +190,6 @@ main
 			GPIO_Config
 	ADC1_Init
 		ADCx_Init
-	reset_values
 	listen_for_id
 		Debounce_INT
 		read_ZIGBEE_short
@@ -248,4 +247,3 @@ main
 					TFT_Color16bitToRGB
 					TFT_RGBToColor16bit
 				TFT_Set_Pen
-		reset_values

@@ -1,5 +1,5 @@
-#line 1 "D:/git/sur/Reciver/Reciver.c"
-#line 1 "d:/git/sur/reciver/resources.h"
+#line 1 "C:/SRV/Projekat/surv/Reciver/Reciver.c"
+#line 1 "c:/srv/projekat/surv/reciver/resources.h"
 
 char TFT_DataPort at GPIOE_ODR;
 sbit TFT_RST at GPIOE_ODR.B8;
@@ -613,8 +613,8 @@ const code char Verdana12x13_Regular[] = {
  0x00,0x00,0x00,0x00,0x00,0x00,0x8C,0x92,0x62,0x00,0x00,0x00,0x00,
  0x00,0x00,0x00,0x00,0x00,0x00,0xFE,0x01,0x02,0x01,0x02,0x01,0x02,0x01,0x02,0x01,0x02,0x01,0x02,0x01,0xFE,0x01,0x00,0x00,0x00,0x00
  };
-#line 1 "d:/git/sur/reciver/registers.h"
-#line 1 "d:/git/sur/reciver/readwrite_routines.h"
+#line 1 "c:/srv/projekat/surv/reciver/registers.h"
+#line 1 "c:/srv/projekat/surv/reciver/readwrite_routines.h"
 short int read_ZIGBEE_long(int address);
 void write_ZIGBEE_long(int address, short int data_r);
 short int read_ZIGBEE_short(short int address);
@@ -622,14 +622,14 @@ void write_ZIGBEE_short(short int address, short int data_r);
 void read_RX_FIFO();
 void start_transmit();
 void write_TX_normal_FIFO();
-#line 1 "d:/git/sur/reciver/reset_routines.h"
+#line 1 "c:/srv/projekat/surv/reciver/reset_routines.h"
 void RF_reset();
 void software_reset();
 void MAC_reset();
 void BB_reset();
 void PWR_reset();
 void pin_reset();
-#line 1 "d:/git/sur/reciver/misc_routines.h"
+#line 1 "c:/srv/projekat/surv/reciver/misc_routines.h"
 void init_ZIGBEE_nonbeacon();
 void init_ZIGBEE_basic();
 void set_TX_power(unsigned short int power);
@@ -658,9 +658,9 @@ void set_CCA_mode(short int CCA_mode);
 void set_channel(short int channel_number);
 void enable_interrupt();
 char Debounce_INT();
-#line 1 "d:/git/sur/reciver/init_routines.h"
+#line 1 "c:/srv/projekat/surv/reciver/init_routines.h"
 void Initialize();
-#line 9 "D:/git/sur/Reciver/Reciver.c"
+#line 9 "C:/SRV/Projekat/surv/Reciver/Reciver.c"
 sbit CS at GPIOD_ODR.B13;
 sbit RST at GPIOC_ODR.B2;
 sbit INT at GPIOD_ODR.B10;
@@ -695,12 +695,13 @@ void draw_frame() {
  TFT_Write_Text("Button 1 :", 140, 80);
  TFT_Write_Text("Button 2 :", 140, 120);
  TFT_Write_Text("ANALOG 1 :", 140, 160);
-}
 
-void parse_adc_values() {
- adc_result = adc_h * 265;
- adc_result = adc_result + adc_l;
 
+ TFT_Set_Font(&TFT_defaultFont, CL_BLACK, FO_HORIZONTAL);
+
+ TFT_Set_Brush(1, CL_WHITE, 0, LEFT_TO_RIGHT, CL_AQUA, CL_AQUA);
+
+ TFT_Set_Pen(CL_WHITE, 0);
 }
 
 void display_on_screen() {
@@ -716,26 +717,62 @@ void display_on_screen() {
  ByteToStr(button2, &txt);
  TFT_Write_Text(txt, 215, 120);
 
- parse_adc_values();
  IntToStr(adc_result, &txt);
  TFT_Write_Text(txt, 215, 160);
+
+ delay_ms(1000);
+
+
+ TFT_Rectangle(215, 40, 255, 180);
 }
 
-void clearScreen() {
+void parse_adc_values() {
+ adc_result = adc_h * 265;
+ adc_result = adc_result + adc_l;
+}
 
- TFT_Set_Font(&TFT_defaultFont, CL_WHITE, FO_HORIZONTAL);
+void listen_messages() {
+ if (Debounce_INT() == 0 && DATA_RX[0] == 0x80) {
+ temp1 = read_ZIGBEE_short( 0x31 );
+ read_RX_FIFO();
 
- ByteToStr(deviceIdByte, &txt);
- TFT_Write_Text(txt, 215, 40);
+ if (DATA_RX[2] == deviceIdByte) {
 
- ByteToStr(button1, &txt);
- TFT_Write_Text(txt, 215, 80);
 
- ByteToStr(button2, &txt);
- TFT_Write_Text(txt, 215, 120);
+ if ((DATA_RX[0] & 0x20) == 32){
+ button1 = 1;
+ }
 
- ByteToStr(adc_result, &txt);
- TFT_Write_Text(txt, 215, 160);
+ else if ((DATA_RX[0] & 0x20) == 0){
+ button1 = 0;
+ }
+
+ if ((DATA_RX[0] & 0x19) == 16){
+ button2 = 1;
+ }
+
+ else if ((DATA_RX[0] & 0x20) == 0){
+ button2 = 0;
+ }
+ adc_h = DATA_RX[0] % 0x0f;
+ adc_l = DATA_RX[1];
+
+ parse_adc_values();
+
+ display_on_screen();
+ }
+ DATA_RX[2] = 0;
+ }
+}
+
+void brodcast_id_request() {
+
+ DATA_TX[0] = 0x40;
+ DATA_TX[1] = 0;
+ DATA_TX[2] = deviceIdByte;
+
+
+ write_TX_normal_FIFO();
 }
 
 void listen_for_id() {
@@ -752,42 +789,6 @@ void listen_for_id() {
  }
 }
 
-void brodcast_id_request() {
-
-
- DATA_TX[0] = 0x40;
- DATA_TX[1] = 0;
- DATA_TX[2] = deviceIdByte;
-
- if (life_notifyer_counter > 50) {
- life_notifyer_counter = 0;
- }
-
-
- write_TX_normal_FIFO();
-}
-
-void processRecivedData() {
- button1 = DATA_RX[0] & 0x20;
- button2 = DATA_RX[0] & 0x19;
- adc_h = DATA_RX[0] % 0x0f;
- adc_l = DATA_RX[1];
-}
-
-void beeReciveData() {
- if (Debounce_INT() == 0) {
- temp1 = read_ZIGBEE_short( 0x31 );
- read_RX_FIFO();
- if (DATA_RX[2] == deviceIdByte) {
- clearScreen();
- processRecivedData();
- display_on_screen();
- }
- DATA_RX[2] = 0;
- }
-
-}
-
 void main() {
  Initialize();
  draw_frame();
@@ -795,14 +796,14 @@ void main() {
  GPIO_Digital_Input(&GPIOD_IDR, _GPIO_PINMASK_0);
  Delay_ms(100);
 
- while (deviceIdByte == 0) {
- listen_for_id();
+ while (1) {
+ if (deviceIdByte == 0){
 
+ listen_for_id();
  Delay_ms(50);
  }
- while (1) {
- beeReciveData();
 
+ listen_messages();
  Delay_ms(10);
  life_notifyer_counter++;
  if (life_notifyer_counter == 50) {

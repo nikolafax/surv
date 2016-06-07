@@ -26441,7 +26441,6 @@ reset_
 reset_bit
 reset_can1_mcr_bit
 reset_crc_cr_bit
-reset_values
 restoreinterrupts
 retobase
 retobase

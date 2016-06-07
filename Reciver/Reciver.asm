@@ -33,86 +33,82 @@ MOVT	R0, #hi_addr(?lstr4_Reciver+0)
 MOVS	R2, #160
 MOVS	R1, #140
 BL	_TFT_Write_Text+0
-;Reciver.c,43 :: 		}
-L_end_draw_frame:
-LDR	LR, [SP, #0]
-ADD	SP, SP, #4
-BX	LR
-; end of _draw_frame
-_parse_adc_values:
-;Reciver.c,45 :: 		void parse_adc_values() {
-;Reciver.c,46 :: 		adc_result = adc_h * 265;
-MOVW	R0, #lo_addr(_adc_h+0)
-MOVT	R0, #hi_addr(_adc_h+0)
-LDRB	R1, [R0, #0]
-MOVW	R0, #265
-SXTH	R0, R0
-MUL	R2, R1, R0
-SXTH	R2, R2
-MOVW	R1, #lo_addr(_adc_result+0)
-MOVT	R1, #hi_addr(_adc_result+0)
-STRH	R2, [R1, #0]
-;Reciver.c,47 :: 		adc_result = adc_result + adc_l;
-MOVW	R0, #lo_addr(_adc_l+0)
-MOVT	R0, #hi_addr(_adc_l+0)
-LDRB	R0, [R0, #0]
-ADDS	R0, R2, R0
-STRH	R0, [R1, #0]
-;Reciver.c,49 :: 		}
-L_end_parse_adc_values:
-BX	LR
-; end of _parse_adc_values
-_display_on_screen:
-;Reciver.c,51 :: 		void display_on_screen() {
-SUB	SP, SP, #4
-STR	LR, [SP, #0]
-;Reciver.c,53 :: 		TFT_Set_Font(&TFT_defaultFont, CL_BLACK, FO_HORIZONTAL);
+;Reciver.c,45 :: 		TFT_Set_Font(&TFT_defaultFont, CL_BLACK, FO_HORIZONTAL);
 MOVS	R2, #0
 MOVW	R1, #0
 MOVW	R0, #lo_addr(_TFT_defaultFont+0)
 MOVT	R0, #hi_addr(_TFT_defaultFont+0)
 BL	_TFT_Set_Font+0
-;Reciver.c,55 :: 		ByteToStr(deviceIdByte, &txt);
+;Reciver.c,47 :: 		TFT_Set_Brush(1, CL_WHITE, 0, LEFT_TO_RIGHT, CL_AQUA, CL_AQUA);
+MOVW	R1, #4095
+MOVW	R0, #4095
+PUSH	(R1)
+PUSH	(R0)
+MOVS	R3, #1
+MOVS	R2, #0
+MOVW	R1, #65535
+MOVS	R0, #1
+BL	_TFT_Set_Brush+0
+ADD	SP, SP, #8
+;Reciver.c,49 :: 		TFT_Set_Pen(CL_WHITE, 0);
+MOVS	R1, #0
+MOVW	R0, #65535
+BL	_TFT_Set_Pen+0
+;Reciver.c,50 :: 		}
+L_end_draw_frame:
+LDR	LR, [SP, #0]
+ADD	SP, SP, #4
+BX	LR
+; end of _draw_frame
+_display_on_screen:
+;Reciver.c,52 :: 		void display_on_screen() {
+SUB	SP, SP, #4
+STR	LR, [SP, #0]
+;Reciver.c,54 :: 		TFT_Set_Font(&TFT_defaultFont, CL_BLACK, FO_HORIZONTAL);
+MOVS	R2, #0
+MOVW	R1, #0
+MOVW	R0, #lo_addr(_TFT_defaultFont+0)
+MOVT	R0, #hi_addr(_TFT_defaultFont+0)
+BL	_TFT_Set_Font+0
+;Reciver.c,56 :: 		ByteToStr(deviceIdByte, &txt);
 MOVW	R0, #lo_addr(_deviceIdByte+0)
 MOVT	R0, #hi_addr(_deviceIdByte+0)
 LDRB	R0, [R0, #0]
 MOVW	R1, #lo_addr(_txt+0)
 MOVT	R1, #hi_addr(_txt+0)
 BL	_ByteToStr+0
-;Reciver.c,56 :: 		TFT_Write_Text(txt, 215, 40);
+;Reciver.c,57 :: 		TFT_Write_Text(txt, 215, 40);
 MOVS	R2, #40
 MOVS	R1, #215
 MOVW	R0, #lo_addr(_txt+0)
 MOVT	R0, #hi_addr(_txt+0)
 BL	_TFT_Write_Text+0
-;Reciver.c,58 :: 		ByteToStr(button1, &txt);      // Convert byte to string
+;Reciver.c,59 :: 		ByteToStr(button1, &txt);      // Convert byte to string
 MOVW	R0, #lo_addr(_button1+0)
 MOVT	R0, #hi_addr(_button1+0)
 LDRSB	R0, [R0, #0]
 MOVW	R1, #lo_addr(_txt+0)
 MOVT	R1, #hi_addr(_txt+0)
 BL	_ByteToStr+0
-;Reciver.c,59 :: 		TFT_Write_Text(txt, 215, 80);    // Display string on TFT
+;Reciver.c,60 :: 		TFT_Write_Text(txt, 215, 80);    // Display string on TFT
 MOVS	R2, #80
 MOVS	R1, #215
 MOVW	R0, #lo_addr(_txt+0)
 MOVT	R0, #hi_addr(_txt+0)
 BL	_TFT_Write_Text+0
-;Reciver.c,61 :: 		ByteToStr(button2, &txt);
+;Reciver.c,62 :: 		ByteToStr(button2, &txt);
 MOVW	R0, #lo_addr(_button2+0)
 MOVT	R0, #hi_addr(_button2+0)
 LDRSB	R0, [R0, #0]
 MOVW	R1, #lo_addr(_txt+0)
 MOVT	R1, #hi_addr(_txt+0)
 BL	_ByteToStr+0
-;Reciver.c,62 :: 		TFT_Write_Text(txt, 215, 120);
+;Reciver.c,63 :: 		TFT_Write_Text(txt, 215, 120);
 MOVS	R2, #120
 MOVS	R1, #215
 MOVW	R0, #lo_addr(_txt+0)
 MOVT	R0, #hi_addr(_txt+0)
 BL	_TFT_Write_Text+0
-;Reciver.c,64 :: 		parse_adc_values();
-BL	_parse_adc_values+0
 ;Reciver.c,65 :: 		IntToStr(adc_result, &txt);
 MOVW	R0, #lo_addr(_adc_result+0)
 MOVT	R0, #hi_addr(_adc_result+0)
@@ -126,238 +122,82 @@ MOVS	R1, #215
 MOVW	R0, #lo_addr(_txt+0)
 MOVT	R0, #hi_addr(_txt+0)
 BL	_TFT_Write_Text+0
-;Reciver.c,67 :: 		}
+;Reciver.c,68 :: 		delay_ms(1000);
+MOVW	R7, #6911
+MOVT	R7, #183
+NOP
+NOP
+L_display_on_screen0:
+SUBS	R7, R7, #1
+BNE	L_display_on_screen0
+NOP
+NOP
+NOP
+;Reciver.c,71 :: 		TFT_Rectangle(215, 40, 255, 180);
+MOVS	R3, #180
+SXTH	R3, R3
+MOVS	R2, #255
+SXTH	R2, R2
+MOVS	R1, #40
+SXTH	R1, R1
+MOVS	R0, #215
+SXTH	R0, R0
+BL	_TFT_Rectangle+0
+;Reciver.c,72 :: 		}
 L_end_display_on_screen:
 LDR	LR, [SP, #0]
 ADD	SP, SP, #4
 BX	LR
 ; end of _display_on_screen
-_clearScreen:
-;Reciver.c,69 :: 		void clearScreen() {
-SUB	SP, SP, #4
-STR	LR, [SP, #0]
-;Reciver.c,71 :: 		TFT_Set_Font(&TFT_defaultFont, CL_WHITE, FO_HORIZONTAL);
-MOVS	R2, #0
-MOVW	R1, #65535
-MOVW	R0, #lo_addr(_TFT_defaultFont+0)
-MOVT	R0, #hi_addr(_TFT_defaultFont+0)
-BL	_TFT_Set_Font+0
-;Reciver.c,73 :: 		ByteToStr(deviceIdByte, &txt);
-MOVW	R0, #lo_addr(_deviceIdByte+0)
-MOVT	R0, #hi_addr(_deviceIdByte+0)
+_parse_adc_values:
+;Reciver.c,74 :: 		void parse_adc_values() {
+;Reciver.c,75 :: 		adc_result = adc_h * 265;
+MOVW	R0, #lo_addr(_adc_h+0)
+MOVT	R0, #hi_addr(_adc_h+0)
+LDRB	R1, [R0, #0]
+MOVW	R0, #265
+SXTH	R0, R0
+MUL	R2, R1, R0
+SXTH	R2, R2
+MOVW	R1, #lo_addr(_adc_result+0)
+MOVT	R1, #hi_addr(_adc_result+0)
+STRH	R2, [R1, #0]
+;Reciver.c,76 :: 		adc_result = adc_result + adc_l;
+MOVW	R0, #lo_addr(_adc_l+0)
+MOVT	R0, #hi_addr(_adc_l+0)
 LDRB	R0, [R0, #0]
-MOVW	R1, #lo_addr(_txt+0)
-MOVT	R1, #hi_addr(_txt+0)
-BL	_ByteToStr+0
-;Reciver.c,74 :: 		TFT_Write_Text(txt, 215, 40);
-MOVS	R2, #40
-MOVS	R1, #215
-MOVW	R0, #lo_addr(_txt+0)
-MOVT	R0, #hi_addr(_txt+0)
-BL	_TFT_Write_Text+0
-;Reciver.c,76 :: 		ByteToStr(button1, &txt);
-MOVW	R0, #lo_addr(_button1+0)
-MOVT	R0, #hi_addr(_button1+0)
-LDRSB	R0, [R0, #0]
-MOVW	R1, #lo_addr(_txt+0)
-MOVT	R1, #hi_addr(_txt+0)
-BL	_ByteToStr+0
-;Reciver.c,77 :: 		TFT_Write_Text(txt, 215, 80);
-MOVS	R2, #80
-MOVS	R1, #215
-MOVW	R0, #lo_addr(_txt+0)
-MOVT	R0, #hi_addr(_txt+0)
-BL	_TFT_Write_Text+0
-;Reciver.c,79 :: 		ByteToStr(button2, &txt);
-MOVW	R0, #lo_addr(_button2+0)
-MOVT	R0, #hi_addr(_button2+0)
-LDRSB	R0, [R0, #0]
-MOVW	R1, #lo_addr(_txt+0)
-MOVT	R1, #hi_addr(_txt+0)
-BL	_ByteToStr+0
-;Reciver.c,80 :: 		TFT_Write_Text(txt, 215, 120);
-MOVS	R2, #120
-MOVS	R1, #215
-MOVW	R0, #lo_addr(_txt+0)
-MOVT	R0, #hi_addr(_txt+0)
-BL	_TFT_Write_Text+0
-;Reciver.c,82 :: 		ByteToStr(adc_result, &txt);
-MOVW	R0, #lo_addr(_adc_result+0)
-MOVT	R0, #hi_addr(_adc_result+0)
-LDRSH	R0, [R0, #0]
-MOVW	R1, #lo_addr(_txt+0)
-MOVT	R1, #hi_addr(_txt+0)
-BL	_ByteToStr+0
-;Reciver.c,83 :: 		TFT_Write_Text(txt, 215, 160);
-MOVS	R2, #160
-MOVS	R1, #215
-MOVW	R0, #lo_addr(_txt+0)
-MOVT	R0, #hi_addr(_txt+0)
-BL	_TFT_Write_Text+0
-;Reciver.c,84 :: 		}
-L_end_clearScreen:
-LDR	LR, [SP, #0]
-ADD	SP, SP, #4
+ADDS	R0, R2, R0
+STRH	R0, [R1, #0]
+;Reciver.c,77 :: 		}
+L_end_parse_adc_values:
 BX	LR
-; end of _clearScreen
-_listen_for_id:
-;Reciver.c,86 :: 		void listen_for_id() {
+; end of _parse_adc_values
+_listen_messages:
+;Reciver.c,79 :: 		void listen_messages() {
 SUB	SP, SP, #4
 STR	LR, [SP, #0]
-;Reciver.c,87 :: 		brodcast_id_request();
-BL	_brodcast_id_request+0
-;Reciver.c,88 :: 		delay_ms(100);
-MOVW	R7, #20351
-MOVT	R7, #18
-NOP
-NOP
-L_listen_for_id0:
-SUBS	R7, R7, #1
-BNE	L_listen_for_id0
-NOP
-NOP
-NOP
-;Reciver.c,90 :: 		if (Debounce_INT() == 0) {
+;Reciver.c,80 :: 		if (Debounce_INT() == 0 && DATA_RX[0] == 0x80) {
 BL	_Debounce_INT+0
 CMP	R0, #0
 IT	NE
-BNE	L_listen_for_id2
-;Reciver.c,91 :: 		temp1 = read_ZIGBEE_short(INTSTAT); // Read and flush register INTSTAT
-MOVS	R0, #49
-SXTB	R0, R0
-BL	_read_ZIGBEE_short+0
-MOVW	R1, #lo_addr(_temp1+0)
-MOVT	R1, #hi_addr(_temp1+0)
-STRB	R0, [R1, #0]
-;Reciver.c,92 :: 		read_RX_FIFO();                     // Read receive data
-BL	_read_RX_FIFO+0
-;Reciver.c,94 :: 		if (DATA_RX[0] == 112) { //0xff is controler to senzor message id, which is send only for senzort to get id
+BNE	L__listen_messages28
 MOVW	R0, #lo_addr(_DATA_RX+0)
 MOVT	R0, #hi_addr(_DATA_RX+0)
 LDRSB	R0, [R0, #0]
-CMP	R0, #112
+CMP	R0, #128
 IT	NE
-BNE	L_listen_for_id3
-;Reciver.c,95 :: 		deviceIdByte = DATA_RX[2];
-MOVW	R0, #lo_addr(_DATA_RX+2)
-MOVT	R0, #hi_addr(_DATA_RX+2)
-LDRSB	R1, [R0, #0]
-MOVW	R0, #lo_addr(_deviceIdByte+0)
-MOVT	R0, #hi_addr(_deviceIdByte+0)
-STRB	R1, [R0, #0]
-;Reciver.c,96 :: 		}
-L_listen_for_id3:
-;Reciver.c,97 :: 		}
-L_listen_for_id2:
-;Reciver.c,98 :: 		}
-L_end_listen_for_id:
-LDR	LR, [SP, #0]
-ADD	SP, SP, #4
-BX	LR
-; end of _listen_for_id
-_brodcast_id_request:
-;Reciver.c,100 :: 		void brodcast_id_request() {
-SUB	SP, SP, #4
-STR	LR, [SP, #0]
-;Reciver.c,103 :: 		DATA_TX[0] = 0x40;
-MOVS	R1, #64
-SXTB	R1, R1
-MOVW	R0, #lo_addr(_DATA_TX+0)
-MOVT	R0, #hi_addr(_DATA_TX+0)
-STRB	R1, [R0, #0]
-;Reciver.c,104 :: 		DATA_TX[1] = 0;
-MOVS	R1, #0
-SXTB	R1, R1
-MOVW	R0, #lo_addr(_DATA_TX+1)
-MOVT	R0, #hi_addr(_DATA_TX+1)
-STRB	R1, [R0, #0]
-;Reciver.c,105 :: 		DATA_TX[2] = deviceIdByte;
-MOVW	R0, #lo_addr(_deviceIdByte+0)
-MOVT	R0, #hi_addr(_deviceIdByte+0)
-LDRB	R1, [R0, #0]
-MOVW	R0, #lo_addr(_DATA_TX+2)
-MOVT	R0, #hi_addr(_DATA_TX+2)
-STRB	R1, [R0, #0]
-;Reciver.c,107 :: 		if (life_notifyer_counter > 50) {
-MOVW	R0, #lo_addr(_life_notifyer_counter+0)
-MOVT	R0, #hi_addr(_life_notifyer_counter+0)
-LDRSH	R0, [R0, #0]
-CMP	R0, #50
-IT	LE
-BLE	L_brodcast_id_request4
-;Reciver.c,108 :: 		life_notifyer_counter = 0;
-MOVS	R1, #0
-SXTH	R1, R1
-MOVW	R0, #lo_addr(_life_notifyer_counter+0)
-MOVT	R0, #hi_addr(_life_notifyer_counter+0)
-STRH	R1, [R0, #0]
-;Reciver.c,109 :: 		}
-L_brodcast_id_request4:
-;Reciver.c,112 :: 		write_TX_normal_FIFO();          // Transmiting
-BL	_write_TX_normal_FIFO+0
-;Reciver.c,113 :: 		}
-L_end_brodcast_id_request:
-LDR	LR, [SP, #0]
-ADD	SP, SP, #4
-BX	LR
-; end of _brodcast_id_request
-_processRecivedData:
-;Reciver.c,115 :: 		void processRecivedData() {
-;Reciver.c,116 :: 		button1 = DATA_RX[0] & 0x20;
-MOVW	R2, #lo_addr(_DATA_RX+0)
-MOVT	R2, #hi_addr(_DATA_RX+0)
-LDRSB	R0, [R2, #0]
-AND	R1, R0, #32
-MOVW	R0, #lo_addr(_button1+0)
-MOVT	R0, #hi_addr(_button1+0)
-STRB	R1, [R0, #0]
-;Reciver.c,117 :: 		button2 = DATA_RX[0] & 0x19;
-MOV	R0, R2
-LDRSB	R0, [R0, #0]
-AND	R1, R0, #25
-MOVW	R0, #lo_addr(_button2+0)
-MOVT	R0, #hi_addr(_button2+0)
-STRB	R1, [R0, #0]
-;Reciver.c,118 :: 		adc_h = DATA_RX[0] % 0x0f;
-MOV	R0, R2
-LDRSB	R2, [R0, #0]
-MOVS	R0, #15
-SXTB	R0, R0
-SDIV	R1, R2, R0
-MLS	R1, R0, R1, R2
-MOVW	R0, #lo_addr(_adc_h+0)
-MOVT	R0, #hi_addr(_adc_h+0)
-STRB	R1, [R0, #0]
-;Reciver.c,119 :: 		adc_l = DATA_RX[1];
-MOVW	R0, #lo_addr(_DATA_RX+1)
-MOVT	R0, #hi_addr(_DATA_RX+1)
-LDRSB	R1, [R0, #0]
-MOVW	R0, #lo_addr(_adc_l+0)
-MOVT	R0, #hi_addr(_adc_l+0)
-STRB	R1, [R0, #0]
-;Reciver.c,120 :: 		}
-L_end_processRecivedData:
-BX	LR
-; end of _processRecivedData
-_beeReciveData:
-;Reciver.c,122 :: 		void beeReciveData() {
-SUB	SP, SP, #4
-STR	LR, [SP, #0]
-;Reciver.c,123 :: 		if (Debounce_INT() == 0) {
-BL	_Debounce_INT+0
-CMP	R0, #0
-IT	NE
-BNE	L_beeReciveData5
-;Reciver.c,124 :: 		temp1 = read_ZIGBEE_short(INTSTAT); // Read and flush register INTSTAT
+BNE	L__listen_messages27
+L__listen_messages26:
+;Reciver.c,81 :: 		temp1 = read_ZIGBEE_short(INTSTAT); // Read and flush register INTSTAT
 MOVS	R0, #49
 SXTB	R0, R0
 BL	_read_ZIGBEE_short+0
 MOVW	R1, #lo_addr(_temp1+0)
 MOVT	R1, #hi_addr(_temp1+0)
 STRB	R0, [R1, #0]
-;Reciver.c,125 :: 		read_RX_FIFO();
+;Reciver.c,82 :: 		read_RX_FIFO();
 BL	_read_RX_FIFO+0
-;Reciver.c,126 :: 		if (DATA_RX[2] == deviceIdByte) {
+;Reciver.c,84 :: 		if (DATA_RX[2] == deviceIdByte) {
 MOVW	R0, #lo_addr(_deviceIdByte+0)
 MOVT	R0, #hi_addr(_deviceIdByte+0)
 LDRB	R1, [R0, #0]
@@ -366,110 +206,284 @@ MOVT	R0, #hi_addr(_DATA_RX+2)
 LDRSB	R0, [R0, #0]
 CMP	R0, R1
 IT	NE
-BNE	L_beeReciveData6
-;Reciver.c,127 :: 		clearScreen();
-BL	_clearScreen+0
-;Reciver.c,128 :: 		processRecivedData();
-BL	_processRecivedData+0
-;Reciver.c,129 :: 		display_on_screen();
+BNE	L_listen_messages5
+;Reciver.c,87 :: 		if ((DATA_RX[0] & 0x20) == 32){
+MOVW	R0, #lo_addr(_DATA_RX+0)
+MOVT	R0, #hi_addr(_DATA_RX+0)
+LDRSB	R0, [R0, #0]
+AND	R0, R0, #32
+SXTB	R0, R0
+CMP	R0, #32
+IT	NE
+BNE	L_listen_messages6
+;Reciver.c,88 :: 		button1 = 1;
+MOVS	R1, #1
+SXTB	R1, R1
+MOVW	R0, #lo_addr(_button1+0)
+MOVT	R0, #hi_addr(_button1+0)
+STRB	R1, [R0, #0]
+;Reciver.c,89 :: 		}
+IT	AL
+BAL	L_listen_messages7
+L_listen_messages6:
+;Reciver.c,91 :: 		else if ((DATA_RX[0] & 0x20) == 0){
+MOVW	R0, #lo_addr(_DATA_RX+0)
+MOVT	R0, #hi_addr(_DATA_RX+0)
+LDRSB	R0, [R0, #0]
+AND	R0, R0, #32
+SXTB	R0, R0
+CMP	R0, #0
+IT	NE
+BNE	L_listen_messages8
+;Reciver.c,92 :: 		button1 = 0;
+MOVS	R1, #0
+SXTB	R1, R1
+MOVW	R0, #lo_addr(_button1+0)
+MOVT	R0, #hi_addr(_button1+0)
+STRB	R1, [R0, #0]
+;Reciver.c,93 :: 		}
+L_listen_messages8:
+L_listen_messages7:
+;Reciver.c,95 :: 		if ((DATA_RX[0] & 0x19) == 16){
+MOVW	R0, #lo_addr(_DATA_RX+0)
+MOVT	R0, #hi_addr(_DATA_RX+0)
+LDRSB	R0, [R0, #0]
+AND	R0, R0, #25
+SXTB	R0, R0
+CMP	R0, #16
+IT	NE
+BNE	L_listen_messages9
+;Reciver.c,96 :: 		button2 = 1;
+MOVS	R1, #1
+SXTB	R1, R1
+MOVW	R0, #lo_addr(_button2+0)
+MOVT	R0, #hi_addr(_button2+0)
+STRB	R1, [R0, #0]
+;Reciver.c,97 :: 		}
+IT	AL
+BAL	L_listen_messages10
+L_listen_messages9:
+;Reciver.c,99 :: 		else if ((DATA_RX[0] & 0x20) == 0){
+MOVW	R0, #lo_addr(_DATA_RX+0)
+MOVT	R0, #hi_addr(_DATA_RX+0)
+LDRSB	R0, [R0, #0]
+AND	R0, R0, #32
+SXTB	R0, R0
+CMP	R0, #0
+IT	NE
+BNE	L_listen_messages11
+;Reciver.c,100 :: 		button2 = 0;
+MOVS	R1, #0
+SXTB	R1, R1
+MOVW	R0, #lo_addr(_button2+0)
+MOVT	R0, #hi_addr(_button2+0)
+STRB	R1, [R0, #0]
+;Reciver.c,101 :: 		}
+L_listen_messages11:
+L_listen_messages10:
+;Reciver.c,102 :: 		adc_h = DATA_RX[0] % 0x0f;
+MOVW	R0, #lo_addr(_DATA_RX+0)
+MOVT	R0, #hi_addr(_DATA_RX+0)
+LDRSB	R2, [R0, #0]
+MOVS	R0, #15
+SXTB	R0, R0
+SDIV	R1, R2, R0
+MLS	R1, R0, R1, R2
+MOVW	R0, #lo_addr(_adc_h+0)
+MOVT	R0, #hi_addr(_adc_h+0)
+STRB	R1, [R0, #0]
+;Reciver.c,103 :: 		adc_l = DATA_RX[1];
+MOVW	R0, #lo_addr(_DATA_RX+1)
+MOVT	R0, #hi_addr(_DATA_RX+1)
+LDRSB	R1, [R0, #0]
+MOVW	R0, #lo_addr(_adc_l+0)
+MOVT	R0, #hi_addr(_adc_l+0)
+STRB	R1, [R0, #0]
+;Reciver.c,105 :: 		parse_adc_values();
+BL	_parse_adc_values+0
+;Reciver.c,107 :: 		display_on_screen();
 BL	_display_on_screen+0
-;Reciver.c,130 :: 		}
-L_beeReciveData6:
-;Reciver.c,131 :: 		DATA_RX[2] = 0;
+;Reciver.c,108 :: 		}
+L_listen_messages5:
+;Reciver.c,109 :: 		DATA_RX[2] = 0;
 MOVS	R1, #0
 SXTB	R1, R1
 MOVW	R0, #lo_addr(_DATA_RX+2)
 MOVT	R0, #hi_addr(_DATA_RX+2)
 STRB	R1, [R0, #0]
-;Reciver.c,132 :: 		}
-L_beeReciveData5:
-;Reciver.c,134 :: 		}
-L_end_beeReciveData:
+;Reciver.c,80 :: 		if (Debounce_INT() == 0 && DATA_RX[0] == 0x80) {
+L__listen_messages28:
+L__listen_messages27:
+;Reciver.c,111 :: 		}
+L_end_listen_messages:
 LDR	LR, [SP, #0]
 ADD	SP, SP, #4
 BX	LR
-; end of _beeReciveData
-_main:
-;Reciver.c,136 :: 		void main() {
-;Reciver.c,137 :: 		Initialize();                      // Initialize MCU and Bee click board
-BL	_Initialize+0
-;Reciver.c,138 :: 		draw_frame();
-BL	_draw_frame+0
-;Reciver.c,140 :: 		GPIO_Digital_Input(&GPIOD_IDR, _GPIO_PINMASK_0);
-MOVW	R1, #1
-MOVW	R0, #lo_addr(GPIOD_IDR+0)
-MOVT	R0, #hi_addr(GPIOD_IDR+0)
-BL	_GPIO_Digital_Input+0
-;Reciver.c,141 :: 		Delay_ms(100);
+; end of _listen_messages
+_brodcast_id_request:
+;Reciver.c,113 :: 		void brodcast_id_request() {
+SUB	SP, SP, #4
+STR	LR, [SP, #0]
+;Reciver.c,115 :: 		DATA_TX[0] = 0x40;
+MOVS	R1, #64
+SXTB	R1, R1
+MOVW	R0, #lo_addr(_DATA_TX+0)
+MOVT	R0, #hi_addr(_DATA_TX+0)
+STRB	R1, [R0, #0]
+;Reciver.c,116 :: 		DATA_TX[1] = 0;
+MOVS	R1, #0
+SXTB	R1, R1
+MOVW	R0, #lo_addr(_DATA_TX+1)
+MOVT	R0, #hi_addr(_DATA_TX+1)
+STRB	R1, [R0, #0]
+;Reciver.c,117 :: 		DATA_TX[2] = deviceIdByte;
+MOVW	R0, #lo_addr(_deviceIdByte+0)
+MOVT	R0, #hi_addr(_deviceIdByte+0)
+LDRB	R1, [R0, #0]
+MOVW	R0, #lo_addr(_DATA_TX+2)
+MOVT	R0, #hi_addr(_DATA_TX+2)
+STRB	R1, [R0, #0]
+;Reciver.c,120 :: 		write_TX_normal_FIFO();          // Transmiting
+BL	_write_TX_normal_FIFO+0
+;Reciver.c,121 :: 		}
+L_end_brodcast_id_request:
+LDR	LR, [SP, #0]
+ADD	SP, SP, #4
+BX	LR
+; end of _brodcast_id_request
+_listen_for_id:
+;Reciver.c,123 :: 		void listen_for_id() {
+SUB	SP, SP, #4
+STR	LR, [SP, #0]
+;Reciver.c,124 :: 		brodcast_id_request();
+BL	_brodcast_id_request+0
+;Reciver.c,125 :: 		delay_ms(100);
 MOVW	R7, #20351
 MOVT	R7, #18
 NOP
 NOP
-L_main7:
+L_listen_for_id12:
 SUBS	R7, R7, #1
-BNE	L_main7
+BNE	L_listen_for_id12
 NOP
 NOP
 NOP
-;Reciver.c,143 :: 		while (deviceIdByte == 0) {
-L_main9:
+;Reciver.c,127 :: 		if (Debounce_INT() == 0) {
+BL	_Debounce_INT+0
+CMP	R0, #0
+IT	NE
+BNE	L_listen_for_id14
+;Reciver.c,128 :: 		temp1 = read_ZIGBEE_short(INTSTAT); // Read and flush register INTSTAT
+MOVS	R0, #49
+SXTB	R0, R0
+BL	_read_ZIGBEE_short+0
+MOVW	R1, #lo_addr(_temp1+0)
+MOVT	R1, #hi_addr(_temp1+0)
+STRB	R0, [R1, #0]
+;Reciver.c,129 :: 		read_RX_FIFO();                     // Read receive data
+BL	_read_RX_FIFO+0
+;Reciver.c,131 :: 		if (DATA_RX[0] == 112) {
+MOVW	R0, #lo_addr(_DATA_RX+0)
+MOVT	R0, #hi_addr(_DATA_RX+0)
+LDRSB	R0, [R0, #0]
+CMP	R0, #112
+IT	NE
+BNE	L_listen_for_id15
+;Reciver.c,132 :: 		deviceIdByte = DATA_RX[2];
+MOVW	R0, #lo_addr(_DATA_RX+2)
+MOVT	R0, #hi_addr(_DATA_RX+2)
+LDRSB	R1, [R0, #0]
+MOVW	R0, #lo_addr(_deviceIdByte+0)
+MOVT	R0, #hi_addr(_deviceIdByte+0)
+STRB	R1, [R0, #0]
+;Reciver.c,133 :: 		}
+L_listen_for_id15:
+;Reciver.c,134 :: 		}
+L_listen_for_id14:
+;Reciver.c,135 :: 		}
+L_end_listen_for_id:
+LDR	LR, [SP, #0]
+ADD	SP, SP, #4
+BX	LR
+; end of _listen_for_id
+_main:
+;Reciver.c,137 :: 		void main() {
+;Reciver.c,138 :: 		Initialize();                      // Initialize MCU and Bee click board
+BL	_Initialize+0
+;Reciver.c,139 :: 		draw_frame();
+BL	_draw_frame+0
+;Reciver.c,141 :: 		GPIO_Digital_Input(&GPIOD_IDR, _GPIO_PINMASK_0);
+MOVW	R1, #1
+MOVW	R0, #lo_addr(GPIOD_IDR+0)
+MOVT	R0, #hi_addr(GPIOD_IDR+0)
+BL	_GPIO_Digital_Input+0
+;Reciver.c,142 :: 		Delay_ms(100);
+MOVW	R7, #20351
+MOVT	R7, #18
+NOP
+NOP
+L_main16:
+SUBS	R7, R7, #1
+BNE	L_main16
+NOP
+NOP
+NOP
+;Reciver.c,144 :: 		while (1) {
+L_main18:
+;Reciver.c,145 :: 		if (deviceIdByte == 0){
 MOVW	R0, #lo_addr(_deviceIdByte+0)
 MOVT	R0, #hi_addr(_deviceIdByte+0)
 LDRB	R0, [R0, #0]
 CMP	R0, #0
 IT	NE
-BNE	L_main10
-;Reciver.c,144 :: 		listen_for_id();
+BNE	L_main20
+;Reciver.c,147 :: 		listen_for_id();
 BL	_listen_for_id+0
-;Reciver.c,146 :: 		Delay_ms(50);
+;Reciver.c,148 :: 		Delay_ms(50);
 MOVW	R7, #10175
 MOVT	R7, #9
 NOP
 NOP
-L_main11:
+L_main21:
 SUBS	R7, R7, #1
-BNE	L_main11
+BNE	L_main21
 NOP
 NOP
 NOP
-;Reciver.c,147 :: 		}
-IT	AL
-BAL	L_main9
-L_main10:
-;Reciver.c,148 :: 		while (1) {
-L_main13:
-;Reciver.c,149 :: 		beeReciveData();
-BL	_beeReciveData+0
-;Reciver.c,151 :: 		Delay_ms(10);
+;Reciver.c,149 :: 		}
+L_main20:
+;Reciver.c,151 :: 		listen_messages();
+BL	_listen_messages+0
+;Reciver.c,152 :: 		Delay_ms(10);
 MOVW	R7, #54463
 MOVT	R7, #1
 NOP
 NOP
-L_main15:
+L_main23:
 SUBS	R7, R7, #1
-BNE	L_main15
+BNE	L_main23
 NOP
 NOP
 NOP
-;Reciver.c,152 :: 		life_notifyer_counter++;
+;Reciver.c,153 :: 		life_notifyer_counter++;
 MOVW	R1, #lo_addr(_life_notifyer_counter+0)
 MOVT	R1, #hi_addr(_life_notifyer_counter+0)
 LDRSH	R0, [R1, #0]
 ADDS	R0, R0, #1
 SXTH	R0, R0
 STRH	R0, [R1, #0]
-;Reciver.c,153 :: 		if (life_notifyer_counter == 50) {
+;Reciver.c,154 :: 		if (life_notifyer_counter == 50) {
 CMP	R0, #50
 IT	NE
-BNE	L_main17
-;Reciver.c,154 :: 		brodcast_id_request();
+BNE	L_main25
+;Reciver.c,155 :: 		brodcast_id_request();
 BL	_brodcast_id_request+0
-;Reciver.c,155 :: 		}
-L_main17:
 ;Reciver.c,156 :: 		}
-IT	AL
-BAL	L_main13
+L_main25:
 ;Reciver.c,157 :: 		}
+IT	AL
+BAL	L_main18
+;Reciver.c,158 :: 		}
 L_end_main:
 L__main_end_loop:
 B	L__main_end_loop

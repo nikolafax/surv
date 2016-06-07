@@ -271,57 +271,40 @@ _read_sensors:
 	CALL _parse_analog   (midx: 0)
   end
    (midx: 0)
-_reset_values:
-  begin   (midx: 0)
-//Transmitter.c,101 :: 		void reset_values() {
-_reset_values:
-  begin   (midx: 0)
-//Transmitter.c,102 :: 		sendByteOne = 0;
-	R1 <1> <- 0   (midx: 0)
-	R0 <4> <- addr(_sendByteOne)   (midx: 0)
-	[R0] <1> <- R1   (midx: 0)
-//Transmitter.c,103 :: 		sendByteTwo = 0;
-	R1 <1> <- 0   (midx: 0)
-	R0 <4> <- addr(_sendByteTwo)   (midx: 0)
-	[R0] <1> <- R1   (midx: 0)
-  end
-   (midx: 0)
 _run_transmitter:
   begin   (midx: 0)
-//Transmitter.c,106 :: 		void run_transmitter() {
+//Transmitter.c,101 :: 		void run_transmitter() {
 _run_transmitter:
   begin   (midx: 0)
-//Transmitter.c,107 :: 		read_sensors();
+//Transmitter.c,102 :: 		read_sensors();
 	CALL _read_sensors   (midx: 0)
-//Transmitter.c,109 :: 		DATA_TX[0] = sendByteOne;
+//Transmitter.c,104 :: 		DATA_TX[0] = sendByteOne;
 	R0 <4> <- addr(_sendByteOne)   (midx: 0)
 	R1 <1> <- [R0]   (midx: 0)
 	R0 <4> <- addr(_DATA_TX)   (midx: 0)
 	[R0] <1> <- R1   (midx: 0)
-//Transmitter.c,110 :: 		DATA_TX[1] = sendByteTwo;
+//Transmitter.c,105 :: 		DATA_TX[1] = sendByteTwo;
 	R0 <4> <- addr(_sendByteTwo)   (midx: 0)
 	R1 <1> <- [R0]   (midx: 0)
 	R0 <4> <- addr(_DATA_TX+1)   (midx: 0)
 	[R0] <1> <- R1   (midx: 0)
-//Transmitter.c,111 :: 		DATA_TX[2] = sendByteThree;
+//Transmitter.c,106 :: 		DATA_TX[2] = sendByteThree;
 	R0 <4> <- addr(_sendByteThree)   (midx: 0)
 	R1 <1> <- [R0]   (midx: 0)
 	R0 <4> <- addr(_DATA_TX+2)   (midx: 0)
 	[R0] <1> <- R1   (midx: 0)
-//Transmitter.c,114 :: 		write_TX_normal_FIFO();          // Transmiting
+//Transmitter.c,109 :: 		write_TX_normal_FIFO();          // Transmiting
 	CALL _write_TX_normal_FIFO   (midx: 0)
-//Transmitter.c,117 :: 		display_on_screen();
+//Transmitter.c,112 :: 		display_on_screen();
 	CALL _display_on_screen   (midx: 0)
-//Transmitter.c,118 :: 		reset_values();
-	CALL _reset_values   (midx: 0)
   end
    (midx: 0)
 _listen_for_id:
   begin   (midx: 0)
-//Transmitter.c,121 :: 		void listen_for_id() {
+//Transmitter.c,115 :: 		void listen_for_id() {
 _listen_for_id:
   begin   (midx: 0)
-//Transmitter.c,123 :: 		if (Debounce_INT() == 0 && DATA_RX[0] == 64 && sendByteThree == 0) {
+//Transmitter.c,117 :: 		if (Debounce_INT() == 0 && DATA_RX[0] == 64 && sendByteThree == 0) {
 	CALL _Debounce_INT   (midx: 0)
 	if ( R0 != 0) then goto 37   (midx: 0)
 	R0 <4> <- addr(_DATA_RX)   (midx: 0)
@@ -331,19 +314,19 @@ _listen_for_id:
 	R0 <1> <- [R0]   (midx: 0)
 	if ( R0 != 0) then goto 35   (midx: 0)
 34:   (midx: 0)
-//Transmitter.c,124 :: 		temp1 = read_ZIGBEE_short(INTSTAT); // Read and flush register INTSTAT
+//Transmitter.c,118 :: 		temp1 = read_ZIGBEE_short(INTSTAT); // Read and flush register INTSTAT
 	R0 <1> <- 49   (midx: 0)
 	CALL _read_ZIGBEE_short   (midx: 0)
 	R1 <4> <- addr(_temp1)   (midx: 0)
 	[R1] <1> <- R0   (midx: 0)
-//Transmitter.c,125 :: 		read_RX_FIFO();                     // Read receive data
+//Transmitter.c,119 :: 		read_RX_FIFO();                     // Read receive data
 	CALL _read_RX_FIFO   (midx: 0)
-//Transmitter.c,126 :: 		sendByteThree = DATA_RX[2];
+//Transmitter.c,120 :: 		sendByteThree = DATA_RX[2];
 	R0 <4> <- addr(_DATA_RX+2)   (midx: 0)
 	R1 <1> <- [R0]   (midx: 0)
 	R0 <4> <- addr(_sendByteThree)   (midx: 0)
 	[R0] <1> <- R1   (midx: 0)
-//Transmitter.c,123 :: 		if (Debounce_INT() == 0 && DATA_RX[0] == 64 && sendByteThree == 0) {
+//Transmitter.c,117 :: 		if (Debounce_INT() == 0 && DATA_RX[0] == 64 && sendByteThree == 0) {
 37:   (midx: 0)
 36:   (midx: 0)
 35:   (midx: 0)
@@ -351,27 +334,27 @@ _listen_for_id:
    (midx: 0)
 _main:
   begin   (midx: 0)
-//Transmitter.c,130 :: 		void main() {
+//Transmitter.c,124 :: 		void main() {
 _main:
   begin   (midx: 0)
-//Transmitter.c,131 :: 		Initialize();                      // Initialize MCU and Bee click board
+//Transmitter.c,125 :: 		Initialize();                      // Initialize MCU and Bee click board
 	CALL _Initialize   (midx: 0)
-//Transmitter.c,132 :: 		draw_frame();
+//Transmitter.c,126 :: 		draw_frame();
 	CALL _draw_frame   (midx: 0)
-//Transmitter.c,134 :: 		GPIO_Digital_Input(&GPIOD_IDR, _GPIO_PINMASK_0);
+//Transmitter.c,128 :: 		GPIO_Digital_Input(&GPIOD_IDR, _GPIO_PINMASK_0);
 	R1 <4> <- 1   (midx: 0)
 	R0 <4> <- #GPIOD_IDR   (midx: 0)
 	CALL _GPIO_Digital_Input   (midx: 0)
-//Transmitter.c,135 :: 		ADC_Set_Input_Channel(_ADC_CHANNEL_3);                 // Choose ADC channel
+//Transmitter.c,129 :: 		ADC_Set_Input_Channel(_ADC_CHANNEL_3);                 // Choose ADC channel
 	R0 <2> <- 8   (midx: 0)
 	CALL _ADC_Set_Input_Channel   (midx: 0)
-//Transmitter.c,136 :: 		ADC1_Init();                                               // Init
+//Transmitter.c,130 :: 		ADC1_Init();                                               // Init
 	CALL _ADC1_Init   (midx: 0)
-//Transmitter.c,137 :: 		DATA_RX[2] = 0;
+//Transmitter.c,131 :: 		DATA_RX[2] = 0;
 	R1 <1> <- 0   (midx: 0)
 	R0 <4> <- addr(_DATA_RX+2)   (midx: 0)
 	[R0] <1> <- R1   (midx: 0)
-//Transmitter.c,138 :: 		Delay_ms(100);
+//Transmitter.c,132 :: 		Delay_ms(100);
 	asm: -1   (midx: 1)
 	asm: -1   (midx: 1)
 	asm: -1   (midx: 1)
@@ -383,15 +366,13 @@ _main:
 	asm: -1   (midx: 1)
 	asm: -1   (midx: 1)
 	asm: -1   (midx: 1)
-//Transmitter.c,139 :: 		reset_values();
-	CALL _reset_values   (midx: 0)
-//Transmitter.c,140 :: 		while (1) {
+//Transmitter.c,133 :: 		while (1) {
 19:   (midx: 0)
-//Transmitter.c,142 :: 		listen_for_id();
+//Transmitter.c,135 :: 		listen_for_id();
 	CALL _listen_for_id   (midx: 0)
-//Transmitter.c,144 :: 		run_transmitter();
+//Transmitter.c,137 :: 		run_transmitter();
 	CALL _run_transmitter   (midx: 0)
-//Transmitter.c,146 :: 		Delay_ms(100);
+//Transmitter.c,139 :: 		Delay_ms(100);
 	asm: -1   (midx: 1)
 	asm: -1   (midx: 1)
 	asm: -1   (midx: 1)
@@ -403,7 +384,7 @@ _main:
 	asm: -1   (midx: 1)
 	asm: -1   (midx: 1)
 	asm: -1   (midx: 1)
-//Transmitter.c,147 :: 		}
+//Transmitter.c,140 :: 		}
 	goto	19   (midx: 0)
   end
    (midx: 0)

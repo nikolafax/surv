@@ -98,11 +98,6 @@ void read_sensors() {
         // END ANALOG
 }
 
-void reset_values() {
-        sendByteOne = 0;
-        sendByteTwo = 0;
-}
-
 void run_transmitter() {
         read_sensors();
         // PROTOCOL BYTES
@@ -115,7 +110,6 @@ void run_transmitter() {
 
         // Display inputs on TFT
         display_on_screen();
-        reset_values();
 }
 
 void listen_for_id() {
@@ -136,7 +130,6 @@ void main() {
         ADC1_Init();                                               // Init
         DATA_RX[2] = 0;
         Delay_ms(100);
-        reset_values();
         while (1) {
               // Listen for my ID
               listen_for_id();
