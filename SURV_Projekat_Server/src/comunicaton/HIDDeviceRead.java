@@ -19,7 +19,7 @@ public class HIDDeviceRead implements Runnable {
 	public HIDDeviceRead(HIDDevice device, Comunicator comunicator, MessageQeue messageQeue,
 			FailureDetector failureDetector) {
 		this.dev = device;
-		dataProcessor = new DataProcessor(comunicator, failureDetector);
+		this.dataProcessor = new DataProcessor(comunicator, failureDetector);
 		this.messageQeue = messageQeue;
 
 	}
@@ -28,7 +28,9 @@ public class HIDDeviceRead implements Runnable {
 		byte[] readBuf = new byte[BUF_SIZE];
 		byte[] writeBuf = new byte[BUF_SIZE];
 		writeBuf[0] = 0;
+		writeBuf[1] = 0;
 		writeBuf[2] = 0;
+		writeBuf[3] = 0;
 
 		try {
 			dev.write(writeBuf);
@@ -44,6 +46,7 @@ public class HIDDeviceRead implements Runnable {
 	public void run() {
 		while (true) {
 			byte[] readFromDevice = readFromDevice();
+			System.out.println("read" + System.currentTimeMillis());
 			List<byte[]> datOutputData = dataProcessor.getDatOutputData(readFromDevice);
 			
 			if(datOutputData == null) 

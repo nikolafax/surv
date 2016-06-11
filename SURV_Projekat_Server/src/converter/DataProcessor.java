@@ -68,8 +68,10 @@ public class DataProcessor {
 		Senzor senzor = new Senzor();
 		senzor.setId(senzId);
 		outputData = setDeviceAddress(outputData, senzId);
+		failureDetector.messageRecived(senzId);
+		comunicator.getSenzors().add(senzor);
 
-		outputData = setSignature(outputData, FromTo.ControlerToSenzor);
+		outputData[1] = setSignature(outputData[1], FromTo.ControlerToSenzor);
 		messages.add(outputData);
 		return messages;
 	}
@@ -86,16 +88,18 @@ public class DataProcessor {
 			}
 		}
 
-		if (senzor == null || senzor.getAktuatators() == null || !senzor.getAktuatators().isEmpty()) {
+		if (senzor == null || senzor.getAktuatators() == null || senzor.getAktuatators().isEmpty()) {
 			return messageList;
 		}
 
 		for (Aktuatator aktuatator : senzor.getAktuatators()) {
 			byte[] outputData = new byte[64];
-			outputData = setSignature(outputData, FromTo.ControlerToActuator);
-
+			outputData[1] = imputData[0];
+			outputData[1] = setSignature(outputData[1], FromTo.ControlerToActuator);
+			outputData[2] = imputData[1];
 			outputData = setDeviceAddress(outputData, aktuatator.getId());
-
+			System.out.println(
+					"senzor " + senzorID + " to actuator " + outputData[1] + " " + outputData[2] + " " + outputData[3]);
 			messageList.add(outputData);
 
 		}
@@ -111,24 +115,25 @@ public class DataProcessor {
 		Aktuatator aktuatator = new Aktuatator();
 		aktuatator.setId(aktId);
 		comunicator.getActuators().add(aktuatator);
-
+		failureDetector.messageRecived(aktId);
 		outputData = setDeviceAddress(outputData, aktId);
-		outputData[3] = (byte) 0xff;
+
+		// outputData[3] = (byte) 0xff;
 		// outputData = setSignature(outputData, FromTo.ControlerToActuator);
-		outputData[1] = 112; // set message id for reciver id message
+		outputData[1] = 0x70; // set message id for reciver id message
 		messages.add(outputData);
 		return messages;
 	}
 
-	public byte[] setSignature(byte[] outputData, FromTo fromTo) {
-		short byteWithSignature = outputData[0];
+	public byte setSignature(byte outputData, FromTo fromTo) {
+		short byteWithSignature = outputData;
 		int signature = fromTo.id;
 		byteWithSignature = (short) (byteWithSignature & 0x3f); // resetuj from
 																// fleg
-		byteWithSignature = (short) (byteWithSignature ^ signature); // setuj
+		byteWithSignature = (short) (byteWithSignature | signature); // setuj
 																		// from
 																		// fleg
-		outputData[1] = (byte) byteWithSignature;
+		outputData = (byte) byteWithSignature;
 		return outputData;
 	}
 

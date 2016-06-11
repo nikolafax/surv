@@ -61,13 +61,13 @@ public class ServerHandler extends javax.servlet.http.HttpServlet implements jav
 		pout.println("<head>");
 		pout.println("</head>");
 		pout.println("<body>");
-		
+
 		pout.println("<h3>Recivers list:<h3><br><br>");
-		
+
 		for (Aktuatator aktuatator : comunicator.getActuators()) {
-			pout.println("reciver id :" + aktuatator.getId());
+			pout.println("reciver id :" + aktuatator.getId() + "<br>");
 		}
-		
+
 		pout.println("<h3>Sensor list:<h3><br><br>");
 
 		for (Senzor senzor : comunicator.getSenzors()) {

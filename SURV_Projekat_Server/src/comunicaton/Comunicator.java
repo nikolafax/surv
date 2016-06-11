@@ -139,9 +139,9 @@ public class Comunicator implements Serializable, Runnable {
 			}
 		}
 		for (Iterator<Aktuatator> aktuatorIt = aktuators.iterator(); aktuatorIt.hasNext();) {
-			Aktuatator next = aktuatorIt.next();
-			if (next.getId() == pid) {
-				aktuators.remove(next);
+			Aktuatator aktuatorNext = aktuatorIt.next();
+			if (aktuatorNext.getId() == pid) {
+				aktuators.remove(aktuatorNext);
 			}
 		}
 

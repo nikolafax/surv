@@ -41,6 +41,7 @@ public class DataProcessorTest {
 		assertNotEquals(FromTo.SenzorToContorler, processor.fromWhoToWho(imputData));
 
 	}
+
 	@Ignore
 	@Test
 	public void testAddressIsSet() {
@@ -75,28 +76,23 @@ public class DataProcessorTest {
 
 	@Test
 	public void testIsRepitedMessage() {
-		
+
 		byte[] imput = new byte[64];
 		byte[] lastMessage = new byte[64];
-		
+
 		imput[0] = 0;
 		imput[1] = 12;
 		imput[2] = 16;
-		
+
 		lastMessage[0] = 0;
 		lastMessage[1] = 12;
 		lastMessage[2] = 16;
-		
+
 		DataProcessor dataProcessor = new DataProcessor(null, null);
 		dataProcessor.lastMessageMap.put(new Integer(lastMessage[2]), lastMessage);
-		
+
 		assertTrue(dataProcessor.isRepitedMessage(imput));
 
-	}
-	
-	@Test
-	public void mtest(){
-		
 	}
 
 }
